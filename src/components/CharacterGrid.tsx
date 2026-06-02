@@ -3,139 +3,106 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-interface Character {
-  name: string; slug: string; image: string; description: string; packLink: string
+interface Character { name: string; slug: string; image: string; description: string; packLink: string }
+
+interface Theme {
+  accent: string; highlight?: string; text: string; muted: string
+  cardText?: string; cardMuted?: string
+  headingFont: string; bodyFont: string; cardClass: string
+  getPackLabel?: string; stamp?: string; nameUpper?: boolean; lightBg?: boolean
+  charZones?: Record<string, { bg: string; border: string; accent: string; label: string; gradient: string }>
 }
 
-interface Show {
-  characters: Character[]
-  theme: {
-    bg: string; surface: string; accent: string; accentLight: string
-    highlight?: string; text: string; muted: string; border: string
-    headingFont: string; bodyFont: string; cardClass: string; emojis: string[]
-    lightBg?: boolean; charZones?: Record<string, { bg: string; border: string; accent: string; label: string; gradient: string }>
-  }
-}
-
+interface Show { characters: Character[]; theme: Theme }
 interface Props { show: Show; baseHref: string }
+
+// Pick readable text color (#111 vs #fff) for a given background hex
+function contrastText(hex: string): string {
+  const h = hex.replace('#', '')
+  const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16)
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000
+  return yiq > 150 ? '#141414' : '#ffffff'
+}
 
 export default function CharacterGrid({ show, baseHref }: Props) {
   const t = show.theme
-  const isLight = t.lightBg === true
+  const accent = t.highlight || t.accent
+  const cardText = t.cardText || t.text
+  const cardMuted = t.cardMuted || t.muted
+  const packLabel = t.getPackLabel || 'Get Pack'
 
   return (
-    <section className="px-4 pb-20" style={{ background: t.bg }}>
+    <section className="relative px-4 pb-24">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center gap-3 mb-8">
           <div className="h-px w-6" style={{ background: t.accent }} />
-          <div className="mob-label" style={{ color: isLight ? t.accent : (t.highlight || t.accent) }}>
+          <div className="mob-label" style={{ color: accent }}>
             {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''} Available
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {show.characters.map((char, i) => {
             const zone = t.charZones?.[char.slug]
-            const cardBg = zone ? zone.bg : t.surface
-            const cardBorder = zone ? zone.border : undefined
-            const cardAccent = zone ? zone.accent : (t.highlight || t.accent)
-            const cardGradient = zone ? zone.gradient : undefined
+            const cAccent = zone ? zone.accent : accent
+            const initials = char.name.split(' ').map((w) => w[0]).join('')
 
             return (
               <motion.div
                 key={char.slug}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-30px' }}
+                viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                whileHover={{ y: -5 }}
               >
-                <Link href={`${baseHref}/${char.slug}`} className="block group">
-                  <div
-                    className={`rounded-sm overflow-hidden transition-all duration-300 ${zone ? '' : t.cardClass}`}
-                    style={zone ? {
-                      background: cardBg,
-                      border: `1px solid ${cardBorder}40`,
-                      boxShadow: '0 4px 24px rgba(0,0,0,0.6)',
-                    } : undefined}
+                <Link href={`${baseHref}/${char.slug}`} className="block">
+                  <article
+                    className={`${t.cardClass} rounded-md overflow-hidden h-full`}
+                    style={zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : undefined}
                   >
-                    {/* Accent band */}
-                    <div className="h-0.5" style={{ background: `linear-gradient(90deg, ${t.accent}, ${cardAccent}, transparent)` }} />
+                    {t.stamp && <span className="stamp-classified">{t.stamp}</span>}
 
-                    {/* Image / placeholder */}
-                    <div
-                      className="relative aspect-[4/3] flex items-center justify-center overflow-hidden"
-                      style={{
-                        background: cardGradient ? undefined : (isLight ? '#f5f5f0' : t.bg),
-                        backgroundImage: cardGradient || undefined,
-                      }}
-                    >
-                      <span
-                        className="text-7xl font-black select-none opacity-[0.08] group-hover:opacity-[0.14] transition-opacity"
-                        style={{ fontFamily: t.headingFont, color: cardAccent, lineHeight: 1 }}
-                      >
-                        {char.name.split(' ').map((w: string) => w[0]).join('')}
+                    {/* Portrait placeholder */}
+                    <div className="relative flex items-center justify-center overflow-hidden" style={{ aspectRatio: '4 / 3' }}>
+                      <span className="select-none" style={{
+                        fontFamily: t.headingFont, color: cAccent, opacity: 0.16,
+                        fontSize: '4.5rem', lineHeight: 1, fontWeight: 700,
+                      }}>
+                        {initials}
                       </span>
-
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ background: `radial-gradient(ellipse at center, ${cardAccent}18, transparent)` }} />
-                      <div className="absolute bottom-0 left-0 right-0 h-14"
-                        style={{ background: `linear-gradient(to top, ${cardBg}, transparent)` }} />
-
-                      {/* Corner brackets */}
-                      {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((pos, idx) => (
-                        <div key={idx} className={`absolute ${pos} w-4 h-4`} style={{
-                          borderTop: idx < 2 ? `1px solid ${cardAccent}50` : 'none',
-                          borderBottom: idx >= 2 ? `1px solid ${cardAccent}50` : 'none',
-                          borderLeft: idx % 2 === 0 ? `1px solid ${cardAccent}50` : 'none',
-                          borderRight: idx % 2 === 1 ? `1px solid ${cardAccent}50` : 'none',
-                        }} />
-                      ))}
-
                       {zone && (
-                        <div className="absolute top-2 left-0 right-0 text-center z-10">
-                          <span className="text-xs opacity-60" style={{ color: cardAccent, fontFamily: t.headingFont }}>{zone.label}</span>
-                        </div>
+                        <span className="absolute top-3 left-3 text-xs px-2 py-0.5 rounded-sm" style={{
+                          fontFamily: t.headingFont, color: zone.accent, border: `1px solid ${zone.border}`,
+                          letterSpacing: '0.08em', background: 'rgba(0,0,0,0.3)',
+                        }}>
+                          {zone.label}
+                        </span>
                       )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-4" style={{ background: cardBg }}>
-                      <h3
-                        className="text-base font-bold mb-2 leading-tight group-hover:opacity-80 transition-opacity"
-                        style={{ fontFamily: t.headingFont, color: isLight ? '#1a1a1a' : t.text }}
-                      >
+                    <div className="p-4">
+                      <h3 className="mb-2 leading-tight" style={{
+                        fontFamily: t.headingFont, color: cardText, fontSize: '1.2rem', fontWeight: 700,
+                        textTransform: t.nameUpper ? 'uppercase' : undefined,
+                        letterSpacing: t.nameUpper ? '0.1em' : undefined,
+                      }}>
                         {char.name}
                       </h3>
-                      <p className="text-xs leading-relaxed line-clamp-2 mb-4"
-                        style={{ color: isLight ? '#555' : t.muted, fontFamily: t.bodyFont }}>
+                      <p className="text-sm leading-relaxed line-clamp-3 mb-4" style={{ color: cardMuted, fontFamily: t.bodyFont }}>
                         {char.description}
                       </p>
-                      <a
-                        href={char.packLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-sm text-xs font-bold tracking-wider uppercase transition-all duration-200"
+                      <span
+                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-sm text-xs tracking-wider uppercase"
                         style={{
-                          fontFamily: t.headingFont,
-                          background: 'transparent',
-                          border: `1px solid ${cardAccent}55`,
-                          color: cardAccent,
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = cardAccent + '18'
-                          e.currentTarget.style.borderColor = cardAccent + 'aa'
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'transparent'
-                          e.currentTarget.style.borderColor = cardAccent + '55'
+                          fontFamily: t.headingFont, fontWeight: 700,
+                          background: cAccent, border: `1px solid ${cAccent}`, color: contrastText(cAccent),
                         }}
                       >
-                        <DiscordIcon /> Get Pack
-                      </a>
+                        <DiscordIcon /> {packLabel}
+                      </span>
                     </div>
-                  </div>
+                  </article>
                 </Link>
               </motion.div>
             )

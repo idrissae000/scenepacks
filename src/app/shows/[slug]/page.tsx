@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { shows } from '@/data/shows'
 import ShowHero from '@/components/ShowHero'
 import CharacterGrid from '@/components/CharacterGrid'
+import PageAtmosphere from '@/components/PageAtmosphere'
 
 interface Props { params: { slug: string } }
 
@@ -21,9 +21,12 @@ export default function ShowPage({ params }: Props) {
   if (!show) notFound()
 
   return (
-    <div style={{ background: show.theme.bg, minHeight: '100vh' }}>
-      <ShowHero show={show} type="show" />
-      <CharacterGrid show={show} baseHref={`/shows/${show.slug}`} />
+    <div className="relative" style={{ minHeight: '100vh', cursor: show.theme.cursor || 'default' }}>
+      <PageAtmosphere theme={show.theme} />
+      <div className="relative" style={{ zIndex: 1 }}>
+        <ShowHero show={show} type="show" />
+        <CharacterGrid show={show} baseHref={`/shows/${show.slug}`} />
+      </div>
     </div>
   )
 }

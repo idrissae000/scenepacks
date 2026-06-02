@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { movies } from '@/data/movies'
 import ShowHero from '@/components/ShowHero'
 import CharacterGrid from '@/components/CharacterGrid'
+import PageAtmosphere from '@/components/PageAtmosphere'
 
 interface Props { params: { slug: string } }
 
@@ -20,9 +21,12 @@ export default function MoviePage({ params }: Props) {
   if (!movie) notFound()
 
   return (
-    <div style={{ background: movie.theme.bg, minHeight: '100vh' }}>
-      <ShowHero show={movie} type="movie" />
-      <CharacterGrid show={movie} baseHref={`/movies/${movie.slug}`} />
+    <div className="relative" style={{ minHeight: '100vh', cursor: movie.theme.cursor || 'default' }}>
+      <PageAtmosphere theme={movie.theme} />
+      <div className="relative" style={{ zIndex: 1 }}>
+        <ShowHero show={movie} type="movie" />
+        <CharacterGrid show={movie} baseHref={`/movies/${movie.slug}`} />
+      </div>
     </div>
   )
 }

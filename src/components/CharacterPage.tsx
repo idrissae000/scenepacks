@@ -2,145 +2,98 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import PageAtmosphere from './PageAtmosphere'
 
-interface Character {
-  name: string; slug: string; image: string; description: string; packLink: string
-}
+interface Character { name: string; slug: string; image: string; description: string; packLink: string }
 
 interface Theme {
-  bg: string; surface: string; accent: string; accentLight: string
-  highlight?: string; text: string; muted: string; border: string
-  headingFont: string; bodyFont: string
-  gradient: string; heroOverlay: string; label: string
-  cursor?: string; lightBg?: boolean; emojis: string[]
+  accent: string; accentLight: string; highlight?: string
+  text: string; muted: string; cardText?: string
+  headingFont: string; bodyFont: string; cardClass: string
+  label: string; cursor?: string; lightBg?: boolean
+  getPackLabel?: string; nameUpper?: boolean
+  texClass?: string; atmosphere?: string[]; loadFx?: string | null
   charZones?: Record<string, { bg: string; border: string; accent: string; label: string; gradient: string }>
 }
 
-interface Parent {
-  name: string; slug: string; theme: Theme
-}
+interface Parent { name: string; slug: string; theme: Theme }
+interface Props { character: Character; parent: Parent; type: 'show' | 'movie' }
 
-interface Props {
-  character: Character; parent: Parent; type: 'show' | 'movie'
+function contrastText(hex: string): string {
+  const h = hex.replace('#', '')
+  const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16)
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000
+  return yiq > 150 ? '#141414' : '#ffffff'
 }
 
 export default function CharacterPage({ character, parent, type }: Props) {
   const t = parent.theme
   const zone = t.charZones?.[character.slug]
-  const isLight = t.lightBg === true
-
-  const bg = zone ? zone.bg : t.bg
-  const surface = zone ? zone.bg : t.surface
   const accent = zone ? zone.accent : (t.highlight || t.accent)
-  const border = zone ? `${zone.border}40` : t.border
-  const gradient = zone ? zone.gradient : t.gradient
-  const textColor = isLight ? '#1a1a1a' : t.text
-  const mutedColor = isLight ? '#555' : t.muted
-
-  const initials = character.name.split(' ').map((w: string) => w[0]).join('')
+  const initials = character.name.split(' ').map((w) => w[0]).join('')
 
   return (
-    <div style={{ background: bg, minHeight: '100vh', cursor: t.cursor || 'default' }}>
-      <section className="relative pt-24 pb-10 px-4 overflow-hidden">
-        <div className="absolute inset-0" style={{ backgroundImage: gradient }} />
-        <div className="absolute inset-0" style={{ background: t.heroOverlay }} />
-        <div className="absolute top-16 left-0 right-0 h-px opacity-20"
+    <div className="relative" style={{ minHeight: '100vh', cursor: t.cursor || 'default' }}>
+      <PageAtmosphere theme={t} />
+
+      <section className="relative pt-28 pb-16 px-4" style={{ zIndex: 1 }}>
+        <div className="absolute top-20 left-0 right-0 h-px opacity-25"
           style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
 
-        <div className="relative z-10 mx-auto max-w-5xl">
+        <div className="mx-auto max-w-5xl">
           {/* Breadcrumb */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}
             className="flex items-center gap-2 text-xs mb-10 flex-wrap"
-            style={{ color: mutedColor, fontFamily: t.bodyFont }}
+            style={{ color: t.muted, fontFamily: t.bodyFont }}
           >
-            <Link href="/" style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity">Home</Link>
+            <Link href="/" style={{ color: t.muted }} className="hover:opacity-80 transition-opacity">Home</Link>
             <span>/</span>
-            <Link href={`/${type}s`} style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity capitalize">{type}s</Link>
+            <Link href={`/${type}s`} style={{ color: t.muted }} className="hover:opacity-80 transition-opacity capitalize">{type}s</Link>
             <span>/</span>
-            <Link href={`/${type}s/${parent.slug}`} style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity">{parent.name}</Link>
+            <Link href={`/${type}s/${parent.slug}`} style={{ color: t.muted }} className="hover:opacity-80 transition-opacity">{parent.name}</Link>
             <span>/</span>
             <span style={{ color: accent }}>{character.name}</span>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Image placeholder */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
+            {/* Portrait */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
               <div
-                className="relative aspect-[3/4] rounded-sm overflow-hidden flex items-center justify-center"
-                style={{ background: surface, border: `1px solid ${border}` }}
+                className={`${t.cardClass} rounded-md overflow-hidden flex items-center justify-center`}
+                style={{ aspectRatio: '3 / 4', ...(zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : {}) }}
               >
-                <div className="absolute top-0 left-0 right-0 h-8 z-10" style={{ background: bg }} />
-                <div className="absolute bottom-0 left-0 right-0 h-8 z-10" style={{ background: bg }} />
-
-                <span className="text-[8rem] font-black select-none leading-none opacity-[0.08]"
-                  style={{ fontFamily: t.headingFont, color: accent }}>
+                <span className="select-none" style={{ fontFamily: t.headingFont, color: accent, opacity: 0.16, fontSize: '7rem', fontWeight: 700 }}>
                   {initials}
                 </span>
-
-                <div className="absolute inset-x-0 bottom-0 h-40 z-[5]"
-                  style={{ background: `linear-gradient(to top, ${surface}, transparent)` }} />
-
-                {/* Corner brackets */}
-                {['top-8 left-3', 'top-8 right-3', 'bottom-8 left-3', 'bottom-8 right-3'].map((pos, idx) => (
-                  <div key={idx} className={`absolute ${pos} w-8 h-8 z-10`} style={{
-                    borderTop: idx < 2 ? `2px solid ${accent}55` : 'none',
-                    borderBottom: idx >= 2 ? `2px solid ${accent}55` : 'none',
-                    borderLeft: idx % 2 === 0 ? `2px solid ${accent}55` : 'none',
-                    borderRight: idx % 2 === 1 ? `2px solid ${accent}55` : 'none',
-                  }} />
-                ))}
-
-                <div className="absolute bottom-10 left-0 right-0 text-center z-10 px-4">
-                  <div className="mob-label" style={{ color: accent, opacity: 0.5 }}>
-                    {zone ? zone.label : t.label}
-                  </div>
-                </div>
               </div>
             </motion.div>
 
             {/* Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="flex flex-col gap-6"
-            >
-              {/* Show badge */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+              className="flex flex-col gap-6">
               <div className="flex items-center gap-2">
                 <div className="h-px w-6" style={{ background: t.accent }} />
-                <span className="mob-label" style={{ color: accent }}>{parent.name}</span>
+                <span className="mob-label" style={{ color: accent }}>{zone ? zone.label : parent.name}</span>
               </div>
 
-              {/* Name */}
-              <h1 className="leading-none" style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: textColor, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
+              <h1 className="leading-[0.95]" style={{
+                fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
+                textTransform: t.nameUpper ? 'uppercase' : undefined, letterSpacing: t.nameUpper ? '0.06em' : undefined,
+              }}>
                 {character.name}
               </h1>
 
-              {/* Rule */}
               <div className="h-px" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
 
-              {/* Description */}
-              <p className="text-sm leading-relaxed" style={{ color: mutedColor, fontFamily: t.bodyFont }}>
+              <p className="text-base leading-relaxed" style={{ color: t.muted, fontFamily: t.bodyFont }}>
                 {character.description}
               </p>
 
-              {/* Pack details */}
-              <div className="rounded-sm p-5" style={{ background: surface, border: `1px solid ${border}` }}>
+              <div className="rounded-md p-5" style={{ background: t.lightBg ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
                 <div className="mob-label mb-3" style={{ color: accent }}>Pack Includes</div>
-                <ul className="space-y-2 text-xs" style={{ color: mutedColor, fontFamily: t.bodyFont }}>
-                  {[
-                    'High-quality cinematic scene clips',
-                    'Color-graded for aesthetic edits',
-                    'Multiple aspect ratios available',
-                    'Free to use — no credit required (but appreciated)',
-                  ].map((item) => (
+                <ul className="space-y-2 text-sm" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+                  {['High-quality cinematic scene clips', 'Color-graded for aesthetic edits', 'Multiple aspect ratios available', 'Free to use — no credit required (but appreciated)'].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span style={{ color: accent, marginTop: '1px' }}>—</span>
                       <span>{item}</span>
@@ -149,31 +102,19 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </ul>
               </div>
 
-              {/* CTA */}
-              <a
-                href={character.packLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 py-4 rounded-sm font-bold tracking-wider uppercase transition-all duration-200"
+              <a href={character.packLink} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                 style={{
-                  fontFamily: t.headingFont,
-                  fontSize: '1.1rem',
+                  fontFamily: t.headingFont, fontSize: '1.1rem', fontWeight: 700,
                   background: `linear-gradient(135deg, ${t.accent}, ${accent})`,
-                  color: isLight ? '#fff' : t.text,
-                  boxShadow: `0 4px 24px ${t.accent}50`,
-                  border: `1px solid ${accent}30`,
+                  color: contrastText(accent), boxShadow: `0 4px 24px ${accent}40`, border: `1px solid ${accent}55`,
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = `0 6px 32px ${t.accent}70`}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 4px 24px ${t.accent}50`}
               >
-                <DiscordIcon /> Get Pack on Discord
+                <DiscordIcon /> {t.getPackLabel ? t.getPackLabel : 'Get Pack on Discord'}
               </a>
 
-              <Link
-                href={`/${type}s/${parent.slug}`}
-                className="text-center text-xs tracking-widest uppercase opacity-50 hover:opacity-80 transition-opacity"
-                style={{ color: mutedColor, fontFamily: t.bodyFont }}
-              >
+              <Link href={`/${type}s/${parent.slug}`} className="text-center text-xs tracking-widest uppercase opacity-60 hover:opacity-90 transition-opacity"
+                style={{ color: t.muted, fontFamily: t.bodyFont }}>
                 ← Back to {parent.name}
               </Link>
             </motion.div>
