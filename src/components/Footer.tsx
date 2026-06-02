@@ -15,7 +15,7 @@ export default function Footer() {
             <div style={{ fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#847464', marginTop: '4px' }}>
               Scenepacks
             </div>
-            <p className="mt-3 text-sm max-w-xs leading-relaxed" style={{ color: '#6a5a48', fontFamily: '"IM Fell English",Georgia,serif', fontStyle: 'italic' }}>
+            <p className="mt-3 text-sm max-w-xs leading-relaxed" style={{ color: '#6a5a48', fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic' }}>
               The finest cuts. Free for the family.
             </p>
           </div>
@@ -26,7 +26,7 @@ export default function Footer() {
               <div className="space-y-2">
                 {[['/', 'Home'], ['/shows', 'Shows'], ['/movies', 'Movies'], ['/request', 'Request'], ['/support', 'Support']].map(([href, label]) => (
                   <div key={href}>
-                    <Link href={href} className="text-sm transition-colors" style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#847464' }}
+                    <Link href={href} className="text-sm transition-colors" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#847464' }}
                       onMouseEnter={e => e.currentTarget.style.color = '#d4c5a9'}
                       onMouseLeave={e => e.currentTarget.style.color = '#847464'}>
                       {label}
@@ -39,11 +39,11 @@ export default function Footer() {
               <div className="mob-label mb-3">The Family</div>
               <div className="space-y-2">
                 <a href="https://discord.gg/MVA5ySY2" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80" style={{ color: '#e55c35', fontFamily: '"IM Fell English",Georgia,serif' }}>
+                  className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80" style={{ color: '#e55c35', fontFamily: 'Inter, system-ui, sans-serif' }}>
                   <DiscordIcon /> Discord
                 </a>
                 <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80" style={{ color: '#e55c35', fontFamily: '"IM Fell English",Georgia,serif' }}>
+                  className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80" style={{ color: '#e55c35', fontFamily: 'Inter, system-ui, sans-serif' }}>
                   <TikTokIcon /> @idriss.ae
                 </a>
               </div>
@@ -54,14 +54,14 @@ export default function Footer() {
         <div className="divider-stain my-8" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm" style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#6a5a48' }}>
+          <p className="text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#6a5a48' }}>
             <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9' }}>Idriss.ae</span>
             <span> on </span>
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
               className="transition-opacity hover:opacity-80" style={{ color: '#e55c35' }}>TikTok</a>
             <span style={{ fontStyle: 'italic' }}> — Give your credits or sleep with the fishes.</span>
           </p>
-          <p className="text-sm opacity-40" style={{ fontFamily: '"IM Fell English",Georgia,serif', fontStyle: 'italic', color: '#847464' }}>
+          <p className="text-sm opacity-40" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic', color: '#847464' }}>
             &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
           </p>
         </div>

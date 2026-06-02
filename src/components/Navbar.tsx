@@ -52,7 +52,7 @@ export default function Navbar() {
                   href={href}
                   className="relative px-4 py-2 transition-colors duration-200"
                   style={{
-                    fontFamily: '"IM Fell English", Georgia, serif',
+                    fontFamily: 'Inter, system-ui, sans-serif',
                     fontSize: '0.95rem',
                     letterSpacing: '0.04em',
                     color: active ? '#d4c5a9' : '#847464',
@@ -114,7 +114,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 className="block px-4 py-3 transition-colors"
-                style={{ fontFamily: '"IM Fell English", Georgia, serif', fontSize: '1.05rem', color: '#847464', letterSpacing: '0.04em' }}
+                style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '1.05rem', color: '#847464', letterSpacing: '0.04em' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#d4c5a9'}
                 onMouseLeave={e => e.currentTarget.style.color = '#847464'}
               >

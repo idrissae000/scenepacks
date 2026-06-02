@@ -1,9 +1,9 @@
 /* ════════════════════════════════════════════════════════
-   GOOGLE FONTS — IM Fell English is the single body/heading
+   GOOGLE FONTS — Inter is the single, highly readable body
    typeface for the whole site. Mobsters (local @font-face)
    is reserved for the logo + page-title headings only.
    ════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -34,7 +34,7 @@
   --mob-cream:    #d4c5a9;
   --mob-accent:   #e55c35;
   --font-mobsters: 'Mobsters', 'Palatino Linotype', serif;
-  --font-body:     'IM Fell English', Georgia, serif;
+  --font-body:     'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -95,22 +95,22 @@ body::before {
     border-color: rgba(212,197,169,0.9);
   }
 
-  /* Join the Family — bright burnt-orange accent, white, impossible to miss */
+  /* Join the Family — strong red, white text, impossible to miss */
   .btn-join {
-    background: var(--mob-accent);
+    background: #8b1a1a;
     border: 1px solid rgba(255,255,255,0.12);
     color: #ffffff;
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    box-shadow: 0 4px 18px rgba(229,92,53,0.45);
+    box-shadow: 0 4px 18px rgba(139,26,26,0.45);
   }
   .btn-join:hover {
-    background: #f06a42;
+    background: #a82228;
     transform: scale(1.02);
-    box-shadow: 0 6px 26px rgba(229,92,53,0.6);
+    box-shadow: 0 6px 26px rgba(139,26,26,0.6);
   }
 
   /* Discord variant — same palette */

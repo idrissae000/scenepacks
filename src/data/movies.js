@@ -1,7 +1,7 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-const HEADING = '"IM Fell English", Georgia, serif'
-const BODY = '"IM Fell English", Georgia, serif'
+const HEADING = 'Inter, system-ui, sans-serif'
+const BODY = 'Inter, system-ui, sans-serif'
 
 function char(name, description = '') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')

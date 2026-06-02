@@ -53,7 +53,7 @@ export default function SupportPage() {
                 background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
                 color: '#d4c5a9',
                 border: '1px solid rgba(229,92,53,0.3)',
-                fontFamily: '"IM Fell English", Georgia, serif',
+                fontFamily: 'Inter, system-ui, sans-serif',
               }}
               onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
               onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}

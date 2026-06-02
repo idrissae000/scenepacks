@@ -61,7 +61,7 @@ export default function HomePage() {
           {/* Subtitle */}
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg sm:text-xl mb-12 tracking-wide"
-            style={{ color: '#847464', fontFamily: '"IM Fell English",Georgia,serif', fontStyle: 'italic' }}>
+            style={{ color: '#847464', fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic' }}>
             The finest cuts. Free for the family.
           </motion.p>
 
@@ -86,7 +86,7 @@ export default function HomePage() {
               { n: '∞', label: 'Free' },
             ].map(({ n, label }) => (
               <div key={label} className="text-center">
-                <div style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#d4c5a9', fontSize: '2.4rem', lineHeight: 1 }}>{n}</div>
+                <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#d4c5a9', fontSize: '2.4rem', lineHeight: 1 }}>{n}</div>
                 <div className="mob-label mt-1">{label}</div>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function HomePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="text-center mb-14">
             <div className="mob-label mb-3">Featured</div>
-            <h2 style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#d4c5a9', fontSize: '2.6rem', fontStyle: 'italic' }}>
+            <h2 style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#d4c5a9', fontSize: '2.6rem', fontStyle: 'italic' }}>
               Select Your Scene
             </h2>
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
@@ -112,35 +112,25 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {featured.map((item, i) => {
               const href = 'characters' in item ? `/shows/${item.slug}` : `/movies/${item.slug}`
-              const t = item.theme
               return (
                 <motion.div key={item.id + item.slug}
-                  initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.5, delay: i * 0.06 }}
-                  whileHover={{ y: -5 }}>
-                  <Link href={href} className="block group">
-                    <div className={`rounded-sm overflow-hidden transition-all duration-300 ${t.cardClass}`}>
-                      <div className="h-0.5" style={{ background: `linear-gradient(90deg, ${t.accent}, ${t.highlight || t.accent})` }} />
-                      {/* Logo image */}
-                      <div className="relative aspect-video flex items-center justify-center overflow-hidden px-6"
-                        style={{ background: t.bg }}>
-                        <div className="absolute inset-0" style={{ background: t.heroOverlay }} />
-                        {item.logoUrl ? (
-                          <LogoImage src={item.logoUrl} alt={item.name} fallback={item.name} headingFont={t.headingFont} accent={t.accent} />
-                        ) : (
-                          <span className="relative z-10 text-5xl font-black select-none opacity-15"
-                            style={{ fontFamily: t.headingFont, color: t.accent }}>
-                            {item.name.split(' ').map((w: string) => w[0]).join('').slice(0,3)}
-                          </span>
-                        )}
+                  initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.45, delay: i * 0.06 }}>
+                  <Link href={href} className="block">
+                    <article className="card-clean rounded-md overflow-hidden h-full">
+                      {/* [LOGO] placeholder — replace with real logo image */}
+                      <div className="logo-placeholder aspect-video flex items-center justify-center">
+                        <span style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
+                          [LOGO]
+                        </span>
                       </div>
-                      <div className="p-4">
-                        <h3 className="text-base font-semibold leading-tight mb-1" style={{ fontFamily: t.headingFont, color: t.lightBg ? t.text : t.text }}>
+                      <div className="p-5">
+                        <h3 className="font-mobsters leading-tight mb-1.5" style={{ color: '#d4c5a9', fontSize: '1.3rem' }}>
                           {item.name}
                         </h3>
-                        <p className="text-xs" style={{ color: t.muted, fontStyle: 'italic' }}>{t.tagline}</p>
+                        <p className="text-sm" style={{ color: '#9a8b76' }}>{item.theme.tagline}</p>
                       </div>
-                    </div>
+                    </article>
                   </Link>
                 </motion.div>
               )
@@ -155,26 +145,6 @@ export default function HomePage() {
         </div>
       </section>
     </>
-  )
-}
-
-function LogoImage({ src, alt, fallback, headingFont, accent }: { src: string; alt: string; fallback: string; headingFont: string; accent: string }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt}
-      className="relative z-10 max-h-20 max-w-[80%] object-contain"
-      crossOrigin="anonymous"
-      onError={e => {
-        const img = e.currentTarget
-        img.style.display = 'none'
-        const span = document.createElement('span')
-        span.textContent = fallback
-        span.style.cssText = `font-family:${headingFont};color:${accent};font-size:1.4rem;opacity:0.7;text-align:center;`
-        img.parentNode?.appendChild(span)
-      }}
-    />
   )
 }
 

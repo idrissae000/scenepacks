@@ -36,7 +36,7 @@ export default function MoviesPage() {
                 <article className="card-clean rounded-md overflow-hidden h-full">
                   {/* [LOGO] placeholder — replace with real logo image */}
                   <div className="logo-placeholder aspect-video flex items-center justify-center">
-                    <span style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
+                    <span style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
                       [LOGO]
                     </span>
                   </div>
@@ -46,10 +46,19 @@ export default function MoviesPage() {
                     <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                       {movie.name}
                     </h2>
-                    <div className="mt-1.5 mb-2.5 text-xs" style={{ color: '#847464', letterSpacing: '0.08em' }}>
-                      {movie.characters.length} Character{movie.characters.length !== 1 ? 's' : ''}
+                    <div className="mt-2 mb-3">
+                      <span className="inline-block text-sm font-semibold" style={{
+                        color: '#e8dcc4',
+                        background: 'rgba(94,27,33,0.45)',
+                        border: '1px solid #5e1b21',
+                        borderRadius: '4px',
+                        padding: '3px 10px',
+                        letterSpacing: '0.03em',
+                      }}>
+                        {movie.characters.length} Character{movie.characters.length !== 1 ? 's' : ''}
+                      </span>
                     </div>
-                    <p className="text-sm leading-relaxed" style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#9a8b76' }}>
+                    <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>
                       {movie.blurb}
                     </p>
                   </div>
