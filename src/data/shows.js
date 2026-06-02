@@ -48,7 +48,6 @@ export const shows = [
       char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos."),
       char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.'),
       char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five."),
-      char('Bobby Baccalieri', 'The gentle giant. Devoted father, model train enthusiast, and the crew\'s conscience — until he isn\'t.'),
     ],
   },
   {
