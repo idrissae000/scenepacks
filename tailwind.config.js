@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Georgia', 'serif'],
+        sans: ['IM Fell English', 'Georgia', 'serif'],
+        serif: ['IM Fell English', 'Georgia', 'serif'],
         mobsters: ['Mobsters', 'Palatino Linotype', 'serif'],
         fell: ['IM Fell English', 'Georgia', 'serif'],
       },

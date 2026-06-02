@@ -16,7 +16,7 @@ export default function HomePage() {
     <>
       {/* ═══ HERO ═══ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
-        style={{ background: '#0d0a07' }}>
+        style={{ background: 'linear-gradient(160deg, #0d0a07 0%, #1a0a08 100%)' }}>
         {/* Background layers */}
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 85% 60% at 50% -5%, rgba(94,27,33,0.22) 0%, transparent 60%)' }} />
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 70% at 15% 80%, rgba(94,27,33,0.08) 0%, transparent 60%)' }} />
@@ -72,8 +72,8 @@ export default function HomePage() {
               Browse Packs
             </Link>
             <a href="https://discord.gg/MVA5ySY2" target="_blank" rel="noopener noreferrer"
-              className="btn-discord rounded-sm px-10 py-3.5 inline-flex items-center gap-2 text-lg">
-              <DiscordIcon /> Join Discord
+              className="btn-join rounded-sm px-10 py-3.5 inline-flex items-center gap-2 text-lg">
+              <DiscordIcon /> Join the Family
             </a>
           </motion.div>
 
@@ -86,7 +86,7 @@ export default function HomePage() {
               { n: '∞', label: 'Free' },
             ].map(({ n, label }) => (
               <div key={label} className="text-center">
-                <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '2.2rem' }}>{n}</div>
+                <div style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#d4c5a9', fontSize: '2.4rem', lineHeight: 1 }}>{n}</div>
                 <div className="mob-label mt-1">{label}</div>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function HomePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="text-center mb-14">
             <div className="mob-label mb-3">Featured</div>
-            <h2 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '2.5rem' }}>
+            <h2 style={{ fontFamily: '"IM Fell English",Georgia,serif', color: '#d4c5a9', fontSize: '2.6rem', fontStyle: 'italic' }}>
               Select Your Scene
             </h2>
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
@@ -190,10 +190,10 @@ function SmokeEffect() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map((p, i) => (
         <div key={i} className="absolute rounded-full" style={{
-          left: p.left, bottom: '10%',
+          left: p.left, bottom: '6%',
           width: p.w, height: p.w,
-          background: 'radial-gradient(circle, rgba(180,155,125,0.15) 0%, rgba(140,115,90,0.05) 50%, transparent 70%)',
-          filter: 'blur(20px)',
+          background: 'radial-gradient(circle, rgba(228,224,218,0.16) 0%, rgba(210,205,198,0.06) 50%, transparent 70%)',
+          filter: 'blur(22px)',
           animationName: i % 2 === 0 ? 'smokeRise' : 'smokeRiseAlt',
           animationTimingFunction: 'ease-out',
           animationIterationCount: 'infinite',

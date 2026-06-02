@@ -1,7 +1,9 @@
 /* ════════════════════════════════════════════════════════
-   GOOGLE FONTS — all show-specific fonts loaded here
+   GOOGLE FONTS — IM Fell English is the single body/heading
+   typeface for the whole site. Mobsters (local @font-face)
+   is reserved for the logo + page-title headings only.
    ════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;600;700&family=Exo+2:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -81,9 +83,9 @@ body::before {
     background: var(--mob-red);
     border: 1px solid rgba(212,197,169,0.6);
     color: var(--mob-cream);
-    font-family: var(--font-mobsters);
+    font-family: var(--font-body);
     font-size: 1rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     transition: all 0.22s ease;
     box-shadow: 0 2px 12px rgba(94,27,33,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
   }
@@ -93,14 +95,32 @@ body::before {
     border-color: rgba(212,197,169,0.9);
   }
 
+  /* Join the Family — bright burnt-orange accent, white, impossible to miss */
+  .btn-join {
+    background: var(--mob-accent);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    box-shadow: 0 4px 18px rgba(229,92,53,0.45);
+  }
+  .btn-join:hover {
+    background: #f06a42;
+    transform: scale(1.02);
+    box-shadow: 0 6px 26px rgba(229,92,53,0.6);
+  }
+
   /* Discord variant — same palette */
   .btn-discord {
     background: #3a1012;
     border: 1px solid rgba(94,27,33,0.7);
     color: var(--mob-cream);
-    font-family: var(--font-mobsters);
+    font-family: var(--font-body);
     font-size: 1rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     transition: all 0.22s ease;
   }
   .btn-discord:hover {
@@ -125,12 +145,11 @@ body::before {
 
   /* Mob label */
   .mob-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.22em;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--mob-taupe);
-    font-family: Inter, system-ui, sans-serif;
-    font-weight: 600;
+    font-family: var(--font-body);
   }
 }
 
@@ -196,7 +215,7 @@ body::before {
   background-image:
     repeating-linear-gradient(
       transparent, transparent 31px,
-      rgba(200,180,0,0.09) 31px, rgba(200,180,0,0.09) 32px
+      rgba(94,27,33,0.12) 31px, rgba(94,27,33,0.12) 32px
     );
   background-size: 100% 32px;
 }
@@ -321,19 +340,19 @@ body::before {
 /* BCS — coupon dotted border */
 .card-bcs {
   background: #1a1608;
-  border: 2px dashed rgba(200,180,0,0.3);
+  border: 2px dashed rgba(229,92,53,0.3);
   box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
-.card-bcs:hover { border-color: rgba(200,180,0,0.6); }
+.card-bcs:hover { border-color: rgba(229,92,53,0.6); }
 
 /* GOT — parchment aged */
 .card-got {
   background: #14100a;
-  border: 1px solid rgba(196,163,90,0.25);
+  border: 1px solid rgba(176,176,176,0.22);
   box-shadow: 0 4px 24px rgba(0,0,0,0.7);
   filter: sepia(0.08);
 }
-.card-got:hover { filter: sepia(0); border-color: rgba(196,163,90,0.5); }
+.card-got:hover { filter: sepia(0); border-color: rgba(176,176,176,0.45); }
 
 /* Prison Break — classified file */
 .card-pb {
@@ -398,10 +417,10 @@ body::before {
 /* Batman — case file noir */
 .card-batman {
   background: #04060e;
-  border: 1px solid rgba(240,192,64,0.2);
+  border: 1px solid rgba(168,176,192,0.2);
   box-shadow: 0 4px 24px rgba(0,0,0,0.7);
 }
-.card-batman:hover { border-color: rgba(240,192,64,0.5); box-shadow: 0 0 30px rgba(240,192,64,0.07), 0 8px 32px rgba(0,0,0,0.8); }
+.card-batman:hover { border-color: rgba(204,0,0,0.45); box-shadow: 0 0 30px rgba(204,0,0,0.08), 0 8px 32px rgba(0,0,0,0.8); }
 
 /* MCU — HUD targeting */
 .card-mcu {

@@ -1,5 +1,8 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
+const HEADING = '"IM Fell English", Georgia, serif'
+const BODY = '"IM Fell English", Georgia, serif'
+
 function char(name, description = '') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
@@ -19,20 +22,20 @@ export const movies = [
     theme: {
       bg: '#050508',
       surface: '#06080e',
-      accent: '#f0c040',
-      accentLight: '#f8d860',
+      accent: '#8b94a8',
+      accentLight: '#a8b0c0',
       highlight: '#cc0000',
       text: '#a8b0c0',
       muted: '#484e60',
       border: '#0c1020',
-      headingFont: '"Bebas Neue", system-ui, sans-serif',
-      bodyFont: '"Bebas Neue", system-ui, sans-serif',
+      headingFont: HEADING,
+      bodyFont: BODY,
       patternClass: 'pattern-gotham-rain',
       cardClass: 'card-batman',
-      emojis: ['🦇', '🌧️', '🔦', '🕵️', '❓'],
+      emojis: [],
       gradient: 'linear-gradient(160deg, #050508 0%, #04060f 50%, #020308 100%)',
       heroOverlay: 'radial-gradient(ellipse 80% 55% at 50% -5%, rgba(26,34,64,0.35) 0%, transparent 65%)',
-      label: '🦇 Gotham City',
+      label: 'Gotham City',
       tagline: 'I am vengeance.',
       cursor: 'default',
       specialFx: 'bat-signal',
@@ -55,21 +58,21 @@ export const movies = [
       text: '#d8e0f0',
       muted: '#586080',
       border: '#0c0c20',
-      headingFont: '"Exo 2", system-ui, sans-serif',
-      bodyFont: '"Exo 2", system-ui, sans-serif',
+      headingFont: HEADING,
+      bodyFont: BODY,
       patternClass: 'pattern-stars',
       cardClass: 'card-mcu',
-      emojis: ['⚡', '🌌', '🦾', '🕷️', '💜', '🔴'],
+      emojis: [],
       gradient: 'linear-gradient(160deg, #020209 0%, #04041a 50%, #020209 100%)',
       heroOverlay: 'radial-gradient(ellipse 80% 55% at 50% -5%, rgba(0,212,255,0.12) 0%, transparent 65%)',
-      label: '🌌 The Marvel Universe',
+      label: 'The Marvel Universe',
       tagline: 'Whatever it takes.',
       cursor: 'default',
       specialFx: 'stars',
       charZones: {
-        'iron-man':  { bg: '#1a0000', border: '#c0392b', accent: '#f39c12', label: '🦾 Iron Man', gradient: 'linear-gradient(135deg, #1a0000 0%, #2a0a00 100%)' },
-        'spider-man':{ bg: '#000a1a', border: '#e74c3c', accent: '#3498db', label: '🕷️ Spider-Man', gradient: 'linear-gradient(135deg, #000a1a 0%, #00051a 100%)' },
-        'thanos':    { bg: '#0a0010', border: '#6a0dad', accent: '#9b59b6', label: '💜 Thanos', gradient: 'linear-gradient(135deg, #0a0010 0%, #050008 100%)' },
+        'iron-man':  { bg: '#1a0000', border: '#c0392b', accent: '#f39c12', label: 'Iron Man', gradient: 'linear-gradient(135deg, #1a0000 0%, #2a0a00 100%)' },
+        'spider-man':{ bg: '#000a1a', border: '#e74c3c', accent: '#3498db', label: 'Spider-Man', gradient: 'linear-gradient(135deg, #000a1a 0%, #00051a 100%)' },
+        'thanos':    { bg: '#0a0010', border: '#6a0dad', accent: '#9b59b6', label: 'Thanos', gradient: 'linear-gradient(135deg, #0a0010 0%, #050008 100%)' },
       },
     },
     characters: [

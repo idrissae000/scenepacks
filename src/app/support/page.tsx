@@ -38,8 +38,8 @@ export default function SupportPage() {
         >
           <div className="h-1" style={{ background: 'linear-gradient(90deg, #5e1b21, #e55c35)' }} />
           <div className="p-8 text-center">
-            <div className="text-6xl mb-4">☕</div>
-            <h2 className="font-mobsters text-3xl mb-3" style={{ color: '#d4c5a9' }}>Buy Me a Coffee</h2>
+            <div className="mob-divider max-w-[50px] mx-auto mb-5" />
+            <h2 className="font-fell italic text-3xl mb-3" style={{ color: '#d4c5a9' }}>Buy Me a Coffee</h2>
             <p className="text-sm leading-relaxed mb-8 max-w-sm mx-auto font-fell italic" style={{ color: '#847464' }}>
               Every coffee keeps the scenepacks coming. No subscription, no pressure —
               just a one-time show of love if the work means something to you.
@@ -53,7 +53,7 @@ export default function SupportPage() {
                 background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
                 color: '#d4c5a9',
                 border: '1px solid rgba(229,92,53,0.3)',
-                fontFamily: '"Mobsters", serif',
+                fontFamily: '"IM Fell English", Georgia, serif',
               }}
               onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
               onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
@@ -104,7 +104,7 @@ export default function SupportPage() {
                 <span style={{ color }}>{icon}</span>
               </div>
               <div>
-                <div className="text-sm font-medium font-mobsters" style={{ color: '#d4c5a9' }}>
+                <div className="text-sm font-fell" style={{ color: '#d4c5a9' }}>
                   {label}
                 </div>
                 <div className="text-xs" style={{ color: '#847464' }}>{sub}</div>

@@ -84,13 +84,6 @@ export default function CharacterPage({ character, parent, type }: Props) {
                   {initials}
                 </span>
 
-                {/* Emojis badge */}
-                <div className="absolute top-12 right-4 z-10 flex flex-col gap-1">
-                  {t.emojis.slice(0, 3).map((e, i) => (
-                    <span key={i} className="text-xl opacity-50">{e}</span>
-                  ))}
-                </div>
-
                 <div className="absolute inset-x-0 bottom-0 h-40 z-[5]"
                   style={{ background: `linear-gradient(to top, ${surface}, transparent)` }} />
 
@@ -126,7 +119,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
               </div>
 
               {/* Name */}
-              <h1 className="leading-none" style={{ fontFamily: t.headingFont, color: textColor, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900 }}>
+              <h1 className="leading-none" style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: textColor, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
                 {character.name}
               </h1>
 

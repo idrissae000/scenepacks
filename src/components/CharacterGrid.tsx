@@ -30,7 +30,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
           <div className="h-px w-6" style={{ background: t.accent }} />
           <div className="mob-label" style={{ color: isLight ? t.accent : (t.highlight || t.accent) }}>
             {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''} Available
-            <span className="ml-2">{t.emojis[0]}</span>
           </div>
         </div>
 

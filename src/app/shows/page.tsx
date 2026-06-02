@@ -122,12 +122,7 @@ export default function ShowsPage() {
 
                     {/* Content */}
                     <div className="p-5" style={{ background: show.theme.surface }}>
-                      <div className="flex items-center gap-2 mb-1">
-                        {show.theme.emojis.slice(0, 3).map((e: string, idx: number) => (
-                          <span key={idx} className="text-base opacity-60">{e}</span>
-                        ))}
-                      </div>
-                      <h2 className="font-mobsters text-xl mb-1 leading-tight group-hover:opacity-80 transition-opacity"
+                      <h2 className="font-fell text-xl mb-1 leading-tight group-hover:opacity-80 transition-opacity"
                         style={{ color: show.theme.text }}>
                         {show.name}
                       </h2>

@@ -49,10 +49,10 @@ export default function RequestPage() {
               <div className="flex items-end justify-between mb-2">
                 <div>
                   <div className="mob-label mb-1.5">Priority Request</div>
-                  <h2 className="font-mobsters" style={{ fontSize: '2rem', color: '#d4c5a9' }}>Skip the Line</h2>
+                  <h2 className="font-fell italic" style={{ fontSize: '2.1rem', color: '#d4c5a9' }}>Skip the Line</h2>
                 </div>
                 <div className="text-right">
-                  <div className="font-mobsters" style={{ fontSize: '3rem', color: '#e55c35' }}>$10</div>
+                  <div className="font-fell" style={{ fontSize: '3rem', color: '#e55c35', lineHeight: 1 }}>$10</div>
                   <div className="text-xs" style={{ color: '#847464' }}>one-time</div>
                 </div>
               </div>
@@ -73,12 +73,12 @@ export default function RequestPage() {
                   background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
                   color: '#d4c5a9',
                   border: '1px solid rgba(229,92,53,0.3)',
-                  fontFamily: '"Mobsters", serif',
+                  fontFamily: '"IM Fell English", Georgia, serif',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
-                ☕ Pay $10 on Ko-fi
+                Pay $10 on Ko-fi
               </a>
 
               {submitted ? (
@@ -88,8 +88,8 @@ export default function RequestPage() {
                   className="text-center py-10 rounded-sm"
                   style={{ background: '#0a0806', border: '1px solid rgba(94,27,33,0.2)' }}
                 >
-                  <div className="font-mobsters text-5xl mb-3" style={{ color: '#e55c35' }}>✓</div>
-                  <p className="font-mobsters text-xl mb-2" style={{ color: '#d4c5a9' }}>Order Received.</p>
+                  <div className="mob-divider max-w-[40px] mx-auto mb-4" />
+                  <p className="font-fell italic text-2xl mb-2" style={{ color: '#d4c5a9' }}>Order Received.</p>
                   <p className="text-sm font-fell italic" style={{ color: '#847464' }}>
                     I&apos;ll be in touch via email.
                   </p>
@@ -148,7 +148,7 @@ export default function RequestPage() {
                         background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
                         color: '#d4c5a9',
                         border: '1px solid rgba(229,92,53,0.3)',
-                        fontFamily: '"Mobsters", serif',
+                        fontFamily: '"IM Fell English", Georgia, serif',
                       }}
                     >
                       Submit Order
@@ -176,7 +176,7 @@ export default function RequestPage() {
             <div className="p-7 flex flex-col flex-1">
               <div className="mb-2">
                 <div className="mob-label mb-1.5">Community</div>
-                <h2 className="font-mobsters text-2xl" style={{ color: '#d4c5a9' }}>
+                <h2 className="font-fell italic text-2xl" style={{ color: '#d4c5a9' }}>
                   The Waiting Room
                 </h2>
               </div>
@@ -196,7 +196,7 @@ export default function RequestPage() {
                   <span className="text-center" style={{ color: '#e55c35' }}>$10</span>
                 </div>
                 {[
-                  ['Queue position', 'Whenever', '🥇 Top'],
+                  ['Queue position', 'Whenever', 'Top'],
                   ['Speed', 'Weeks+', 'Priority'],
                   ['Refund', 'N/A', '100%'],
                 ].map(([label, free, paid]) => (
@@ -218,7 +218,7 @@ export default function RequestPage() {
                   background: 'linear-gradient(135deg, #3d1419, #5e1b21)',
                   color: '#d4c5a9',
                   border: '1px solid rgba(94,27,33,0.4)',
-                  fontFamily: '"Mobsters", serif',
+                  fontFamily: '"IM Fell English", Georgia, serif',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
                 onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.4)'}

@@ -84,18 +84,6 @@ export default function ShowHero({ show, type }: Props) {
           <span style={{ color: accentColor }}>{show.name}</span>
         </motion.div>
 
-        {/* Emojis */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 mb-4 text-2xl"
-        >
-          {t.emojis.map((e, i) => (
-            <span key={i} className="opacity-70">{e}</span>
-          ))}
-        </motion.div>
-
         {/* Label */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -112,8 +100,8 @@ export default function ShowHero({ show, type }: Props) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className={`text-5xl sm:text-7xl font-black leading-none mb-4 ${t.specialFx === 'neon' ? 'anim-neon' : ''} ${t.specialFx === 'torch' ? 'anim-torch' : ''} ${t.specialFx === 'dissolve' ? 'anim-chem-dissolve' : ''}`}
-          style={{ fontFamily: t.headingFont, color: t.text }}
+          className={`text-5xl sm:text-7xl leading-none mb-4 ${t.specialFx === 'neon' ? 'anim-neon' : ''} ${t.specialFx === 'torch' ? 'anim-torch' : ''} ${t.specialFx === 'dissolve' ? 'anim-chem-dissolve' : ''}`}
+          style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: t.text }}
         >
           {show.name}
         </motion.h1>
