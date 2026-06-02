@@ -1,16 +1,16 @@
 /* ════════════════════════════════════════════════════════
-   GOOGLE FONTS
+   GOOGLE FONTS — all show-specific fonts loaded here
    ════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;700&family=Exo+2:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;600;700&family=Exo+2:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ════════════════════════════════════════════════════════
-   MOBSTERS FONT (download from dafont.com/mobsters.font)
-   Place Mobsters.woff2, Mobsters.woff, Mobsters.ttf
-   in /public/fonts/ — falls back to serif until placed.
+   MOBSTERS @font-face
+   Place Mobsters.woff2 / Mobsters.ttf in /public/fonts/
+   Falls back to Palatino until placed.
    ════════════════════════════════════════════════════════ */
 @font-face {
   font-family: 'Mobsters';
@@ -23,110 +23,114 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   CSS VARIABLES & BASE
+   CSS VARIABLES — Sopranos global shell (NO gold)
    ════════════════════════════════════════════════════════ */
 :root {
-  --font-inter: 'Inter', system-ui, sans-serif;
+  --mob-bg:       #0d0a07;
+  --mob-red:      #5e1b21;
+  --mob-taupe:    #847464;
+  --mob-cream:    #d4c5a9;
+  --mob-accent:   #e55c35;
   --font-mobsters: 'Mobsters', 'Palatino Linotype', serif;
-  --color-bg: #0d0b08;
-  --color-red: #8b0000;
-  --color-gold: #c9a227;
-  --color-cream: #d4c5a9;
+  --font-body:     'IM Fell English', Georgia, serif;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-
 body {
-  background-color: var(--color-bg);
-  color: var(--color-cream);
-  font-family: var(--font-inter);
+  background-color: var(--mob-bg);
+  color: var(--mob-cream);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ════════════════════════════════════════════════════════
-   GLOBAL FILM GRAIN OVERLAY
-   ════════════════════════════════════════════════════════ */
+/* ── Global film grain ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
-  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  opacity: 0.55;
   mix-blend-mode: overlay;
 }
 
-/* ════════════════════════════════════════════════════════
-   SCROLLBAR
-   ════════════════════════════════════════════════════════ */
+/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0d0b08; }
-::-webkit-scrollbar-thumb { background: #2a1a08; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #c9a227; }
-::selection { background-color: rgba(139,0,0,0.45); color: #d4c5a9; }
+::-webkit-scrollbar-track { background: #0d0a07; }
+::-webkit-scrollbar-thumb { background: #3a1214; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #5e1b21; }
+::selection { background: rgba(94,27,33,0.5); color: #d4c5a9; }
 
 /* ════════════════════════════════════════════════════════
-   UTILITY CLASSES
+   GLOBAL UTILITY CLASSES (Sopranos palette — NO gold)
    ════════════════════════════════════════════════════════ */
 @layer utilities {
   .font-mobsters { font-family: var(--font-mobsters) !important; }
+  .font-fell     { font-family: var(--font-body) !important; }
 
-  .gold-text {
-    background: linear-gradient(135deg, #e8c940 0%, #c9a227 45%, #9a7a18 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Brand name — cream Mobsters, no gold */
+  .brand-text {
     font-family: var(--font-mobsters);
+    color: var(--mob-cream);
   }
 
-  .mob-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(201,162,39,0.5), transparent);
+  /* Primary button — dark red, cream border + text */
+  .btn-primary {
+    background: var(--mob-red);
+    border: 1px solid rgba(212,197,169,0.6);
+    color: var(--mob-cream);
+    font-family: var(--font-mobsters);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    transition: all 0.22s ease;
+    box-shadow: 0 2px 12px rgba(94,27,33,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .btn-primary:hover {
+    background: #7a2028;
+    box-shadow: 0 4px 20px rgba(94,27,33,0.6);
+    border-color: rgba(212,197,169,0.9);
   }
 
+  /* Discord variant — same palette */
+  .btn-discord {
+    background: #3a1012;
+    border: 1px solid rgba(94,27,33,0.7);
+    color: var(--mob-cream);
+    font-family: var(--font-mobsters);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    transition: all 0.22s ease;
+  }
+  .btn-discord:hover {
+    background: #5e1b21;
+    border-color: rgba(212,197,169,0.5);
+  }
+
+  /* Divider — smeared wine stain */
+  .divider-stain {
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(94,27,33,0.2) 10%,
+      rgba(94,27,33,0.7) 35%,
+      rgba(139,40,40,0.9) 50%,
+      rgba(94,27,33,0.7) 65%,
+      rgba(94,27,33,0.2) 90%,
+      transparent 100%
+    );
+    border-radius: 1px;
+  }
+
+  /* Mob label */
   .mob-label {
     font-size: 0.6rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #c9a227;
-    font-family: var(--font-inter);
+    color: var(--mob-taupe);
+    font-family: Inter, system-ui, sans-serif;
     font-weight: 600;
-  }
-
-  /* Engraved gold plaque button */
-  .btn-plaque {
-    background: linear-gradient(180deg, #1a1408 0%, #0d0b08 100%);
-    border: 1px solid #c9a227;
-    color: #c9a227;
-    font-family: var(--font-mobsters);
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    box-shadow: 0 0 0 1px rgba(201,162,39,0.15) inset, 0 2px 8px rgba(0,0,0,0.6);
-    text-shadow: 0 0 12px rgba(201,162,39,0.3);
-    transition: all 0.25s ease;
-  }
-  .btn-plaque:hover {
-    background: linear-gradient(180deg, #261e0a 0%, #1a1408 100%);
-    box-shadow: 0 0 0 1px rgba(201,162,39,0.3) inset, 0 4px 16px rgba(0,0,0,0.7), 0 0 20px rgba(201,162,39,0.12);
-    color: #e8c940;
-  }
-
-  .btn-red {
-    background: linear-gradient(180deg, #a00010 0%, #6b0000 100%);
-    border: 1px solid rgba(201,162,39,0.5);
-    color: #d4c5a9;
-    font-family: var(--font-mobsters);
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-    box-shadow: 0 2px 16px rgba(139,0,0,0.4);
-    transition: all 0.25s ease;
-  }
-  .btn-red:hover {
-    background: linear-gradient(180deg, #c0001a 0%, #8b0000 100%);
-    box-shadow: 0 4px 24px rgba(139,0,0,0.6);
   }
 }
 
@@ -134,293 +138,421 @@ body::before {
    BACKGROUND PATTERNS
    ════════════════════════════════════════════════════════ */
 
-/* Sopranos — tablecloth grid */
-.pattern-sopranos {
+/* Sopranos — brick (row-staggered) */
+.pattern-brick {
   background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(139,0,0,0.05) 24px, rgba(139,0,0,0.05) 25px),
-    repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(139,0,0,0.05) 24px, rgba(139,0,0,0.05) 25px);
+    /* mortar horizontal */
+    repeating-linear-gradient(
+      180deg,
+      rgba(8,4,2,0.55) 0px, rgba(8,4,2,0.55) 2px,
+      transparent 2px, transparent 24px
+    ),
+    /* mortar vertical even rows */
+    repeating-linear-gradient(
+      90deg,
+      rgba(8,4,2,0.35) 0px, rgba(8,4,2,0.35) 2px,
+      transparent 2px, transparent 56px
+    );
+  background-size: 58px 26px;
+}
+/* stagger odd rows via additional layer offset */
+.pattern-brick-stagger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(8,4,2,0.35) 0px, rgba(8,4,2,0.35) 2px,
+      transparent 2px, transparent 56px
+    );
+  background-size: 58px 52px;
+  background-position: 29px 26px;
 }
 
-/* Breaking Bad — hexagon grid */
-.pattern-bb {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L56 50V16L28 0 0 16v34z' fill='none' stroke='rgba(57,255,20,0.07)' stroke-width='1'/%3E%3Cpath d='M28 100L56 84V50L28 66 0 50v34z' fill='none' stroke='rgba(57,255,20,0.07)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 56px 100px;
+/* Sopranos hero — dark wood panels */
+.pattern-wood {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 7px,
+    rgba(40,22,10,0.07) 7px, rgba(40,22,10,0.07) 8px,
+    transparent 8px,
+    transparent 22px,
+    rgba(25,12,4,0.09) 22px, rgba(25,12,4,0.09) 23px,
+    transparent 23px
+  );
+}
+
+/* Breaking Bad — dark hexagon wireframe */
+.pattern-hex {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z' fill='none' stroke='rgba(31,96,50,0.14)' stroke-width='1.5'/%3E%3Cpath d='M28 64 L56 80 L56 98 L28 98 L0 98 L0 80 Z' fill='none' stroke='rgba(31,96,50,0.14)' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-size: 56px 98px;
 }
 
 /* Better Call Saul — legal notepad lines */
-.pattern-bcs {
+.pattern-notepad {
   background-image:
-    repeating-linear-gradient(transparent, transparent 31px, rgba(200,180,0,0.08) 31px, rgba(200,180,0,0.08) 32px);
+    repeating-linear-gradient(
+      transparent, transparent 31px,
+      rgba(200,180,0,0.09) 31px, rgba(200,180,0,0.09) 32px
+    );
   background-size: 100% 32px;
 }
 
-/* Game of Thrones — stone texture (noise) */
-.pattern-got {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+/* GOT — stone noise */
+.pattern-stone {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
 }
 
 /* Prison Break — blueprint grid */
-.pattern-pb {
+.pattern-blueprint {
   background-image:
-    linear-gradient(rgba(44,95,138,0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(44,95,138,0.14) 1px, transparent 1px),
+    linear-gradient(rgba(44,95,138,0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44,95,138,0.16) 1px, transparent 1px),
     linear-gradient(rgba(44,95,138,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(44,95,138,0.05) 1px, transparent 1px);
   background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
 }
 
-/* Sons of Anarchy — diagonal leather stitch */
-.pattern-soa {
+/* SOA — diagonal leather stitch */
+.pattern-leather {
   background-image:
-    repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(100,55,10,0.07) 6px, rgba(100,55,10,0.07) 7px),
-    repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(100,55,10,0.04) 6px, rgba(100,55,10,0.04) 7px);
+    repeating-linear-gradient(45deg,
+      transparent, transparent 5px,
+      rgba(90,45,10,0.08) 5px, rgba(90,45,10,0.08) 6px
+    ),
+    repeating-linear-gradient(-45deg,
+      transparent, transparent 5px,
+      rgba(60,25,5,0.05) 5px, rgba(60,25,5,0.05) 6px
+    );
 }
 
-/* You — subtle vertical bokeh lines */
-.pattern-you {
-  background-image:
-    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(80,100,180,0.04) 80px, rgba(80,100,180,0.04) 81px);
+/* You — animated rain */
+.pattern-rain {
+  background-image: repeating-linear-gradient(
+    174deg,
+    transparent 0, transparent 2px,
+    rgba(150,180,220,0.04) 2px, rgba(150,180,220,0.04) 3px,
+    transparent 3px, transparent 60px
+  );
+  background-size: 100% 60px;
+  animation: rainMove 0.7s linear infinite;
+}
+@keyframes rainMove {
+  from { background-position: 0 0; }
+  to   { background-position: -15px 120px; }
 }
 
-/* The Bear — kitchen tile grid */
-.pattern-bear {
+/* The Bear — kitchen steel tiles */
+.pattern-steel {
   background-image:
-    linear-gradient(rgba(112,128,144,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(112,128,144,0.1) 1px, transparent 1px);
+    linear-gradient(rgba(112,128,144,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(112,128,144,0.12) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
-/* Batman — diagonal rain streaks */
-.pattern-batman {
-  background-image:
-    repeating-linear-gradient(
-      174deg,
-      transparent 0, transparent 3px,
-      rgba(160,190,255,0.035) 3px, rgba(160,190,255,0.035) 4px,
-      transparent 4px, transparent 60px
-    );
-  background-size: 100% 60px;
+/* Batman — static rain lines (additional CSS anim in component) */
+.pattern-gotham-rain {
+  background-image: repeating-linear-gradient(
+    174deg,
+    transparent 0, transparent 3px,
+    rgba(160,190,230,0.04) 3px, rgba(160,190,230,0.04) 4px,
+    transparent 4px, transparent 70px
+  );
+  background-size: 100% 70px;
+  animation: rainMove 0.5s linear infinite;
 }
 
-/* MCU — starfield (large multi-layer radials) */
-.pattern-mcu {
+/* MCU — starfield dots */
+.pattern-stars {
   background-image:
-    radial-gradient(circle 1px at 8% 12%, rgba(0,212,255,0.5) 0%, transparent 100%),
-    radial-gradient(circle 1px at 22% 38%, rgba(255,255,255,0.35) 0%, transparent 100%),
-    radial-gradient(circle 1px at 37% 8%, rgba(0,212,255,0.4) 0%, transparent 100%),
-    radial-gradient(circle 1px at 51% 55%, rgba(255,255,255,0.45) 0%, transparent 100%),
-    radial-gradient(circle 1px at 68% 22%, rgba(0,212,255,0.35) 0%, transparent 100%),
-    radial-gradient(circle 1px at 79% 70%, rgba(255,200,255,0.4) 0%, transparent 100%),
-    radial-gradient(circle 1px at 91% 15%, rgba(0,212,255,0.5) 0%, transparent 100%),
-    radial-gradient(circle 1px at 14% 72%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(circle 1px at 44% 82%, rgba(0,212,255,0.35) 0%, transparent 100%),
-    radial-gradient(circle 1px at 60% 45%, rgba(255,255,255,0.25) 0%, transparent 100%),
-    radial-gradient(circle 1px at 85% 90%, rgba(106,13,173,0.6) 0%, transparent 100%),
-    radial-gradient(circle 1px at 30% 60%, rgba(255,255,255,0.2) 0%, transparent 100%);
+    radial-gradient(circle 1px at 8%  12%, rgba(0,212,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 22% 38%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(circle 1px at 37%  8%, rgba(0,212,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 51% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 68% 22%, rgba(0,212,255,0.4) 0%, transparent 100%),
+    radial-gradient(circle 1px at 79% 70%, rgba(180,140,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 91% 15%, rgba(0,212,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 14% 72%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(circle 1px at 44% 82%, rgba(0,212,255,0.4) 0%, transparent 100%),
+    radial-gradient(circle 2px at 85% 90%, rgba(106,13,173,0.7) 0%, transparent 100%),
+    radial-gradient(circle 1px at 30% 60%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(circle 1px at 60% 45%, rgba(255,255,255,0.3) 0%, transparent 100%);
 }
 
 /* ════════════════════════════════════════════════════════
    CARD STYLES
    ════════════════════════════════════════════════════════ */
+
+/* Sopranos */
 .card-sopranos {
-  background: #180e08;
-  border: 1px solid rgba(139,0,0,0.3);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,162,39,0.06);
+  background: #160d06;
+  border: 1px solid rgba(94,27,33,0.35);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
-.card-sopranos:hover { border-color: rgba(201,162,39,0.35); box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,162,39,0.2); }
+.card-sopranos:hover { border-color: rgba(229,92,53,0.4); }
 
+/* Breaking Bad — hazmat label corners */
 .card-bb {
-  background: #0c1a06;
-  border: 1px solid rgba(57,255,20,0.12);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  background: #0c1a04;
+  border: 1px solid rgba(31,96,50,0.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  position: relative;
 }
-.card-bb:hover { border-color: rgba(57,255,20,0.3); box-shadow: 0 0 20px rgba(57,255,20,0.08), 0 12px 40px rgba(0,0,0,0.7); }
+.card-bb::before, .card-bb::after {
+  content: '';
+  position: absolute;
+  width: 12px; height: 12px;
+}
+.card-bb::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid #e9d71b;
+  border-left: 2px solid #e9d71b;
+}
+.card-bb::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid #e9d71b;
+  border-right: 2px solid #e9d71b;
+}
+.card-bb:hover { box-shadow: 0 0 20px rgba(57,255,20,0.12), 0 8px 32px rgba(0,0,0,0.7); border-color: rgba(57,255,20,0.35); }
 
+/* BCS — coupon dotted border */
 .card-bcs {
   background: #1a1608;
-  border: 1px solid rgba(200,180,0,0.18);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  border: 2px dashed rgba(200,180,0,0.3);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
-.card-bcs:hover { border-color: rgba(200,180,0,0.4); }
+.card-bcs:hover { border-color: rgba(200,180,0,0.6); }
 
+/* GOT — parchment aged */
 .card-got {
-  background: #141008;
-  border: 1px solid rgba(201,162,39,0.2);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.7);
+  background: #14100a;
+  border: 1px solid rgba(196,163,90,0.25);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  filter: sepia(0.08);
 }
-.card-got:hover { border-color: rgba(201,162,39,0.45); box-shadow: 0 0 20px rgba(201,162,39,0.06), 0 12px 40px rgba(0,0,0,0.8); }
+.card-got:hover { filter: sepia(0); border-color: rgba(196,163,90,0.5); }
 
+/* Prison Break — classified file */
 .card-pb {
   background: #080e18;
-  border: 1px solid rgba(44,95,138,0.25);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(44,95,138,0.3);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
-.card-pb:hover { border-color: rgba(44,95,138,0.5); box-shadow: 0 0 20px rgba(44,95,138,0.08), 0 12px 40px rgba(0,0,0,0.7); }
+.card-pb:hover { border-color: rgba(44,95,138,0.6); box-shadow: 0 0 16px rgba(44,95,138,0.12), 0 8px 32px rgba(0,0,0,0.7); }
 
+/* SOA — club patch dashed stitching */
 .card-soa {
   background: #120a04;
-  border: 1px solid rgba(176,0,0,0.25);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  border: 2px dashed rgba(176,0,0,0.4);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  outline: 1px solid rgba(176,0,0,0.15);
+  outline-offset: 3px;
 }
-.card-soa:hover { border-color: rgba(176,0,0,0.5); }
+.card-soa:hover {
+  border-color: rgba(176,0,0,0.7);
+  animation: soa-rumble 0.15s ease infinite;
+}
+@keyframes soa-rumble {
+  0%,100% { transform: translate(0,0); }
+  25% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, -1px); }
+}
 
+/* You — journal page */
 .card-you {
-  background: #060612;
-  border: 1px solid rgba(212,168,67,0.18);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.7);
+  background: #08081a;
+  border: 1px solid rgba(139,0,0,0.25);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s;
 }
-.card-you:hover { border-color: rgba(212,168,67,0.4); }
+.card-you:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+}
 
+/* Barry — dossier manila */
 .card-barry {
-  background: #0c100c;
-  border: 1px solid rgba(74,90,64,0.3);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  background: #0e120e;
+  border: 1px solid rgba(74,94,74,0.3);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  filter: saturate(0.4);
+  transition: filter 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
-.card-barry:hover { border-color: rgba(74,90,64,0.6); }
+.card-barry:hover { filter: saturate(1); border-color: rgba(74,94,74,0.6); }
 
+/* The Bear — order ticket (light!) */
 .card-bear {
-  background: #161818;
-  border: 1px solid rgba(112,128,144,0.25);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+  background: #ffffff;
+  border-top: 4px solid #cc2200;
+  border-left: 1px solid #d0d0d0;
+  border-right: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  color: #1a1a1a;
 }
-.card-bear:hover { border-color: rgba(204,34,0,0.5); }
+.card-bear:hover { box-shadow: 0 6px 24px rgba(204,34,0,0.2); transform: translateY(-2px) rotate(0.5deg); }
 
+/* Batman — case file noir */
 .card-batman {
   background: #04060e;
-  border: 1px solid rgba(240,192,64,0.15);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.7);
+  border: 1px solid rgba(240,192,64,0.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
 }
-.card-batman:hover { border-color: rgba(240,192,64,0.35); }
+.card-batman:hover { border-color: rgba(240,192,64,0.5); box-shadow: 0 0 30px rgba(240,192,64,0.07), 0 8px 32px rgba(0,0,0,0.8); }
 
+/* MCU — HUD targeting */
 .card-mcu {
   background: #040810;
-  border: 1px solid rgba(0,212,255,0.15);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,212,255,0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  position: relative;
 }
-.card-mcu:hover { border-color: rgba(0,212,255,0.35); box-shadow: 0 0 20px rgba(0,212,255,0.06), 0 12px 40px rgba(0,0,0,0.8); }
+.card-mcu::before, .card-mcu::after {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+}
+.card-mcu::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid rgba(0,212,255,0.6);
+  border-left: 2px solid rgba(0,212,255,0.6);
+}
+.card-mcu::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid rgba(0,212,255,0.6);
+  border-right: 2px solid rgba(0,212,255,0.6);
+}
+.card-mcu:hover { border-color: rgba(0,212,255,0.4); box-shadow: 0 0 20px rgba(0,212,255,0.08), 0 8px 32px rgba(0,0,0,0.8); }
 
 /* ════════════════════════════════════════════════════════
    KEYFRAME ANIMATIONS
    ════════════════════════════════════════════════════════ */
 
-/* Smoke / fog drift */
+/* Smoke drift */
 @keyframes smokeRise {
   0%   { transform: translateY(0) translateX(0) scale(0.8);   opacity: 0; }
-  12%  { opacity: 0.9; }
+  12%  { opacity: 0.85; }
   70%  { opacity: 0.3; }
   100% { transform: translateY(-320px) translateX(45px) scale(3); opacity: 0; }
 }
 @keyframes smokeRiseAlt {
-  0%   { transform: translateY(0) translateX(0) scale(0.6);   opacity: 0; }
-  12%  { opacity: 0.7; }
+  0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  12%  { opacity: 0.65; }
   70%  { opacity: 0.2; }
   100% { transform: translateY(-280px) translateX(-35px) scale(2.5); opacity: 0; }
 }
 
-/* Neon flicker (BCS) */
+/* Overhead bulb flicker (Sopranos cards) */
+@keyframes bulbFlicker {
+  0%,100% { opacity: 1; filter: brightness(1); }
+  7%   { opacity: 0.85; filter: brightness(0.85); }
+  9%   { opacity: 1; }
+  52%  { opacity: 1; }
+  54%  { opacity: 0.8; filter: brightness(0.8); }
+  56%  { opacity: 1; }
+}
+.sopranos-card-hover:hover { animation: bulbFlicker 4s infinite; }
+
+/* Neon flicker (BCS title) */
 @keyframes neonFlicker {
   0%,100% { opacity: 1; }
-  4%       { opacity: 0.85; }
-  8%       { opacity: 1; }
-  15%      { opacity: 1; }
-  20%      { opacity: 0.7; }
-  21%      { opacity: 1; }
-  55%      { opacity: 1; }
-  58%      { opacity: 0.82; }
-  60%      { opacity: 1; }
+  5%  { opacity: 0.75; }
+  7%  { opacity: 1; }
+  20% { opacity: 1; }
+  22% { opacity: 0.7; }
+  23% { opacity: 1; }
+  60% { opacity: 1; }
+  62% { opacity: 0.8; }
+  63% { opacity: 1; }
 }
-.anim-neon-flicker { animation: neonFlicker 5s infinite; }
+.anim-neon { animation: neonFlicker 5s infinite; }
 
-/* Torch / ember flicker (GOT) */
-@keyframes torchFlicker {
-  0%,100% { opacity: 1; text-shadow: 0 0 20px rgba(201,162,39,0.6); }
-  20%      { opacity: 0.88; text-shadow: 0 0 8px rgba(201,162,39,0.3); }
-  40%      { opacity: 1; }
-  70%      { opacity: 0.93; }
-  85%      { opacity: 0.8; text-shadow: 0 0 4px rgba(201,162,39,0.2); }
+/* Torch flicker (GOT borders) */
+@keyframes torchGlow {
+  0%,100% { box-shadow: -4px 0 18px rgba(200,100,20,0.2), 4px 0 18px rgba(200,100,20,0.2); }
+  30%      { box-shadow: -6px 0 28px rgba(230,120,20,0.4), 4px 0 12px rgba(180,80,15,0.1); }
+  60%      { box-shadow: -3px 0 10px rgba(180,80,15,0.1), 6px 0 28px rgba(230,120,20,0.4); }
 }
-.anim-torch-flicker { animation: torchFlicker 4s ease-in-out infinite; }
+.anim-torch { animation: torchGlow 3s ease-in-out infinite; }
 
-/* Security scanline (Prison Break) */
-@keyframes scanlineMove {
-  0%   { top: -4px; }
-  100% { top: 100%; }
-}
-.scanline-overlay {
-  position: relative;
-  overflow: hidden;
-}
-.scanline-overlay::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(transparent, rgba(44,95,138,0.25), transparent);
-  animation: scanlineMove 4s linear infinite;
-  pointer-events: none;
-  z-index: 10;
+/* Scanline (Prison Break) */
+@keyframes scanlineDown {
+  0%   { transform: translateY(-100%); opacity: 0.6; }
+  100% { transform: translateY(100vh); opacity: 0.6; }
 }
 
-/* Flash flicker (Barry) */
-@keyframes flashFlicker {
-  0%,49%,52%,100% { opacity: 1; }
-  50%             { opacity: 0.25; }
-  51%             { opacity: 0.9; }
+/* SOA page rumble (one-shot, applied via JS) */
+@keyframes pageRumble {
+  0%,100% { transform: translate(0,0); }
+  15% { transform: translate(-2px, 1px); }
+  30% { transform: translate(2px, -1px); }
+  45% { transform: translate(-1px, 2px); }
+  60% { transform: translate(1px, -2px); }
+  75% { transform: translate(-2px, 0px); }
+  90% { transform: translate(2px, 1px); }
 }
-.anim-flash { animation: flashFlicker 8s infinite; animation-delay: 0.5s; }
 
 /* Green glow pulse (Breaking Bad) */
-@keyframes glowPulse {
-  0%,100% { box-shadow: 0 0 4px rgba(57,255,20,0.3), 0 0 8px rgba(57,255,20,0.15); }
-  50%      { box-shadow: 0 0 16px rgba(57,255,20,0.6), 0 0 32px rgba(57,255,20,0.3), 0 0 48px rgba(57,255,20,0.1); }
+@keyframes bbGlowPulse {
+  0%,100% { box-shadow: 0 0 4px rgba(57,255,20,0.2), 0 0 8px rgba(57,255,20,0.1); }
+  50%      { box-shadow: 0 0 16px rgba(57,255,20,0.5), 0 0 32px rgba(57,255,20,0.2); }
 }
-.anim-glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
+.anim-bb-glow { animation: bbGlowPulse 2.5s ease-in-out infinite; }
 
-/* Bat signal rotate (Batman) */
-@keyframes batSignalRotate {
+/* Bat signal rotate */
+@keyframes batRotate {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Rain falling (Batman) */
-@keyframes rainFall {
-  0%   { background-position: 20px 0; }
-  100% { background-position: 0 120px; }
-}
-
-/* Starfield drift (MCU) */
+/* Star drift (MCU) */
 @keyframes starDrift {
   0%   { transform: translateY(0); }
-  100% { transform: translateY(-150px); }
+  100% { transform: translateY(-120px); }
 }
-.anim-star-drift { animation: starDrift 80s linear infinite; }
+.anim-stars { animation: starDrift 90s linear infinite; }
 
-/* Slow hero zoom (You) */
-@keyframes slowZoom {
-  0%   { transform: scale(1); }
-  100% { transform: scale(1.06); }
+/* Chemical dissolve (BB page load) */
+@keyframes chemDissolve {
+  0%   { opacity: 0; filter: blur(12px); }
+  100% { opacity: 1; filter: blur(0); }
 }
-.anim-slow-zoom { animation: slowZoom 20s ease-in-out infinite alternate; }
+.anim-chem-dissolve { animation: chemDissolve 0.8s ease forwards; }
 
-/* Kitchen intensity rapid flash (The Bear) */
-@keyframes kitchenFlash {
-  0%,94%,96%,100% { opacity: 1; }
-  95%              { opacity: 0.4; }
-}
-.anim-kitchen { animation: kitchenFlash 6s infinite; animation-delay: 1s; }
-
-/* Generic fade-up entrance */
+/* Fade up (generic entrance) */
 @keyframes fadeUp {
   0%   { opacity: 0; transform: translateY(24px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Hover rumble (SOA) */
-@keyframes rumble {
-  0%,100% { transform: translate(0,0) rotate(0deg); }
-  20%      { transform: translate(-1px, 1px) rotate(-0.3deg); }
-  40%      { transform: translate(1px, -1px) rotate(0.3deg); }
-  60%      { transform: translate(-1px, -1px) rotate(-0.2deg); }
-  80%      { transform: translate(1px, 1px) rotate(0.2deg); }
+/* BB card slide from bottom */
+@keyframes slideFromBottom {
+  0%   { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-.soa-card:hover { animation: rumble 0.3s ease infinite; }
+
+/* The Bear kitchen shake */
+@keyframes kitchenShake {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  20% { transform: translate(-1px, 1px) rotate(-0.3deg); }
+  40% { transform: translate(1px, -1px) rotate(0.3deg); }
+  60% { transform: translate(-1px, -1px) rotate(-0.2deg); }
+  80% { transform: translate(1px, 1px) rotate(0.2deg); }
+}
+.bear-card:hover { animation: kitchenShake 0.2s ease infinite; }
+
+/* Kitchen timer count-up (decorative) */
+@keyframes timerCount {
+  from { content: '00:00'; }
+  to   { content: '59:59'; }
+}
+
+/* Prison Break blink warning */
+@keyframes warnBlink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.anim-blink { animation: warnBlink 1.2s ease-in-out infinite; }

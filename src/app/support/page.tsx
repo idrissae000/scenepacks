@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function SupportPage() {
   return (
-    <div className="pt-28 pb-20 px-4" style={{ background: '#0d0b08' }}>
+    <div className="pt-28 pb-20 px-4" style={{ background: '#0d0a07' }}>
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <motion.div
@@ -14,12 +14,11 @@ export default function SupportPage() {
           className="text-center mb-14"
         >
           <div className="mob-label mb-3">Keep the Fire Burning</div>
-          <h1 className="gold-text mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}>
+          <h1 className="font-mobsters mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', color: '#d4c5a9' }}>
             Support the Family
           </h1>
           <div className="mob-divider max-w-[60px] mx-auto mb-6" />
-          <p className="text-mob-muted text-sm leading-relaxed max-w-md mx-auto"
-            style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic' }}>
+          <p className="text-sm leading-relaxed max-w-md mx-auto font-fell italic" style={{ color: '#847464' }}>
             Everything here is free. If you want to show love and keep this going,
             anything helps. Even a coffee goes a long way.
           </p>
@@ -33,24 +32,31 @@ export default function SupportPage() {
           className="rounded-sm overflow-hidden mb-5"
           style={{
             background: '#120e08',
-            border: '1px solid rgba(201,162,39,0.22)',
-            boxShadow: '0 8px 48px rgba(139,0,0,0.15)',
+            border: '1px solid rgba(94,27,33,0.3)',
+            boxShadow: '0 8px 48px rgba(94,27,33,0.15)',
           }}
         >
-          <div className="h-1" style={{ background: 'linear-gradient(90deg, #8b0000, #c9a227)' }} />
+          <div className="h-1" style={{ background: 'linear-gradient(90deg, #5e1b21, #e55c35)' }} />
           <div className="p-8 text-center">
             <div className="text-6xl mb-4">☕</div>
-            <h2 className="gold-text text-3xl mb-3">Buy Me a Coffee</h2>
-            <p className="text-sm text-mob-muted leading-relaxed mb-8 max-w-sm mx-auto"
-              style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic' }}>
+            <h2 className="font-mobsters text-3xl mb-3" style={{ color: '#d4c5a9' }}>Buy Me a Coffee</h2>
+            <p className="text-sm leading-relaxed mb-8 max-w-sm mx-auto font-fell italic" style={{ color: '#847464' }}>
               Every coffee keeps the scenepacks coming. No subscription, no pressure —
               just a one-time show of love if the work means something to you.
             </p>
             <a
-              href="https://ko-fi.com" // TODO: replace with your Ko-fi link
+              href="https://ko-fi.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 btn-plaque rounded-sm px-12 py-4 transition-all duration-200 text-xl"
+              className="inline-flex items-center gap-2 px-12 py-4 rounded-sm transition-all duration-200 text-xl font-bold tracking-wider uppercase"
+              style={{
+                background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
+                color: '#d4c5a9',
+                border: '1px solid rgba(229,92,53,0.3)',
+                fontFamily: '"Mobsters", serif',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
             >
               Support on Ko-fi
             </a>
@@ -70,14 +76,14 @@ export default function SupportPage() {
               icon: <TikTokIcon />,
               label: 'TikTok',
               sub: '@idriss.ae',
-              color: '#c9a227',
+              color: '#e55c35',
             },
             {
               href: 'https://discord.gg/MVA5ySY2',
               icon: <DiscordIcon />,
               label: 'Discord',
               sub: 'Join the community',
-              color: '#8b0000',
+              color: '#5e1b21',
             },
           ].map(({ href, icon, label, sub, color }) => (
             <a
@@ -98,13 +104,12 @@ export default function SupportPage() {
                 <span style={{ color }}>{icon}</span>
               </div>
               <div>
-                <div className="text-sm font-medium text-mob-cream group-hover:text-mob-gold transition-colors"
-                  style={{ fontFamily: '"Mobsters", serif' }}>
+                <div className="text-sm font-medium font-mobsters" style={{ color: '#d4c5a9' }}>
                   {label}
                 </div>
-                <div className="text-xs text-mob-muted">{sub}</div>
+                <div className="text-xs" style={{ color: '#847464' }}>{sub}</div>
               </div>
-              <div className="ml-auto text-mob-muted group-hover:text-mob-gold transition-colors text-sm">→</div>
+              <div className="ml-auto text-sm" style={{ color: '#847464' }}>→</div>
             </a>
           ))}
         </motion.div>
@@ -117,11 +122,10 @@ export default function SupportPage() {
           className="text-center mt-14"
         >
           <div className="mob-divider max-w-[80px] mx-auto mb-6" />
-          <p className="text-mob-muted text-sm opacity-60"
-            style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic' }}>
+          <p className="text-sm opacity-60 font-fell italic" style={{ color: '#847464' }}>
             &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
           </p>
-          <p className="text-xs text-mob-muted opacity-30 mt-2">— Don Corleone</p>
+          <p className="text-xs mt-2 opacity-30" style={{ color: '#847464' }}>— Don Corleone</p>
         </motion.div>
       </div>
     </div>

@@ -9,12 +9,11 @@ export default function RequestPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    // TODO: wire to form backend (Formspree, Resend, etc.)
     setSubmitted(true)
   }
 
   return (
-    <div className="pt-28 pb-20 px-4" style={{ background: '#0d0b08' }}>
+    <div className="pt-28 pb-20 px-4" style={{ background: '#0d0a07' }}>
       <div className="mx-auto max-w-5xl">
         {/* Header */}
         <motion.div
@@ -24,7 +23,7 @@ export default function RequestPage() {
           className="text-center mb-16"
         >
           <div className="mob-label mb-3">Make Your Move</div>
-          <h1 className="gold-text mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}>
+          <h1 className="font-mobsters mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', color: '#d4c5a9' }}>
             Request a Pack
           </h1>
           <div className="mob-divider max-w-[60px] mx-auto" />
@@ -40,63 +39,64 @@ export default function RequestPage() {
             className="lg:col-span-3 rounded-sm overflow-hidden"
             style={{
               background: '#120e08',
-              border: '1px solid rgba(201,162,39,0.25)',
-              boxShadow: '0 8px 48px rgba(139,0,0,0.18)',
+              border: '1px solid rgba(94,27,33,0.35)',
+              boxShadow: '0 8px 48px rgba(94,27,33,0.18)',
             }}
           >
-            {/* Top band */}
-            <div className="h-1" style={{ background: 'linear-gradient(90deg, #8b0000, #c9a227)' }} />
+            <div className="h-1" style={{ background: 'linear-gradient(90deg, #5e1b21, #e55c35)' }} />
 
             <div className="p-8">
-              {/* Heading */}
               <div className="flex items-end justify-between mb-2">
                 <div>
                   <div className="mob-label mb-1.5">Priority Request</div>
-                  <h2 className="gold-text" style={{ fontSize: '2rem' }}>Skip the Line</h2>
+                  <h2 className="font-mobsters" style={{ fontSize: '2rem', color: '#d4c5a9' }}>Skip the Line</h2>
                 </div>
                 <div className="text-right">
-                  <div className="gold-text" style={{ fontSize: '3rem' }}>$10</div>
-                  <div className="text-xs text-mob-muted">one-time</div>
+                  <div className="font-mobsters" style={{ fontSize: '3rem', color: '#e55c35' }}>$10</div>
+                  <div className="text-xs" style={{ color: '#847464' }}>one-time</div>
                 </div>
               </div>
 
               <div className="mob-divider mb-6" />
 
-              <p className="text-sm text-mob-muted leading-relaxed mb-6"
-                style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic' }}>
+              <p className="text-sm leading-relaxed mb-6 font-fell italic" style={{ color: '#847464' }}>
                 Pay $10 and your request goes straight to the top. If I can&apos;t deliver
                 for any reason, you get every dollar back. No questions. No games.
               </p>
 
-              {/* Ko-fi button */}
               <a
-                href="https://ko-fi.com" // TODO: replace with your Ko-fi link
+                href="https://ko-fi.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full btn-plaque rounded-sm py-3.5 mb-8 transition-all duration-200 text-base"
+                className="flex items-center justify-center gap-2 w-full py-3.5 mb-8 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
+                style={{
+                  background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
+                  color: '#d4c5a9',
+                  border: '1px solid rgba(229,92,53,0.3)',
+                  fontFamily: '"Mobsters", serif',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
                 ☕ Pay $10 on Ko-fi
               </a>
 
-              {/* Contract-style form */}
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-center py-10 rounded-sm"
-                  style={{ background: '#0a0806', border: '1px solid rgba(201,162,39,0.15)' }}
+                  style={{ background: '#0a0806', border: '1px solid rgba(94,27,33,0.2)' }}
                 >
-                  <div className="gold-text text-5xl mb-3">✓</div>
-                  <p className="gold-text text-xl mb-2">Order Received.</p>
-                  <p className="text-sm text-mob-muted"
-                    style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic' }}>
+                  <div className="font-mobsters text-5xl mb-3" style={{ color: '#e55c35' }}>✓</div>
+                  <p className="font-mobsters text-xl mb-2" style={{ color: '#d4c5a9' }}>Order Received.</p>
+                  <p className="text-sm font-fell italic" style={{ color: '#847464' }}>
                     I&apos;ll be in touch via email.
                   </p>
                 </motion.div>
               ) : (
-                <div className="rounded-sm p-5" style={{ background: '#0a0806', border: '1px solid rgba(201,162,39,0.1)' }}>
-                  <div className="mob-label mb-4 pb-2"
-                    style={{ borderBottom: '1px solid rgba(201,162,39,0.1)' }}>
+                <div className="rounded-sm p-5" style={{ background: '#0a0806', border: '1px solid rgba(94,27,33,0.15)' }}>
+                  <div className="mob-label mb-4 pb-2" style={{ borderBottom: '1px solid rgba(94,27,33,0.15)' }}>
                     Order Details — fill out after paying
                   </div>
                   <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,14 +113,14 @@ export default function RequestPage() {
                           placeholder={placeholder}
                           value={(form as Record<string, string>)[key]}
                           onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-sm text-sm text-mob-cream placeholder-mob-muted focus:outline-none transition-all"
+                          className="w-full px-4 py-2.5 rounded-sm text-sm focus:outline-none transition-all font-fell"
                           style={{
                             background: '#141008',
-                            border: '1px solid rgba(201,162,39,0.12)',
-                            fontFamily: '"IM Fell English", serif',
+                            border: '1px solid rgba(94,27,33,0.2)',
+                            color: '#d4c5a9',
                           }}
-                          onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(201,162,39,0.4)'}
-                          onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(201,162,39,0.12)'}
+                          onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
+                          onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.2)'}
                         />
                       </div>
                     ))}
@@ -131,17 +131,26 @@ export default function RequestPage() {
                         value={form.prefs}
                         onChange={(e) => setForm({ ...form, prefs: e.target.value })}
                         rows={3}
-                        className="w-full px-4 py-2.5 rounded-sm text-sm text-mob-cream placeholder-mob-muted focus:outline-none transition-all resize-none"
+                        className="w-full px-4 py-2.5 rounded-sm text-sm focus:outline-none transition-all resize-none font-fell"
                         style={{
                           background: '#141008',
-                          border: '1px solid rgba(201,162,39,0.12)',
-                          fontFamily: '"IM Fell English", serif',
+                          border: '1px solid rgba(94,27,33,0.2)',
+                          color: '#d4c5a9',
                         }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(201,162,39,0.4)'}
-                        onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(201,162,39,0.12)'}
+                        onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
+                        onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.2)'}
                       />
                     </div>
-                    <button type="submit" className="w-full btn-plaque rounded-sm py-3 transition-all duration-200 text-base">
+                    <button
+                      type="submit"
+                      className="w-full py-3 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
+                      style={{
+                        background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
+                        color: '#d4c5a9',
+                        border: '1px solid rgba(229,92,53,0.3)',
+                        fontFamily: '"Mobsters", serif',
+                      }}
+                    >
                       Submit Order
                     </button>
                   </form>
@@ -167,26 +176,24 @@ export default function RequestPage() {
             <div className="p-7 flex flex-col flex-1">
               <div className="mb-2">
                 <div className="mob-label mb-1.5">Community</div>
-                <h2 className="text-2xl font-bold text-mob-cream" style={{ fontFamily: '"Mobsters", serif' }}>
+                <h2 className="font-mobsters text-2xl" style={{ color: '#d4c5a9' }}>
                   The Waiting Room
                 </h2>
               </div>
 
               <div className="mob-divider mb-5" />
 
-              <p className="text-sm text-mob-muted leading-relaxed mb-8 flex-1"
-                style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic' }}>
+              <p className="text-sm leading-relaxed mb-8 flex-1 font-fell italic" style={{ color: '#847464' }}>
                 Free requests go through Discord. I get to them when I get to them.
                 No guarantees on timing — but I try to get to everyone eventually.
               </p>
 
-              {/* Comparison */}
               <div className="rounded-sm p-4 mb-7" style={{ background: '#0a0806', border: '1px solid rgba(255,255,255,0.04)' }}>
                 <div className="grid grid-cols-3 gap-1 text-xs mb-2 pb-2"
-                  style={{ borderBottom: '1px solid rgba(201,162,39,0.08)' }}>
-                  <span className="text-mob-muted" />
-                  <span className="text-mob-muted text-center">Free</span>
-                  <span className="text-center" style={{ color: '#c9a227' }}>$10</span>
+                  style={{ borderBottom: '1px solid rgba(94,27,33,0.15)' }}>
+                  <span style={{ color: '#847464' }} />
+                  <span className="text-center" style={{ color: '#847464' }}>Free</span>
+                  <span className="text-center" style={{ color: '#e55c35' }}>$10</span>
                 </div>
                 {[
                   ['Queue position', 'Whenever', '🥇 Top'],
@@ -195,9 +202,9 @@ export default function RequestPage() {
                 ].map(([label, free, paid]) => (
                   <div key={label} className="grid grid-cols-3 gap-1 text-xs py-1.5"
                     style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                    <span className="text-mob-muted">{label}</span>
-                    <span className="text-mob-muted text-center">{free}</span>
-                    <span className="text-center" style={{ color: '#c9a227' }}>{paid}</span>
+                    <span style={{ color: '#847464' }}>{label}</span>
+                    <span className="text-center" style={{ color: '#847464' }}>{free}</span>
+                    <span className="text-center" style={{ color: '#e55c35' }}>{paid}</span>
                   </div>
                 ))}
               </div>
@@ -206,7 +213,15 @@ export default function RequestPage() {
                 href="https://discord.gg/MVA5ySY2"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full btn-red rounded-sm py-3.5 transition-all duration-200 text-base"
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
+                style={{
+                  background: 'linear-gradient(135deg, #3d1419, #5e1b21)',
+                  color: '#d4c5a9',
+                  border: '1px solid rgba(94,27,33,0.4)',
+                  fontFamily: '"Mobsters", serif',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.4)'}
               >
                 <DiscordIcon /> Join Discord to Request
               </a>

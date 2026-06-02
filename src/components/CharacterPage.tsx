@@ -9,10 +9,11 @@ interface Character {
 
 interface Theme {
   bg: string; surface: string; accent: string; accentLight: string
-  gold: string; text: string; muted: string; border: string
-  headingFont: string; bodyFont: string; gradient: string
-  heroOverlay: string; label: string; tagline: string
-  patternClass: string; emojis: string[]
+  highlight?: string; text: string; muted: string; border: string
+  headingFont: string; bodyFont: string
+  gradient: string; heroOverlay: string; label: string
+  cursor?: string; lightBg?: boolean; emojis: string[]
+  charZones?: Record<string, { bg: string; border: string; accent: string; label: string; gradient: string }>
 }
 
 interface Parent {
@@ -25,15 +26,26 @@ interface Props {
 
 export default function CharacterPage({ character, parent, type }: Props) {
   const t = parent.theme
+  const zone = t.charZones?.[character.slug]
+  const isLight = t.lightBg === true
+
+  const bg = zone ? zone.bg : t.bg
+  const surface = zone ? zone.bg : t.surface
+  const accent = zone ? zone.accent : (t.highlight || t.accent)
+  const border = zone ? `${zone.border}40` : t.border
+  const gradient = zone ? zone.gradient : t.gradient
+  const textColor = isLight ? '#1a1a1a' : t.text
+  const mutedColor = isLight ? '#555' : t.muted
+
   const initials = character.name.split(' ').map((w: string) => w[0]).join('')
 
   return (
-    <div style={{ background: t.bg, minHeight: '100vh' }} className={t.patternClass}>
+    <div style={{ background: bg, minHeight: '100vh', cursor: t.cursor || 'default' }}>
       <section className="relative pt-24 pb-10 px-4 overflow-hidden">
-        <div className="absolute inset-0" style={{ background: t.gradient }} />
+        <div className="absolute inset-0" style={{ backgroundImage: gradient }} />
         <div className="absolute inset-0" style={{ background: t.heroOverlay }} />
         <div className="absolute top-16 left-0 right-0 h-px opacity-20"
-          style={{ background: `linear-gradient(90deg, transparent, ${t.gold}, transparent)` }} />
+          style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
 
         <div className="relative z-10 mx-auto max-w-5xl">
           {/* Breadcrumb */}
@@ -42,19 +54,19 @@ export default function CharacterPage({ character, parent, type }: Props) {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
             className="flex items-center gap-2 text-xs mb-10 flex-wrap"
-            style={{ color: t.muted, fontFamily: t.bodyFont }}
+            style={{ color: mutedColor, fontFamily: t.bodyFont }}
           >
-            <Link href="/" style={{ color: t.muted }} className="hover:opacity-80 transition-opacity">Home</Link>
+            <Link href="/" style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity">Home</Link>
             <span>/</span>
-            <Link href={`/${type}s`} style={{ color: t.muted }} className="hover:opacity-80 transition-opacity capitalize">{type}s</Link>
+            <Link href={`/${type}s`} style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity capitalize">{type}s</Link>
             <span>/</span>
-            <Link href={`/${type}s/${parent.slug}`} style={{ color: t.muted }} className="hover:opacity-80 transition-opacity">{parent.name}</Link>
+            <Link href={`/${type}s/${parent.slug}`} style={{ color: mutedColor }} className="hover:opacity-80 transition-opacity">{parent.name}</Link>
             <span>/</span>
-            <span style={{ color: t.gold }}>{character.name}</span>
+            <span style={{ color: accent }}>{character.name}</span>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Image */}
+            {/* Image placeholder */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -62,19 +74,15 @@ export default function CharacterPage({ character, parent, type }: Props) {
             >
               <div
                 className="relative aspect-[3/4] rounded-sm overflow-hidden flex items-center justify-center"
-                style={{ background: t.surface, border: `1px solid ${t.border}` }}
+                style={{ background: surface, border: `1px solid ${border}` }}
               >
-                {/* Letterbox bars */}
-                <div className="absolute top-0 left-0 right-0 h-8 z-10" style={{ background: t.bg }} />
-                <div className="absolute bottom-0 left-0 right-0 h-8 z-10" style={{ background: t.bg }} />
+                <div className="absolute top-0 left-0 right-0 h-8 z-10" style={{ background: bg }} />
+                <div className="absolute bottom-0 left-0 right-0 h-8 z-10" style={{ background: bg }} />
 
-                {/* Placeholder initials — remove when real image is added */}
                 <span className="text-[8rem] font-black select-none leading-none opacity-[0.08]"
-                  style={{ fontFamily: t.headingFont, color: t.gold }}>
+                  style={{ fontFamily: t.headingFont, color: accent }}>
                   {initials}
                 </span>
-                {/* TODO: Replace placeholder with real image: */}
-                {/* <Image src={character.image} alt={character.name} fill className="object-cover object-top" /> */}
 
                 {/* Emojis badge */}
                 <div className="absolute top-12 right-4 z-10 flex flex-col gap-1">
@@ -84,20 +92,22 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 h-40 z-[5]"
-                  style={{ background: `linear-gradient(to top, ${t.surface}, transparent)` }} />
+                  style={{ background: `linear-gradient(to top, ${surface}, transparent)` }} />
 
-                {/* Gold corner brackets */}
+                {/* Corner brackets */}
                 {['top-8 left-3', 'top-8 right-3', 'bottom-8 left-3', 'bottom-8 right-3'].map((pos, idx) => (
                   <div key={idx} className={`absolute ${pos} w-8 h-8 z-10`} style={{
-                    borderTop: idx < 2 ? `2px solid ${t.gold}55` : 'none',
-                    borderBottom: idx >= 2 ? `2px solid ${t.gold}55` : 'none',
-                    borderLeft: idx % 2 === 0 ? `2px solid ${t.gold}55` : 'none',
-                    borderRight: idx % 2 === 1 ? `2px solid ${t.gold}55` : 'none',
+                    borderTop: idx < 2 ? `2px solid ${accent}55` : 'none',
+                    borderBottom: idx >= 2 ? `2px solid ${accent}55` : 'none',
+                    borderLeft: idx % 2 === 0 ? `2px solid ${accent}55` : 'none',
+                    borderRight: idx % 2 === 1 ? `2px solid ${accent}55` : 'none',
                   }} />
                 ))}
 
                 <div className="absolute bottom-10 left-0 right-0 text-center z-10 px-4">
-                  <div className="mob-label" style={{ color: t.gold, opacity: 0.5 }}>{t.label}</div>
+                  <div className="mob-label" style={{ color: accent, opacity: 0.5 }}>
+                    {zone ? zone.label : t.label}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -112,26 +122,26 @@ export default function CharacterPage({ character, parent, type }: Props) {
               {/* Show badge */}
               <div className="flex items-center gap-2">
                 <div className="h-px w-6" style={{ background: t.accent }} />
-                <span className="mob-label" style={{ color: t.gold }}>{parent.name}</span>
+                <span className="mob-label" style={{ color: accent }}>{parent.name}</span>
               </div>
 
               {/* Name */}
-              <h1 className="leading-none" style={{ fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900 }}>
+              <h1 className="leading-none" style={{ fontFamily: t.headingFont, color: textColor, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900 }}>
                 {character.name}
               </h1>
 
               {/* Rule */}
-              <div className="h-px" style={{ background: `linear-gradient(90deg, ${t.accent}, ${t.gold}, transparent)` }} />
+              <div className="h-px" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
 
               {/* Description */}
-              <p className="text-sm leading-relaxed" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+              <p className="text-sm leading-relaxed" style={{ color: mutedColor, fontFamily: t.bodyFont }}>
                 {character.description}
               </p>
 
-              {/* Pack details box */}
-              <div className="rounded-sm p-5" style={{ background: t.surface, border: `1px solid ${t.border}` }}>
-                <div className="mob-label mb-3" style={{ color: t.gold }}>Pack Includes</div>
-                <ul className="space-y-2 text-xs" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+              {/* Pack details */}
+              <div className="rounded-sm p-5" style={{ background: surface, border: `1px solid ${border}` }}>
+                <div className="mob-label mb-3" style={{ color: accent }}>Pack Includes</div>
+                <ul className="space-y-2 text-xs" style={{ color: mutedColor, fontFamily: t.bodyFont }}>
                   {[
                     'High-quality cinematic scene clips',
                     'Color-graded for aesthetic edits',
@@ -139,14 +149,11 @@ export default function CharacterPage({ character, parent, type }: Props) {
                     'Free to use — no credit required (but appreciated)',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
-                      <span style={{ color: t.gold, marginTop: '1px' }}>—</span>
+                      <span style={{ color: accent, marginTop: '1px' }}>—</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="text-xs mt-4 opacity-40" style={{ color: t.muted, fontStyle: 'italic' }}>
-                  * Pack details are placeholder — update with real scene info
-                </p>
               </div>
 
               {/* CTA */}
@@ -158,10 +165,10 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 style={{
                   fontFamily: t.headingFont,
                   fontSize: '1.1rem',
-                  background: `linear-gradient(135deg, ${t.accent}, ${t.accentLight})`,
-                  color: t.text,
+                  background: `linear-gradient(135deg, ${t.accent}, ${accent})`,
+                  color: isLight ? '#fff' : t.text,
                   boxShadow: `0 4px 24px ${t.accent}50`,
-                  border: `1px solid ${t.gold}30`,
+                  border: `1px solid ${accent}30`,
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.boxShadow = `0 6px 32px ${t.accent}70`}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 4px 24px ${t.accent}50`}
@@ -172,7 +179,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
               <Link
                 href={`/${type}s/${parent.slug}`}
                 className="text-center text-xs tracking-widest uppercase opacity-50 hover:opacity-80 transition-opacity"
-                style={{ color: t.muted, fontFamily: t.bodyFont }}
+                style={{ color: mutedColor, fontFamily: t.bodyFont }}
               >
                 ← Back to {parent.name}
               </Link>
