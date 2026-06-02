@@ -2,60 +2,124 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
   --font-inter: 'Inter', system-ui, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #080808;
-  color: #e8e8e8;
+  background-color: #0a0a0a;
+  color: #e8e0d0;
   font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0e0e0e;
-}
-::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #c9a84c;
+/* Film grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: overlay;
 }
 
-/* Selection color */
-::selection {
-  background-color: rgba(201, 168, 76, 0.3);
-  color: #e8e8e8;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #2a1a0e; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #c9a84c; }
+
+::selection { background-color: rgba(107, 15, 26, 0.5); color: #e8e0d0; }
 
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(135deg, #e8c96a 0%, #c9a84c 50%, #a67c2e 100%);
+  .gold-text {
+    background: linear-gradient(135deg, #e8c96a 0%, #c9a84c 40%, #a07830 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .card-glow {
-    box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.15), 0 20px 40px rgba(0, 0, 0, 0.6);
+  .font-playfair { font-family: var(--font-playfair); }
+
+  .mob-card {
+    background: #141414;
+    border: 1px solid #1e1e1e;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,168,76,0.05);
   }
 
-  .card-glow-hover {
-    box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.4), 0 20px 60px rgba(201, 168, 76, 0.08), 0 40px 80px rgba(0, 0, 0, 0.7);
+  .mob-card:hover {
+    border-color: rgba(201,168,76,0.25);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.15), inset 0 1px 0 rgba(201,168,76,0.08);
+  }
+
+  .mob-btn-gold {
+    background: linear-gradient(135deg, #c9a84c, #a07830);
+    color: #0a0a0a;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+  }
+
+  .mob-btn-gold:hover {
+    background: linear-gradient(135deg, #e8c96a, #c9a84c);
+    box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+  }
+
+  .mob-btn-outline {
+    border: 1px solid rgba(201,168,76,0.3);
+    color: #c9a84c;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .mob-btn-outline:hover {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(201,168,76,0.06);
+  }
+
+  .mob-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .mob-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #c9a84c;
+    font-family: var(--font-inter);
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: var(--font-playfair);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 }
+
+/* Letterbox bars on image containers */
+.letterbox::before,
+.letterbox::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 12.5%;
+  background: #0a0a0a;
+  z-index: 2;
+}
+.letterbox::before { top: 0; }
+.letterbox::after { bottom: 0; }

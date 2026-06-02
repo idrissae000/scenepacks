@@ -2,14 +2,21 @@ import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: 'radial-gradient(ellipse at center, #0f0306 0%, #0a0a0a 70%)' }}>
       <div className="text-center">
-        <p className="text-8xl font-black text-cinema-border/30 mb-4">404</p>
-        <h1 className="text-2xl font-bold text-cinema-text mb-3">Page not found</h1>
-        <p className="text-cinema-muted mb-8">This scene was cut from the final edit.</p>
+        <div className="section-title text-[10rem] leading-none font-black text-mob-border opacity-10 select-none">
+          404
+        </div>
+        <h1 className="section-title text-3xl text-mob-text mb-3 -mt-8">
+          This scene was cut.
+        </h1>
+        <p className="text-mob-muted text-sm mb-8" style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}>
+          &ldquo;What, you gonna cry now?&rdquo;
+        </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-sm border border-cinema-border bg-cinema-card px-6 py-2.5 text-sm text-cinema-text hover:border-cinema-gold/40 hover:text-cinema-gold transition-all duration-200"
+          className="mob-btn-outline rounded-sm px-8 py-3 transition-all duration-200 inline-block"
         >
           ← Back home
         </Link>
