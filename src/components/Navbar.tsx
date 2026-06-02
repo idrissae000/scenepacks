@@ -22,38 +22,44 @@ export default function Navbar() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-mob-border bg-mob-black/90 backdrop-blur-md"
-      style={{ borderColor: 'rgba(201,168,76,0.1)' }}
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ background: 'rgba(10,8,5,0.96)', backdropFilter: 'blur(12px)' }}
     >
-      {/* Top accent line */}
-      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.4), rgba(107,15,26,0.4), transparent)' }} />
+      {/* Top thin accent */}
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.15), rgba(139,0,0,0.3), rgba(201,162,39,0.15), transparent)' }} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5 shrink-0">
-            <span className="font-playfair text-xl font-bold gold-text tracking-wide">Idriss.ae</span>
-            <span className="text-mob-text/70 font-light text-sm tracking-widest uppercase">Scenepacks</span>
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <span className="gold-text text-2xl">Idriss.ae</span>
+            <span className="text-mob-muted font-light text-xs tracking-[0.2em] uppercase mt-1">Scenepacks</span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-0.5">
             {links.map(({ label, href }) => {
               const active = href === '/' ? pathname === '/' : pathname.startsWith(href)
               return (
                 <Link
                   key={href}
                   href={href}
-                  className={`relative px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-200 ${
-                    active ? 'text-mob-gold' : 'text-mob-muted hover:text-mob-text'
-                  }`}
+                  className="relative px-4 py-2 transition-colors duration-200"
+                  style={{
+                    fontFamily: '"Mobsters", serif',
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.06em',
+                    color: active ? '#c9a227' : '#7a6a50',
+                  }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = '#d4c5a9' }}
+                  onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = '#7a6a50' }}
                 >
                   {label}
                   {active && (
                     <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute bottom-0 left-3 right-3 h-px"
-                      style={{ background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)' }}
+                      layoutId="nav-active"
+                      className="absolute bottom-0 left-2 right-2 h-px"
+                      style={{ background: 'linear-gradient(90deg, transparent, #c9a227, transparent)' }}
                     />
                   )}
                 </Link>
@@ -61,42 +67,43 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Discord button */}
+          {/* Join the Family button */}
           <div className="flex items-center gap-3">
             <a
               href="https://discord.gg/MVA5ySY2"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-2 mob-btn-gold rounded-sm px-5 py-2.5 transition-all duration-200"
+              className="hidden sm:flex items-center gap-2 btn-red rounded-sm px-5 py-2 text-sm transition-all duration-200"
             >
               <DiscordIcon />
-              <span>Join Discord</span>
+              Join the Family
             </a>
 
-            {/* Mobile menu button */}
+            {/* Mobile toggle */}
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden p-2 text-mob-muted hover:text-mob-text"
-              aria-label="Toggle menu"
+              className="md:hidden p-2 text-mob-muted hover:text-mob-cream transition-colors"
             >
               <div className="w-5 space-y-1.5">
-                <span className={`block h-px bg-current transition-all duration-200 ${open ? 'rotate-45 translate-y-2' : ''}`} />
-                <span className={`block h-px bg-current transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
-                <span className={`block h-px bg-current transition-all duration-200 ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+                <span className={`block h-px transition-all duration-200 ${open ? 'rotate-45 translate-y-2' : ''}`} style={{ background: '#c9a227' }} />
+                <span className={`block h-px transition-all duration-200 ${open ? 'opacity-0' : ''}`} style={{ background: '#c9a227' }} />
+                <span className={`block h-px transition-all duration-200 ${open ? '-rotate-45 -translate-y-2' : ''}`} style={{ background: '#c9a227' }} />
               </div>
             </button>
           </div>
         </div>
       </div>
 
+      {/* Gold bottom border */}
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.3), rgba(201,162,39,0.3), transparent)' }} />
+
       {/* Mobile menu */}
       {open && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden border-t"
-          style={{ borderColor: 'rgba(201,168,76,0.1)', background: '#0a0a0a' }}
+          className="md:hidden"
+          style={{ background: '#0a0806', borderTop: '1px solid rgba(201,162,39,0.1)' }}
         >
           <div className="px-4 py-4 space-y-1">
             {links.map(({ label, href }) => (
@@ -104,7 +111,10 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-3 text-xs tracking-widest uppercase text-mob-muted hover:text-mob-gold transition-colors"
+                className="block px-4 py-3 transition-colors"
+                style={{ fontFamily: '"Mobsters", serif', fontSize: '1rem', color: '#7a6a50', letterSpacing: '0.06em' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#c9a227'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#7a6a50'}
               >
                 {label}
               </Link>
@@ -113,10 +123,9 @@ export default function Navbar() {
               href="https://discord.gg/MVA5ySY2"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 mob-btn-gold rounded-sm px-4 py-3 mt-3 transition-all duration-200"
+              className="flex items-center gap-2 btn-red rounded-sm px-5 py-3 mt-2 transition-all duration-200 w-full justify-center"
             >
-              <DiscordIcon />
-              Join Discord
+              <DiscordIcon /> Join the Family
             </a>
           </div>
         </motion.div>

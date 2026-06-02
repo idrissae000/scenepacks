@@ -4,36 +4,32 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 interface Character {
-  name: string
-  slug: string
-  image: string
-  description: string
-  packLink: string
+  name: string; slug: string; image: string; description: string; packLink: string
 }
 
 interface Show {
   characters: Character[]
   theme: {
-    bg: string; surface: string; accent: string; accentLight: string
-    gold: string; text: string; muted: string; border: string
-    font: string
+    bg: string; surface: string; accent: string; gold: string
+    text: string; muted: string; border: string
+    headingFont: string; bodyFont: string; cardClass: string; emojis: string[]
   }
 }
 
-interface Props {
-  show: Show
-  baseHref: string
-}
+interface Props { show: Show; baseHref: string }
 
 export default function CharacterGrid({ show, baseHref }: Props) {
   const t = show.theme
-  const useSerif = t.font === 'serif'
 
   return (
     <section className="px-4 pb-20">
       <div className="mx-auto max-w-7xl">
-        <div className="mob-label mb-8" style={{ color: t.gold }}>
-          {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''} Available
+        <div className="flex items-center gap-3 mb-8">
+          <div className="h-px w-6" style={{ background: t.accent }} />
+          <div className="mob-label" style={{ color: t.gold }}>
+            {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''} Available
+            <span className="ml-2">{t.emojis[0]}</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -44,48 +40,52 @@ export default function CharacterGrid({ show, baseHref }: Props) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -5 }}
             >
               <Link href={`${baseHref}/${char.slug}`} className="block group">
-                <div
-                  className="rounded-sm overflow-hidden transition-all duration-300 group-hover:ring-1"
-                  style={{
-                    background: t.surface,
-                    border: `1px solid ${t.border}`,
-                    boxShadow: `0 8px 32px rgba(0,0,0,0.5)`,
-                    '--tw-ring-color': t.gold + '40',
-                  } as React.CSSProperties}
-                >
-                  {/* Color band */}
+                <div className={`rounded-sm overflow-hidden transition-all duration-300 ${t.cardClass}`}>
+                  {/* Accent band */}
                   <div className="h-0.5" style={{ background: `linear-gradient(90deg, ${t.accent}, ${t.gold}, transparent)` }} />
 
-                  {/* Image placeholder */}
+                  {/* Image / placeholder */}
                   <div className="relative aspect-[4/3] flex items-center justify-center overflow-hidden"
                     style={{ background: t.bg }}>
-                    <span className="text-6xl font-black select-none opacity-10"
-                      style={{ fontFamily: useSerif ? 'var(--font-playfair)' : 'var(--font-inter)', color: t.gold }}>
+                    {/* Placeholder initials — remove when real image added */}
+                    <span
+                      className="text-7xl font-black select-none opacity-[0.08] group-hover:opacity-[0.12] transition-opacity"
+                      style={{ fontFamily: t.headingFont, color: t.gold, lineHeight: 1 }}
+                    >
                       {char.name.split(' ').map((w: string) => w[0]).join('')}
                     </span>
-                    {/* TODO: replace with actual image */}
-                    {/* <Image src={char.image} alt={char.name} fill className="object-cover" /> */}
+                    {/* TODO: swap with real image ↓ */}
+                    {/* <Image src={char.image} alt={char.name} fill className="object-cover object-top" /> */}
+
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{ background: `radial-gradient(ellipse at center, ${t.accent}20, transparent)` }} />
-                    <div className="absolute bottom-0 left-0 right-0 h-12"
+                      style={{ background: `radial-gradient(ellipse at center, ${t.accent}18, transparent)` }} />
+                    <div className="absolute bottom-0 left-0 right-0 h-14"
                       style={{ background: `linear-gradient(to top, ${t.surface}, transparent)` }} />
+
+                    {/* Gold corner brackets */}
+                    {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((pos, idx) => (
+                      <div key={idx} className={`absolute ${pos} w-4 h-4`} style={{
+                        borderTop: idx < 2 ? `1px solid ${t.gold}50` : 'none',
+                        borderBottom: idx >= 2 ? `1px solid ${t.gold}50` : 'none',
+                        borderLeft: idx % 2 === 0 ? `1px solid ${t.gold}50` : 'none',
+                        borderRight: idx % 2 === 1 ? `1px solid ${t.gold}50` : 'none',
+                      }} />
+                    ))}
                   </div>
 
                   {/* Content */}
                   <div className="p-4">
                     <h3
-                      className="text-base font-semibold mb-2 leading-tight"
-                      style={{
-                        color: t.text,
-                        fontFamily: useSerif ? 'var(--font-playfair)' : 'var(--font-inter)',
-                      }}
+                      className="text-base font-bold mb-2 leading-tight group-hover:opacity-80 transition-opacity"
+                      style={{ fontFamily: t.headingFont, color: t.text }}
                     >
                       {char.name}
                     </h3>
-                    <p className="text-xs leading-relaxed line-clamp-2 mb-4" style={{ color: t.muted }}>
+                    <p className="text-xs leading-relaxed line-clamp-2 mb-4"
+                      style={{ color: t.muted, fontFamily: t.bodyFont }}>
                       {char.description}
                     </p>
                     <a
@@ -93,19 +93,20 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-sm text-xs font-bold tracking-widest uppercase transition-all duration-200"
+                      className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-sm text-xs font-bold tracking-wider uppercase transition-all duration-200"
                       style={{
+                        fontFamily: t.headingFont,
                         background: 'transparent',
-                        border: `1px solid ${t.gold}50`,
+                        border: `1px solid ${t.gold}55`,
                         color: t.gold,
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = t.gold + '15'
+                        e.currentTarget.style.background = t.gold + '18'
                         e.currentTarget.style.borderColor = t.gold + 'aa'
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'transparent'
-                        e.currentTarget.style.borderColor = t.gold + '50'
+                        e.currentTarget.style.borderColor = t.gold + '55'
                       }}
                     >
                       <DiscordIcon /> Get Pack

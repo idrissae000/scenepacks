@@ -2,48 +2,50 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24 border-t" style={{ borderColor: 'rgba(201,168,76,0.12)', background: '#080808' }}>
-      {/* Top accent */}
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(107,15,26,0.6), rgba(201,168,76,0.3), rgba(107,15,26,0.6), transparent)' }} />
+    <footer className="relative mt-24" style={{ background: '#080604' }}>
+      {/* Top border — multi-layer cinematic */}
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, #8b0000 20%, #c9a227 50%, #8b0000 80%, transparent)' }} />
+      <div className="h-px mt-0.5 opacity-30" style={{ background: 'linear-gradient(90deg, transparent, #c9a227, transparent)' }} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-10">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <div className="font-playfair text-2xl font-bold gold-text mb-1">Idriss.ae</div>
-            <div className="text-xs tracking-widest uppercase text-mob-muted">Scenepacks</div>
-            <p className="mt-3 text-xs text-mob-muted max-w-xs leading-relaxed">
-              The finest collection of aesthetic scenepacks. Curated with care. Free for the family.
+            <div className="gold-text text-3xl mb-0.5">Idriss.ae</div>
+            <div className="text-xs tracking-[0.2em] uppercase text-mob-muted mb-3">Scenepacks</div>
+            <p className="text-xs text-mob-muted max-w-xs leading-relaxed"
+              style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic' }}>
+              The finest cuts. Free for the family.
             </p>
           </div>
 
-          {/* Links */}
-          <div className="flex flex-col sm:flex-row gap-8 text-center sm:text-left">
+          {/* Nav links */}
+          <div className="flex gap-10">
             <div>
               <div className="mob-label mb-3">Navigate</div>
               <div className="space-y-2">
                 {[['/', 'Home'], ['/shows', 'Shows'], ['/movies', 'Movies'], ['/request', 'Request'], ['/support', 'Support']].map(([href, label]) => (
                   <div key={href}>
-                    <Link href={href} className="text-xs text-mob-muted hover:text-mob-gold transition-colors">
+                    <Link href={href} className="text-xs text-mob-muted hover:text-mob-gold transition-colors"
+                      style={{ fontFamily: '"Mobsters", serif' }}>
                       {label}
                     </Link>
                   </div>
                 ))}
               </div>
             </div>
-
             <div>
-              <div className="mob-label mb-3">Connect</div>
+              <div className="mob-label mb-3">The Family</div>
               <div className="space-y-2">
                 <div>
                   <a href="https://discord.gg/MVA5ySY2" target="_blank" rel="noopener noreferrer"
-                    className="text-xs text-mob-muted hover:text-mob-gold transition-colors flex items-center justify-center sm:justify-start gap-1.5">
+                    className="flex items-center gap-1.5 text-xs text-mob-muted hover:text-mob-gold transition-colors">
                     <DiscordIcon /> Discord
                   </a>
                 </div>
                 <div>
                   <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
-                    className="text-xs text-mob-muted hover:text-mob-gold transition-colors flex items-center justify-center sm:justify-start gap-1.5">
+                    className="flex items-center gap-1.5 text-xs text-mob-muted hover:text-mob-gold transition-colors">
                     <TikTokIcon /> @idriss.ae
                   </a>
                 </div>
@@ -52,19 +54,20 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Divider */}
         <div className="mob-divider my-8" />
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center">
-          <p className="text-xs text-mob-muted">
-            Credits:{' '}
-            <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
-              className="gold-text font-medium hover:opacity-80 transition-opacity">
-              Idriss.ae
-            </a>{' '}
-            on TikTok
+        {/* Bottom */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs" style={{ color: '#5a4a38' }}>
+            <span className="gold-text">Idriss.ae</span>
+            <span className="text-mob-muted"> on TikTok —{' '}</span>
+            <span style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic', color: '#6a5a48' }}>
+              Give your credits or sleep with the fishes.
+            </span>
           </p>
-          <p className="text-xs text-mob-muted" style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}>
-            &ldquo;Those who want respect, give respect.&rdquo;
+          <p className="text-xs text-mob-muted opacity-40" style={{ fontFamily: '"IM Fell English", serif', fontStyle: 'italic' }}>
+            &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
           </p>
         </div>
       </div>
