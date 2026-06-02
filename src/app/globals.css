@@ -305,6 +305,23 @@ body::before {
    CARD STYLES
    ════════════════════════════════════════════════════════ */
 
+/* Clean listing card — uniform shows/movies grid */
+.card-clean {
+  background: #0f0b08;
+  border: 1px solid #5e1b21;
+  transition: filter 0.2s ease, border-color 0.2s ease;
+}
+.card-clean:hover {
+  filter: brightness(1.12);
+  border-color: #e55c35;
+}
+
+/* Logo placeholder box inside listing cards */
+.logo-placeholder {
+  background: #2b2622;
+  border-bottom: 1px solid rgba(94,27,33,0.4);
+}
+
 /* Sopranos */
 .card-sopranos {
   background: #160d06;

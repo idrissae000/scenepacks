@@ -18,6 +18,7 @@ export const shows = [
     id: 1,
     name: 'The Sopranos',
     slug: 'the-sopranos',
+    blurb: 'New Jersey mob boss Tony Soprano balances the demands of his criminal empire and his family, all while seeing a therapist.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/TheSopranos-Intertitle.svg/1280px-TheSopranos-Intertitle.svg.png',
     theme: {
       bg: '#0d0a07',
@@ -54,6 +55,7 @@ export const shows = [
     id: 2,
     name: 'Breaking Bad',
     slug: 'breaking-bad',
+    blurb: "A chemistry teacher diagnosed with terminal cancer starts cooking meth with a former student to secure his family's future.",
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Breaking_Bad_logo.svg/1280px-Breaking_Bad_logo.svg.png',
     theme: {
       bg: '#0f0c00',
@@ -85,6 +87,7 @@ export const shows = [
     id: 3,
     name: 'Better Call Saul',
     slug: 'better-call-saul',
+    blurb: 'Albuquerque lawyer Jimmy McGill scrapes for clients and respect, but every win drags him closer to becoming Saul Goodman.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Better_Call_Saul_logo.svg/1280px-Better_Call_Saul_logo.svg.png',
     theme: {
       bg: '#0f0d04',
@@ -118,6 +121,7 @@ export const shows = [
     id: 4,
     name: 'Game of Thrones',
     slug: 'game-of-thrones',
+    blurb: 'Noble families fight for the Iron Throne while an ancient evil stirs beyond the Wall.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Game_of_Thrones_2011_logo.svg/1280px-Game_of_Thrones_2011_logo.svg.png',
     theme: {
       bg: '#080608',
@@ -154,6 +158,7 @@ export const shows = [
     id: 5,
     name: 'Prison Break',
     slug: 'prison-break',
+    blurb: 'A structural engineer gets himself arrested to break his innocent brother out of death row.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Prison_break_logo.svg/1280px-Prison_break_logo.svg.png',
     theme: {
       bg: '#060810',
@@ -185,6 +190,7 @@ export const shows = [
     id: 6,
     name: 'Sons of Anarchy',
     slug: 'sons-of-anarchy',
+    blurb: 'The president of a motorcycle club struggles to balance his outlaw lifestyle with being a father and husband.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Sons_of_Anarchy_logo.svg/1280px-Sons_of_Anarchy_logo.svg.png',
     theme: {
       bg: '#080806',
@@ -215,6 +221,7 @@ export const shows = [
     id: 7,
     name: 'You',
     slug: 'you',
+    blurb: 'A dangerously charming bookstore manager uses social media to insert himself into the lives of those he becomes obsessed with.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/thirty/You_Logo.png/1280px-You_Logo.png',
     theme: {
       bg: '#05050f',
@@ -245,6 +252,7 @@ export const shows = [
     id: 8,
     name: 'Barry',
     slug: 'barry',
+    blurb: "A depressed hitman from the Midwest moves to LA and stumbles into the world of acting — but can't escape his past.",
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Barry_HBO.svg/1280px-Barry_HBO.svg.png',
     theme: {
       bg: '#0b0f0b',
@@ -275,6 +283,7 @@ export const shows = [
     id: 9,
     name: 'The Bear',
     slug: 'the-bear',
+    blurb: "A young chef from the fine dining world returns home to run his family's sandwich shop after a tragedy.",
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/The_Bear_title_card.png/1280px-The_Bear_title_card.png',
     theme: {
       bg: '#f0efea',

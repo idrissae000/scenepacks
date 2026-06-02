@@ -5,25 +5,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { shows } from '@/data/shows'
 
-function LogoImage({ src, alt, fallback, headingFont, accent }: { src: string; alt: string; fallback: string; headingFont: string; accent: string }) {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      crossOrigin="anonymous"
-      className="relative z-10 max-h-16 max-w-[75%] object-contain drop-shadow-lg"
-      onError={(e) => {
-        const img = e.currentTarget
-        img.style.display = 'none'
-        const span = document.createElement('span')
-        span.textContent = fallback
-        span.style.cssText = `font-family:${headingFont};color:${accent};font-size:1.5rem;font-weight:900;text-align:center;line-height:1.1;display:block;`
-        img.parentNode?.appendChild(span)
-      }}
-    />
-  )
-}
-
 export default function ShowsPage() {
   const [query, setQuery] = useState('')
 
@@ -73,7 +54,7 @@ export default function ShowsPage() {
             placeholder="Search shows or characters..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-sm text-sm focus:outline-none transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-sm text-sm focus:outline-none transition-all font-fell"
             style={{
               background: '#18100a',
               border: '1px solid rgba(94,27,33,0.3)',
@@ -87,58 +68,39 @@ export default function ShowsPage() {
         {/* Grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-20" style={{ color: '#847464' }}>
-            <p>No results for &ldquo;{query}&rdquo;</p>
+            <p className="font-fell italic">No results for &ldquo;{query}&rdquo;</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((show: any, i: number) => (
               <motion.div
                 key={show.id}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                whileHover={{ y: -5 }}
+                transition={{ duration: 0.45, delay: i * 0.04 }}
               >
-                <Link href={`/shows/${show.slug}`} className="block group">
-                  <div className={`rounded-sm overflow-hidden transition-all duration-300 ${show.theme.cardClass}`}>
-                    {/* Theme band */}
-                    <div className="h-1" style={{ background: `linear-gradient(90deg, ${show.theme.accent}, ${show.theme.highlight || show.theme.accentLight})` }} />
-
-                    {/* Logo area */}
-                    <div className={`relative aspect-video flex items-center justify-center overflow-hidden ${show.theme.patternClass}`}
-                      style={{ background: show.theme.bg }}>
-                      <div className="absolute inset-0" style={{ background: show.theme.heroOverlay }} />
-                      <div className="absolute inset-0" style={{ background: show.theme.gradient, opacity: 0.6 }} />
-                      <LogoImage
-                        src={show.logoUrl}
-                        alt={show.name}
-                        fallback={show.name}
-                        headingFont={show.theme.headingFont}
-                        accent={show.theme.highlight || show.theme.accent}
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 h-16"
-                        style={{ background: `linear-gradient(to top, ${show.theme.bg}, transparent)` }} />
+                <Link href={`/shows/${show.slug}`} className="block">
+                  <article className="card-clean rounded-md overflow-hidden h-full">
+                    {/* [LOGO] placeholder — replace with real logo image */}
+                    <div className="logo-placeholder aspect-video flex items-center justify-center">
+                      <span style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
+                        [LOGO]
+                      </span>
                     </div>
 
                     {/* Content */}
-                    <div className="p-5" style={{ background: show.theme.surface }}>
-                      <h2 className="font-fell text-xl mb-1 leading-tight group-hover:opacity-80 transition-opacity"
-                        style={{ color: show.theme.text }}>
+                    <div className="p-5">
+                      <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                         {show.name}
                       </h2>
-                      <p className="text-xs mb-3 font-fell italic" style={{ color: show.theme.muted }}>
-                        &ldquo;{show.theme.tagline}&rdquo;
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs" style={{ color: show.theme.highlight || show.theme.accent }}>
-                          {show.characters.length} character{show.characters.length !== 1 ? 's' : ''}
-                        </span>
-                        <span className="text-xs transition-colors" style={{ color: show.theme.muted }}>
-                          View packs →
-                        </span>
+                      <div className="mt-1.5 mb-2.5 text-xs" style={{ color: '#847464', letterSpacing: '0.08em' }}>
+                        {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''}
                       </div>
+                      <p className="text-sm leading-relaxed" style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#9a8b76' }}>
+                        {show.blurb}
+                      </p>
                     </div>
-                  </div>
+                  </article>
                 </Link>
               </motion.div>
             ))}

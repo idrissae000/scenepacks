@@ -4,25 +4,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { movies } from '@/data/movies'
 
-function LogoImage({ src, alt, fallback, headingFont, accent }: { src: string; alt: string; fallback: string; headingFont: string; accent: string }) {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      crossOrigin="anonymous"
-      className="relative z-10 max-h-16 max-w-[75%] object-contain drop-shadow-lg"
-      onError={(e) => {
-        const img = e.currentTarget
-        img.style.display = 'none'
-        const span = document.createElement('span')
-        span.textContent = fallback
-        span.style.cssText = `font-family:${headingFont};color:${accent};font-size:1.5rem;font-weight:900;text-align:center;line-height:1.1;display:block;`
-        img.parentNode?.appendChild(span)
-      }}
-    />
-  )
-}
-
 export default function MoviesPage() {
   return (
     <div className="pt-28 pb-20 px-4" style={{ background: '#0d0a07' }}>
@@ -47,48 +28,32 @@ export default function MoviesPage() {
           {movies.map((movie: any, i: number) => (
             <motion.div
               key={movie.id}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
             >
-              <Link href={`/movies/${movie.slug}`} className="block group">
-                <div className={`rounded-sm overflow-hidden transition-all duration-300 ${movie.theme.cardClass}`}>
-                  <div className="h-1" style={{ background: `linear-gradient(90deg, ${movie.theme.accent}, ${movie.theme.highlight || movie.theme.accentLight})` }} />
-
-                  <div className={`relative aspect-video flex items-center justify-center overflow-hidden ${movie.theme.patternClass}`}
-                    style={{ background: movie.theme.bg }}>
-                    <div className="absolute inset-0" style={{ background: movie.theme.heroOverlay }} />
-                    <div className="absolute inset-0" style={{ background: movie.theme.gradient, opacity: 0.6 }} />
-                    <LogoImage
-                      src={movie.logoUrl}
-                      alt={movie.name}
-                      fallback={movie.name}
-                      headingFont={movie.theme.headingFont}
-                      accent={movie.theme.highlight || movie.theme.accent}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-16"
-                      style={{ background: `linear-gradient(to top, ${movie.theme.bg}, transparent)` }} />
+              <Link href={`/movies/${movie.slug}`} className="block">
+                <article className="card-clean rounded-md overflow-hidden h-full">
+                  {/* [LOGO] placeholder — replace with real logo image */}
+                  <div className="logo-placeholder aspect-video flex items-center justify-center">
+                    <span style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
+                      [LOGO]
+                    </span>
                   </div>
 
-                  <div className="p-5" style={{ background: movie.theme.surface }}>
-                    <h2 className="font-fell text-xl mb-1 leading-tight group-hover:opacity-80 transition-opacity"
-                      style={{ color: movie.theme.text }}>
+                  {/* Content */}
+                  <div className="p-5">
+                    <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                       {movie.name}
                     </h2>
-                    <p className="text-xs mb-3 font-fell italic" style={{ color: movie.theme.muted }}>
-                      &ldquo;{movie.theme.tagline}&rdquo;
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs" style={{ color: movie.theme.highlight || movie.theme.accent }}>
-                        {movie.characters.length} character{movie.characters.length !== 1 ? 's' : ''}
-                      </span>
-                      <span className="text-xs transition-colors" style={{ color: movie.theme.muted }}>
-                        View packs →
-                      </span>
+                    <div className="mt-1.5 mb-2.5 text-xs" style={{ color: '#847464', letterSpacing: '0.08em' }}>
+                      {movie.characters.length} Character{movie.characters.length !== 1 ? 's' : ''}
                     </div>
+                    <p className="text-sm leading-relaxed" style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#9a8b76' }}>
+                      {movie.blurb}
+                    </p>
                   </div>
-                </div>
+                </article>
               </Link>
             </motion.div>
           ))}

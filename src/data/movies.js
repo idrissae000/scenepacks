@@ -18,6 +18,7 @@ export const movies = [
     id: 1,
     name: 'Batman (2022)',
     slug: 'batman-2022',
+    blurb: "Bruce Wayne becomes Gotham's vigilante detective, uncovering corruption tied to a serial killer called the Riddler.",
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Batman_2022_film_logo.png/1280px-The_Batman_2022_film_logo.png',
     theme: {
       bg: '#050508',
@@ -48,6 +49,7 @@ export const movies = [
     id: 2,
     name: 'Marvel Cinematic Universe',
     slug: 'mcu',
+    blurb: 'Earth\'s mightiest heroes face threats no single hero could withstand alone.',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Marvel_Logo.svg/1280px-Marvel_Logo.svg.png',
     theme: {
       bg: '#020209',
