@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import PageAtmosphere from './PageAtmosphere'
 
-interface Character { name: string; slug: string; image: string; description: string; packLink: string }
+interface Character { name: string; slug: string; image: string; description: string; packLink: string; pageImage?: string }
 
 interface Theme {
   accent: string; accentLight: string; highlight?: string
@@ -31,6 +31,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
   const zone = t.charZones?.[character.slug]
   const accent = zone ? zone.accent : (t.highlight || t.accent)
   const initials = character.name.split(' ').map((w) => w[0]).join('')
+  const pageImage = character.pageImage || `/character-pages/${character.slug}.png`
 
   return (
     <div className="relative" style={{ minHeight: '100vh', cursor: t.cursor || 'default' }}>
@@ -60,12 +61,27 @@ export default function CharacterPage({ character, parent, type }: Props) {
             {/* Portrait */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
               <div
-                className={`${t.cardClass} rounded-md overflow-hidden flex items-center justify-center`}
+                className={`${t.cardClass} rounded-md overflow-hidden relative`}
                 style={{ aspectRatio: '3 / 4', ...(zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : {}) }}
               >
-                <span className="select-none" style={{ fontFamily: t.headingFont, color: accent, opacity: 0.16, fontSize: '7rem', fontWeight: 700 }}>
-                  {initials}
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={pageImage}
+                  alt={character.name}
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    const el = e.target as HTMLImageElement
+                    el.style.display = 'none'
+                    const fb = el.nextElementSibling as HTMLElement | null
+                    if (fb) fb.style.display = 'flex'
+                  }}
+                />
+                {/* Initials fallback */}
+                <div className="absolute inset-0 items-center justify-center hidden" aria-hidden="true">
+                  <span className="select-none" style={{ fontFamily: t.headingFont, color: accent, opacity: 0.16, fontSize: '7rem', fontWeight: 700 }}>
+                    {initials}
+                  </span>
+                </div>
               </div>
             </motion.div>
 
