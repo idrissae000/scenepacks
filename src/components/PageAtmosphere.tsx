@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 interface Theme {
   texClass?: string
+  bgImage?: string
   atmosphere?: string[]
   loadFx?: string | null
 }
@@ -40,8 +41,19 @@ export default function PageAtmosphere({ theme }: { theme: Theme }) {
 
   return (
     <>
-      {/* Base themed background + texture */}
-      <div className={`${layer} ${theme.texClass || ''}`} style={{ zIndex: -1 }} />
+      {/* Base background: image with dark overlay, or CSS texture fallback */}
+      <div
+        className={`${layer} ${theme.bgImage ? '' : (theme.texClass || '')}`}
+        style={{
+          zIndex: -1,
+          ...(theme.bgImage ? {
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url('${theme.bgImage}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+          } : {}),
+        }}
+      />
 
       {/* Ambient effect layers */}
       {atmosphere.includes('rain') && <div className={`${layer} fx-rain`} style={{ zIndex: -1 }} />}
