@@ -127,7 +127,7 @@ export const shows = [
       headingFont: '"Rajdhani", system-ui, sans-serif',
       bodyFont: '"Rajdhani", system-ui, sans-serif',
       texClass: 'tex-blueprint', cardClass: 'card-pb',
-      bgImage: '/backgrounds/prison-break.jpg',
+      bgImage: '/backgrounds/prison-break.jpeg',
       atmosphere: ['scanline'], loadFx: null, titleFx: null, nameUpper: true,
       label: 'Fox River State Penitentiary', tagline: 'The plan is in the ink.',
       cursor: 'default',

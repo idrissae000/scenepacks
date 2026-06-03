@@ -47,7 +47,7 @@ export default function PageAtmosphere({ theme }: { theme: Theme }) {
         style={{
           zIndex: -1,
           ...(theme.bgImage ? {
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url('${theme.bgImage}')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${theme.bgImage}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
