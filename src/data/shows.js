@@ -83,8 +83,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Jimmy McGill', 'The charming, street-smart lawyer navigating a world that never accepted him — slowly becoming the thing they feared.', '/characters/jimmy.png'),
-      char('Saul Goodman', 'Better Call Saul! All flash, all hustle. The best legal representation dirty money can buy.', '/characters/saul.png'),
+      char('Jimmy McGill / Saul Goodman', 'The charming, street-smart lawyer who the world never accepted — and the flashy, fearless criminal attorney he became. Two names, one devastating arc.', '/characters/jimmy.png'),
       char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png'),
       char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png'),
     ],
@@ -225,7 +224,7 @@ export const shows = [
       bodyFont: '"Space Grotesk", system-ui, sans-serif',
       texClass: 'tex-steel', cardClass: 'card-bear',
       bgImage: '/backgrounds/the-bear.jpg',
-      logo: '/logos/the-bearlogo.jpg',
+      logo: '/logos/the-bearlogo.webp',
       atmosphere: [], loadFx: 'kitchen', titleFx: null,
       timer: true, getPackLabel: 'FIRE',
       label: 'Chicago, Illinois', tagline: 'Yes, Chef.',
