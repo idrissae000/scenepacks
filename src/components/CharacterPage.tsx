@@ -109,12 +109,23 @@ export default function CharacterPage({ character, parent, type }: Props) {
               <div className="rounded-md p-5" style={{ background: t.lightBg ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
                 <div className="mob-label mb-3" style={{ color: accent }}>Pack Includes</div>
                 <ul className="space-y-2 text-sm" style={{ color: t.muted, fontFamily: t.bodyFont }}>
-                  {['High-quality cinematic scene clips', 'Color-graded for aesthetic edits', 'Multiple aspect ratios available', 'Free to use — no credit required (but appreciated)'].map((item) => (
+                  {[
+                    'High-quality cinematic scene clips',
+                    'Individual clips prioritized for aesthetic edits',
+                    '1080p 24fps 16:9',
+                  ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span style={{ color: accent, marginTop: '1px' }}>—</span>
                       <span>{item}</span>
                     </li>
                   ))}
+                  <li className="flex items-start gap-2">
+                    <span style={{ color: accent, marginTop: '1px' }}>—</span>
+                    <span>
+                      Free to use — credit required<br />
+                      <span style={{ opacity: 0.75 }}>Credit: @idriss.ae on TikTok</span>
+                    </span>
+                  </li>
                 </ul>
               </div>
 
