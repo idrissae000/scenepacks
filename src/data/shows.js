@@ -99,7 +99,7 @@ export const shows = [
       headingFont: '"Cinzel", Georgia, serif',
       bodyFont: '"Cinzel", Georgia, serif',
       texClass: 'tex-stone', cardClass: 'card-got',
-      bgImage: '/backgrounds/game-of-thrones.jpg',
+      bgImage: '/backgrounds/game-of-thrones.jpeg',
       atmosphere: ['torch'], loadFx: null, titleFx: null,
       label: 'Westeros', tagline: 'When you play the game of thrones, you win or you die.',
       cursor: 'default',
