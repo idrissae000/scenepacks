@@ -34,11 +34,17 @@ export default function MoviesPage() {
             >
               <Link href={`/movies/${movie.slug}`} className="block">
                 <article className="card-clean rounded-md overflow-hidden h-full">
-                  {/* [LOGO] placeholder — replace with real logo image */}
-                  <div className="logo-placeholder aspect-video flex items-center justify-center">
-                    <span style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
-                      [LOGO]
-                    </span>
+                  <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={movie.theme.logo}
+                      alt={movie.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const el = e.target as HTMLImageElement
+                        el.style.display = 'none'
+                      }}
+                    />
                   </div>
 
                   {/* Content */}
