@@ -55,25 +55,45 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
               >
-                <Link href={`${baseHref}/${char.slug}`} className="block">
+                <Link href={`${baseHref}/${char.slug}`} className="block group">
                   <article
                     className={`${t.cardClass} rounded-md overflow-hidden h-full`}
                     style={zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : undefined}
                   >
                     {t.stamp && <span className="stamp-classified">{t.stamp}</span>}
 
-                    {/* Portrait placeholder */}
-                    <div className="relative flex items-center justify-center overflow-hidden" style={{ aspectRatio: '4 / 3' }}>
-                      <span className="select-none" style={{
-                        fontFamily: t.headingFont, color: cAccent, opacity: 0.16,
-                        fontSize: '4.5rem', lineHeight: 1, fontWeight: 700,
+                    {/* Character portrait */}
+                    <div className="relative overflow-hidden w-full" style={{ aspectRatio: '3 / 4' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={char.image}
+                        alt={char.name}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          const el = e.target as HTMLImageElement
+                          el.style.display = 'none'
+                          const fb = el.nextElementSibling as HTMLElement | null
+                          if (fb) fb.style.display = 'flex'
+                        }}
+                      />
+                      {/* Initials fallback (shown if image missing) */}
+                      <div className="absolute inset-0 items-center justify-center hidden" aria-hidden="true" style={{
+                        background: 'rgba(0,0,0,0.3)',
                       }}>
-                        {initials}
-                      </span>
+                        <span className="select-none" style={{
+                          fontFamily: t.headingFont, color: cAccent, opacity: 0.3,
+                          fontSize: '5rem', lineHeight: 1, fontWeight: 700,
+                        }}>
+                          {initials}
+                        </span>
+                      </div>
+                      {/* Gradient overlay at bottom for text legibility */}
+                      <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
+                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }} />
                       {zone && (
                         <span className="absolute top-3 left-3 text-xs px-2 py-0.5 rounded-sm" style={{
                           fontFamily: t.headingFont, color: zone.accent, border: `1px solid ${zone.border}`,
-                          letterSpacing: '0.08em', background: 'rgba(0,0,0,0.3)',
+                          letterSpacing: '0.08em', background: 'rgba(0,0,0,0.5)',
                         }}>
                           {zone.label}
                         </span>

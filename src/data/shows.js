@@ -1,10 +1,10 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '') {
+function char(name, description = '', image = '') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
     name, slug,
-    image: '/images/placeholder.jpg', // TODO: replace with real image
+    image: image || '/images/placeholder.jpg',
     description: description || `[Placeholder] ${name} — swap this out with a real description.`,
     packLink: DISCORD,
   }
@@ -25,17 +25,18 @@ export const shows = [
       bodyFont: '"IM Fell English", Georgia, serif',
       texClass: 'tex-brick', cardClass: 'card-sopranos',
       bgImage: '/backgrounds/sopranos.jpg',
+      logo: '/logos/sopranoslogo.jpg',
       atmosphere: ['smoke'], loadFx: null, titleFx: null,
       label: 'New Jersey, 1999', tagline: 'Family. Business. No difference.',
       cursor: 'default',
     },
     characters: [
-      char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.'),
-      char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure."),
-      char('Paulie Gualtieri', 'Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV\'s most unforgettable characters.'),
-      char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos."),
-      char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.'),
-      char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five."),
+      char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png'),
+      char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissy.png'),
+      char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png'),
+      char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png'),
+      char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.', '/characters/ralph.png'),
+      char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five.", '/characters/tonyb.png'),
     ],
   },
   {
@@ -52,13 +53,14 @@ export const shows = [
       bodyFont: '"Oswald", system-ui, sans-serif',
       texClass: 'tex-hex', cardClass: 'card-bb',
       bgImage: '/backgrounds/breaking-bad.jpg',
+      logo: '/logos/brbalogo.jpg',
       atmosphere: [], loadFx: null, titleFx: 'dissolve',
       label: 'Albuquerque, New Mexico', tagline: 'Say my name.',
       cursor: 'default',
     },
     characters: [
-      char('Walter White', 'High school chemistry teacher → Heisenberg. Television\'s most devastating moral collapse, one bad decision at a time.'),
-      char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass."),
+      char('Walter White', "High school chemistry teacher → Heisenberg. Television's most devastating moral collapse, one bad decision at a time.", '/characters/walter.png'),
+      char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass.", '/characters/jesse.png'),
     ],
   },
   {
@@ -75,15 +77,16 @@ export const shows = [
       bodyFont: '"Bebas Neue", system-ui, sans-serif',
       texClass: 'tex-notepad', cardClass: 'card-bcs',
       bgImage: '/backgrounds/better-call-saul.jpg',
+      logo: '/logos/bcslogo.jpg',
       atmosphere: [], loadFx: null, titleFx: 'neon',
       label: 'Albuquerque, New Mexico', tagline: "It's all good, man.",
       cursor: 'default',
     },
     characters: [
-      char('Jimmy McGill', 'The charming, street-smart lawyer navigating a world that never accepted him — slowly becoming the thing they feared.'),
-      char('Saul Goodman', 'Better Call Saul! All flash, all hustle. The best legal representation dirty money can buy.'),
-      char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies."),
-      char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.'),
+      char('Jimmy McGill', 'The charming, street-smart lawyer navigating a world that never accepted him — slowly becoming the thing they feared.', '/characters/jimmy.png'),
+      char('Saul Goodman', 'Better Call Saul! All flash, all hustle. The best legal representation dirty money can buy.', '/characters/saul.png'),
+      char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png'),
+      char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png'),
     ],
   },
   {
@@ -100,18 +103,19 @@ export const shows = [
       bodyFont: '"Cinzel", Georgia, serif',
       texClass: 'tex-stone', cardClass: 'card-got',
       bgImage: '/backgrounds/game-of-thrones.jpeg',
+      logo: '/logos/gotlogo.jpg',
       atmosphere: ['torch'], loadFx: null, titleFx: null,
       label: 'Westeros', tagline: 'When you play the game of thrones, you win or you die.',
       cursor: 'default',
     },
     characters: [
-      char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe."),
-      char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.'),
-      char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand."),
-      char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished."),
-      char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence."),
-      char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.'),
-      char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.'),
+      char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe.", '/characters/jon.png'),
+      char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png'),
+      char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png'),
+      char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png'),
+      char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png'),
+      char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png'),
+      char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png'),
     ],
   },
   {
@@ -128,13 +132,14 @@ export const shows = [
       bodyFont: '"Rajdhani", system-ui, sans-serif',
       texClass: 'tex-blueprint', cardClass: 'card-pb',
       bgImage: '/backgrounds/prison-break.jpeg',
+      logo: '/logos/pblogo.jpg',
       atmosphere: ['scanline'], loadFx: null, titleFx: null, nameUpper: true,
       label: 'Fox River State Penitentiary', tagline: 'The plan is in the ink.',
       cursor: 'default',
     },
     characters: [
-      char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally."),
-      char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it."),
+      char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally.", '/characters/mahone.png'),
+      char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it.", '/characters/kellerman.png'),
     ],
   },
   {
@@ -151,12 +156,13 @@ export const shows = [
       bodyFont: '"Black Ops One", system-ui, sans-serif',
       texClass: 'tex-leather', cardClass: 'card-soa',
       bgImage: '/backgrounds/sons-of-anarchy.jpg',
+      logo: '/logos/soalogo.jpg',
       atmosphere: [], loadFx: 'rumble', titleFx: null,
       label: 'Charming, California', tagline: 'Men of Mayhem.',
       cursor: 'default',
     },
     characters: [
-      char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off."),
+      char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off.", '/characters/jax.png'),
     ],
   },
   {
@@ -173,12 +179,13 @@ export const shows = [
       bodyFont: '"DM Serif Display", Georgia, serif',
       texClass: 'tex-night', cardClass: 'card-you',
       bgImage: '/backgrounds/you.jpg',
+      logo: '/logos/youlogo.jpg',
       atmosphere: ['rain'], loadFx: null, titleFx: 'word-fade',
       label: 'New York City', tagline: 'You would do anything for love.',
       cursor: 'crosshair',
     },
     characters: [
-      char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television."),
+      char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television.", '/characters/joe.png'),
     ],
   },
   {
@@ -195,12 +202,13 @@ export const shows = [
       bodyFont: '"Pathway Gothic One", system-ui, sans-serif',
       texClass: 'tex-foliage', cardClass: 'card-barry',
       bgImage: '/backgrounds/barry.jpg',
+      logo: '/logos/barrylogo.jpg',
       atmosphere: [], loadFx: 'muzzle', titleFx: null, nameUpper: true, stamp: 'CLASSIFIED',
       label: 'Los Angeles, California', tagline: 'I did some bad things.',
       cursor: 'default',
     },
     characters: [
-      char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken."),
+      char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken.", '/characters/barry.png'),
     ],
   },
   {
@@ -217,13 +225,14 @@ export const shows = [
       bodyFont: '"Space Grotesk", system-ui, sans-serif',
       texClass: 'tex-steel', cardClass: 'card-bear',
       bgImage: '/backgrounds/the-bear.jpg',
+      logo: '/logos/the-bearlogo.jpg',
       atmosphere: [], loadFx: 'kitchen', titleFx: null,
       timer: true, getPackLabel: 'FIRE',
       label: 'Chicago, Illinois', tagline: 'Yes, Chef.',
       cursor: 'default',
     },
     characters: [
-      char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters."),
+      char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters.", '/characters/carmy.png'),
     ],
   },
 ]

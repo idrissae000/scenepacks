@@ -9,7 +9,7 @@ interface Theme {
   text: string; muted: string
   headingFont: string; bodyFont: string
   titleFx?: string | null; lightBg?: boolean; timer?: boolean
-  label: string; tagline: string
+  label: string; tagline: string; logo?: string
 }
 
 interface Show { name: string; theme: Theme }
@@ -48,8 +48,24 @@ export default function ShowHero({ show, type }: Props) {
           {t.timer && <KitchenTimer accent={accent} font={t.bodyFont} />}
         </motion.div>
 
-        {/* Title */}
-        <Title show={show} accent={accent} />
+        {/* Logo image (if provided) — falls back to text title on error */}
+        {t.logo && (
+          <motion.div
+            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-4"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={t.logo} alt={`${show.name} logo`}
+              className="max-h-28 w-auto object-contain"
+              style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.7))' }}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+            />
+          </motion.div>
+        )}
+
+        {/* Text title — always rendered (screen readers + logo fallback) */}
+        <Title show={show} accent={accent} hidden={!!t.logo} />
 
         {/* Tagline */}
         <motion.p
@@ -71,13 +87,14 @@ export default function ShowHero({ show, type }: Props) {
   )
 }
 
-function Title({ show, accent }: { show: Show; accent: string }) {
+function Title({ show, accent, hidden }: { show: Show; accent: string; hidden?: boolean }) {
   const t = show.theme
   const baseStyle = { fontFamily: t.headingFont, color: t.text } as React.CSSProperties
-  const cls = 'text-5xl sm:text-7xl leading-[0.95] mb-4 font-bold'
+  const cls = hidden
+    ? 'sr-only'
+    : 'text-5xl sm:text-7xl leading-[0.95] mb-4 font-bold'
 
-  // You — fade in one word at a time
-  if (t.titleFx === 'word-fade') {
+  if (!hidden && t.titleFx === 'word-fade') {
     const words = show.name.split(' ')
     return (
       <h1 className={cls} style={baseStyle}>
@@ -91,7 +108,7 @@ function Title({ show, accent }: { show: Show; accent: string }) {
     )
   }
 
-  const fxClass = t.titleFx === 'neon' ? 'anim-neon' : t.titleFx === 'dissolve' ? 'anim-chem-dissolve' : ''
+  const fxClass = !hidden && t.titleFx === 'neon' ? 'anim-neon' : !hidden && t.titleFx === 'dissolve' ? 'anim-chem-dissolve' : ''
   return (
     <motion.h1
       initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}

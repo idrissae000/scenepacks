@@ -1,10 +1,10 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '') {
+function char(name, description = '', image = '') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
     name, slug,
-    image: '/images/placeholder.jpg', // TODO: replace
+    image: image || '/images/placeholder.jpg',
     description: description || `[Placeholder] ${name} — swap this out with a real description.`,
     packLink: DISCORD,
   }
@@ -25,12 +25,13 @@ export const movies = [
       bodyFont: '"Bebas Neue", system-ui, sans-serif',
       texClass: 'tex-gotham', cardClass: 'card-batman',
       bgImage: '/backgrounds/batman.jpg',
+      logo: '/logos/batmanlogo.jpg',
       atmosphere: ['rain', 'batsignal'], loadFx: null, titleFx: null,
       label: 'Gotham City', tagline: 'I am vengeance.',
       cursor: 'default',
     },
     characters: [
-      char('Batman', "Robert Pattinson's brooding, obsessive Dark Knight. A detective first, superhero second. Two years in, and Gotham is still losing."),
+      char('Batman', "Robert Pattinson's brooding, obsessive Dark Knight. A detective first, superhero second. Two years in, and Gotham is still losing.", '/characters/bats.png'),
     ],
   },
   {
@@ -47,6 +48,7 @@ export const movies = [
       bodyFont: '"Exo 2", system-ui, sans-serif',
       texClass: 'tex-cosmos', cardClass: 'card-mcu',
       bgImage: '/backgrounds/mcu.jpg',
+      logo: '/logos/mculogo.jpg',
       atmosphere: ['stars'], loadFx: null, titleFx: null,
       label: 'The Marvel Universe', tagline: 'Whatever it takes.',
       cursor: 'default',
@@ -57,9 +59,9 @@ export const movies = [
       },
     },
     characters: [
-      char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000."),
-      char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero."),
-      char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument."),
+      char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png'),
+      char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png'),
+      char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png'),
     ],
   },
 ]
