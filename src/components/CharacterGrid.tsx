@@ -96,7 +96,7 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                         className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-sm text-xs tracking-wider uppercase"
                         style={{
                           fontFamily: t.headingFont, fontWeight: 700,
-                          background: cAccent, border: `1px solid ${cAccent}`, color: contrastText(cAccent),
+                          background: cAccent, border: `1px solid ${cAccent}`, color: t.cardText || '#ffffff',
                         }}
                       >
                         <DiscordIcon /> {packLabel}

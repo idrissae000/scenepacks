@@ -18,9 +18,9 @@ export const movies = [
     blurb: "Bruce Wayne becomes Gotham's vigilante detective, uncovering corruption tied to a serial killer called the Riddler.",
     theme: {
       bg: '#050508', surface: '#0a0a12',
-      accent: '#f0c040', accentLight: '#f8d860', highlight: '#cc0000',
+      accent: '#1a1800', accentLight: '#f8d860', highlight: '#cc0000',
       text: '#c8ccd8', muted: '#5a6072', border: '#14141f',
-      cardText: '#c8ccd8', cardMuted: '#6a7080',
+      cardText: '#c8c0a0', cardMuted: '#8a8468',
       headingFont: '"Bebas Neue", system-ui, sans-serif',
       bodyFont: '"Bebas Neue", system-ui, sans-serif',
       texClass: 'tex-gotham', cardClass: 'card-batman',
@@ -40,9 +40,9 @@ export const movies = [
     blurb: 'Earth\'s mightiest heroes face threats no single hero could withstand alone.',
     theme: {
       bg: '#020209', surface: '#040810',
-      accent: '#00d4ff', accentLight: '#40e8ff', highlight: '#f39c12',
+      accent: '#1a1a5a', accentLight: '#40e8ff', highlight: '#f39c12',
       text: '#d8e0f0', muted: '#586080', border: '#0c0c20',
-      cardText: '#d8e0f0', cardMuted: '#7a86a0',
+      cardText: '#c0c8e0', cardMuted: '#7a86a0',
       headingFont: '"Exo 2", system-ui, sans-serif',
       bodyFont: '"Exo 2", system-ui, sans-serif',
       texClass: 'tex-cosmos', cardClass: 'card-mcu',
@@ -51,9 +51,9 @@ export const movies = [
       label: 'The Marvel Universe', tagline: 'Whatever it takes.',
       cursor: 'default',
       charZones: {
-        'iron-man':  { bg: '#1a0500', border: '#f39c12', accent: '#f39c12', label: 'Iron Man',   gradient: 'linear-gradient(135deg, #2a0a00 0%, #3a1500 50%, #1a0500 100%)' },
-        'spider-man':{ bg: '#0a0518', border: '#3498db', accent: '#3498db', label: 'Spider-Man', gradient: 'linear-gradient(135deg, #2a0008 0%, #00081f 50%, #0a0518 100%)' },
-        'thanos':    { bg: '#0a0010', border: '#9b59b6', accent: '#9b59b6', label: 'Thanos',     gradient: 'linear-gradient(135deg, #14001f 0%, #060008 60%, #000000 100%)' },
+        'iron-man':  { bg: '#140300', border: '#3d1a00', accent: '#2d1000', label: 'Iron Man',   gradient: 'linear-gradient(135deg, rgba(20,3,0,0.9) 0%, rgba(30,8,0,0.88) 100%)' },
+        'spider-man':{ bg: '#050010', border: '#1a0a2d', accent: '#1a0a3d', label: 'Spider-Man', gradient: 'linear-gradient(135deg, rgba(10,5,15,0.9) 0%, rgba(5,0,20,0.88) 100%)' },
+        'thanos':    { bg: '#0a0018', border: '#2d0a3d', accent: '#1a0530', label: 'Thanos',     gradient: 'linear-gradient(135deg, rgba(15,0,25,0.9) 0%, rgba(5,0,15,0.88) 100%)' },
       },
     },
     characters: [

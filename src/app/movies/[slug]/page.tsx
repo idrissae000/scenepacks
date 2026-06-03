@@ -21,12 +21,15 @@ export default function MoviePage({ params }: Props) {
   if (!movie) notFound()
 
   return (
-    <div className="relative" style={{ minHeight: '100vh', cursor: movie.theme.cursor || 'default' }}>
-      <PageAtmosphere theme={movie.theme} />
-      <div className="relative" style={{ zIndex: 1 }}>
-        <ShowHero show={movie} type="movie" />
-        <CharacterGrid show={movie} baseHref={`/movies/${movie.slug}`} />
+    <>
+      {movie.theme.bgImage && <link rel="preload" as="image" href={movie.theme.bgImage} />}
+      <div className="relative" style={{ minHeight: '100vh', cursor: movie.theme.cursor || 'default' }}>
+        <PageAtmosphere theme={movie.theme} />
+        <div className="relative" style={{ zIndex: 1 }}>
+          <ShowHero show={movie} type="movie" />
+          <CharacterGrid show={movie} baseHref={`/movies/${movie.slug}`} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }

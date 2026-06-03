@@ -21,12 +21,15 @@ export default function ShowPage({ params }: Props) {
   if (!show) notFound()
 
   return (
-    <div className="relative" style={{ minHeight: '100vh', cursor: show.theme.cursor || 'default' }}>
-      <PageAtmosphere theme={show.theme} />
-      <div className="relative" style={{ zIndex: 1 }}>
-        <ShowHero show={show} type="show" />
-        <CharacterGrid show={show} baseHref={`/shows/${show.slug}`} />
+    <>
+      {show.theme.bgImage && <link rel="preload" as="image" href={show.theme.bgImage} />}
+      <div className="relative" style={{ minHeight: '100vh', cursor: show.theme.cursor || 'default' }}>
+        <PageAtmosphere theme={show.theme} />
+        <div className="relative" style={{ zIndex: 1 }}>
+          <ShowHero show={show} type="show" />
+          <CharacterGrid show={show} baseHref={`/shows/${show.slug}`} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }

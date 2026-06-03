@@ -319,151 +319,114 @@ body::before {
    CARD STYLES (per show)
    ════════════════════════════════════════════════════════ */
 
-/* Sopranos — dim social-club linen, bad-bulb flicker on hover */
 .card-sopranos {
-  background-color: #160d06;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  border: 1px solid rgba(94,27,33,0.4);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-  transition: filter 0.2s ease, border-color 0.2s ease;
+  background: rgba(30,10,10,0.88);
+  border: 1px solid #3d1215;
+  border-top: 3px solid #5e1b21;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-sopranos:hover { border-color: rgba(229,92,53,0.45); animation: bulbFlicker 3.5s infinite; }
-@keyframes bulbFlicker {
-  0%,100% { filter: brightness(1); } 6% { filter: brightness(0.7); } 8% { filter: brightness(1.05); }
-  10% { filter: brightness(0.8); } 12% { filter: brightness(1); }
-  54% { filter: brightness(1); } 56% { filter: brightness(0.65); } 58% { filter: brightness(1); }
-}
+.card-sopranos:hover { filter: brightness(1.08); }
 
-/* Breaking Bad — hazmat, constant green glow, intensify + scale on hover */
 .card-bb {
-  background: #0c1a04;
-  border: 1px solid rgba(233,215,27,0.28);
-  position: relative;
-  animation: bbGlowPulse 2.6s ease-in-out infinite;
-  transition: transform 0.25s ease;
+  background: rgba(10,15,5,0.88);
+  border: 1px solid #1f3d1a;
+  border-top: 3px solid #1f6032;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-bb::before, .card-bb::after { content: ''; position: absolute; width: 14px; height: 14px; z-index: 2; }
-.card-bb::before { top: -1px; left: -1px; border-top: 3px solid #e9d71b; border-left: 3px solid #e9d71b; }
-.card-bb::after  { bottom: -1px; right: -1px; border-bottom: 3px solid #e9d71b; border-right: 3px solid #e9d71b; }
-.card-bb:hover { transform: scale(1.03); animation: bbGlowPulseHot 1.6s ease-in-out infinite; }
-@keyframes bbGlowPulse {
-  0%,100% { box-shadow: 0 0 4px rgba(31,160,60,0.25), 0 0 10px rgba(31,160,60,0.12); }
-  50%     { box-shadow: 0 0 14px rgba(31,200,70,0.5), 0 0 28px rgba(31,200,70,0.25); }
-}
-@keyframes bbGlowPulseHot {
-  0%,100% { box-shadow: 0 0 14px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.25); }
-  50%     { box-shadow: 0 0 26px rgba(57,255,20,0.8), 0 0 52px rgba(57,255,20,0.4); }
-}
+.card-bb:hover { filter: brightness(1.08); }
 
-/* Better Call Saul — garish billboard flyer */
 .card-bcs {
-  background: #201a0a;
-  border: 2px dashed rgba(200,180,0,0.5);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  background: rgba(20,16,5,0.88);
+  border: 1px solid #3d3200;
+  border-top: 3px solid #5a4e00;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-bcs:hover { border-color: rgba(200,180,0,0.9); transform: translateY(-2px) rotate(-0.4deg); }
+.card-bcs:hover { filter: brightness(1.08); }
 
-/* Game of Thrones — aged parchment with torn bottom edge */
 .card-got {
-  background: linear-gradient(180deg, #ded0ad 0%, #cdba90 100%);
-  border: 1px solid #a8946a;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
-  clip-path: polygon(0 0, 100% 0, 100% 93%, 94% 96%, 88% 92%, 80% 97%, 72% 93%, 64% 97%, 56% 93%, 48% 97%, 40% 93%, 32% 97%, 24% 92%, 16% 97%, 8% 93%, 0 97%);
+  background: rgba(8,8,12,0.88);
+  border: 1px solid #3d2020;
+  border-top: 3px solid #5a3a1a;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.7);
   transition: filter 0.25s ease;
 }
-.card-got:hover { filter: brightness(1.06) saturate(1.1); }
+.card-got:hover { filter: brightness(1.08); }
 
-/* Prison Break — manila classified file */
 .card-pb {
-  background: linear-gradient(180deg, #d2c49c 0%, #c3b387 100%);
-  border: 1px solid #a4946a;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  background: rgba(5,10,18,0.88);
+  border: 1px solid #1a2d3d;
+  border-top: 3px solid #1a3d5a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-pb:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(44,95,138,0.35), 0 10px 32px rgba(0,0,0,0.7); }
+.card-pb:hover { filter: brightness(1.08); }
 
-/* Sons of Anarchy — leather, red top bar, dashed stitch, rev shake */
 .card-soa {
-  background: #140a04;
-  border: 2px dashed rgba(176,0,0,0.5);
-  border-top: 4px solid #b00000;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  background: rgba(10,5,5,0.88);
+  border: 1px dashed #3d1010;
+  border-top: 3px solid #5a1010;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-soa:hover { border-color: rgba(192,192,192,0.6); border-top-color: #e01010; animation: soaShake 0.1s linear infinite; }
-@keyframes soaShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+.card-soa:hover { filter: brightness(1.08); }
 
-/* You — torn journal page, slow creep zoom (watched) */
 .card-you {
-  background: linear-gradient(180deg, #f2eee2 0%, #e7e1d0 100%);
-  border: 1px solid #d6cdb6;
-  border-top: 3px solid #8b0000;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
-  transition: transform 1.2s cubic-bezier(0.22,0.6,0.3,1), box-shadow 0.4s ease;
+  background: rgba(5,5,15,0.90);
+  border: 1px solid #2d1a1a;
+  border-top: 3px solid #5a1a1a;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
 }
-.card-you:hover { transform: scale(1.04); box-shadow: 0 10px 40px rgba(0,0,0,0.75); }
+.card-you:hover { filter: brightness(1.08); }
 
-/* Barry — CIA dossier manila, desaturated until hover */
 .card-barry {
-  background: linear-gradient(180deg, #d8d2c0 0%, #c9c2ac 100%);
-  border: 1px solid #b3ad96;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-  filter: grayscale(0.85) saturate(0.4);
-  transition: filter 0.4s ease;
-  position: relative;
-}
-.card-barry:hover { filter: grayscale(0) saturate(1); }
-
-/* The Bear — kitchen order ticket, hover shake */
-.card-bear {
-  background: #ffffff;
-  border-top: 5px solid #cc2200;
-  border-left: 1px solid #d0d0d0;
-  border-right: 1px solid #d0d0d0;
-  border-bottom: 1px solid #d0d0d0;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-}
-.card-bear:hover { box-shadow: 0 6px 24px rgba(204,34,0,0.25); animation: kitchenShake 0.18s ease infinite; }
-@keyframes kitchenShake {
-  0%,100% { transform: translate(0,0) rotate(0); } 25% { transform: translate(-1px,1px) rotate(-0.4deg); }
-  50% { transform: translate(1px,-1px) rotate(0.3deg); } 75% { transform: translate(-1px,-1px) rotate(-0.2deg); }
-}
-
-/* Batman — noir case file, yellow border, broken-streetlight flicker */
-.card-batman {
-  background: #0a0a12;
-  border: 1px solid rgba(240,192,64,0.3);
-  box-shadow: inset 0 0 70px rgba(0,0,0,0.85), 0 4px 24px rgba(0,0,0,0.7);
-}
-.card-batman:hover { border-color: rgba(240,192,64,0.65); animation: streetlight 0.85s steps(1) infinite; }
-@keyframes streetlight {
-  0%,100% { box-shadow: inset 0 0 70px rgba(0,0,0,0.85), 0 0 14px rgba(240,192,64,0.18); }
-  20% { box-shadow: inset 0 0 70px rgba(0,0,0,0.9), 0 0 2px rgba(240,192,64,0.05); }
-  24% { box-shadow: inset 0 0 70px rgba(0,0,0,0.82), 0 0 22px rgba(240,192,64,0.4); }
-  55% { box-shadow: inset 0 0 70px rgba(0,0,0,0.9), 0 0 4px rgba(240,192,64,0.08); }
-  60% { box-shadow: inset 0 0 70px rgba(0,0,0,0.82), 0 0 20px rgba(240,192,64,0.35); }
-}
-
-/* MCU — tech HUD targeting brackets, energy glow on hover */
-.card-mcu {
-  background: #040810;
-  border: 1px solid rgba(0,212,255,0.22);
+  background: rgba(8,12,8,0.70);
+  border: 1px solid #1a2d1a;
+  border-top: 3px solid #1a3d1a;
   box-shadow: 0 4px 24px rgba(0,0,0,0.7);
   position: relative;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
-.card-mcu::before, .card-mcu::after { content: ''; position: absolute; width: 14px; height: 14px; z-index: 2; }
-.card-mcu::before { top: -1px; left: -1px; border-top: 2px solid #00d4ff; border-left: 2px solid #00d4ff; }
-.card-mcu::after  { bottom: -1px; right: -1px; border-bottom: 2px solid #00d4ff; border-right: 2px solid #00d4ff; }
-.card-mcu:hover { border-color: rgba(0,212,255,0.5); box-shadow: 0 0 26px rgba(0,212,255,0.3), 0 8px 32px rgba(0,0,0,0.8); }
+.card-barry:hover { filter: brightness(1.08); opacity: 1 !important; }
+
+.card-bear {
+  background: rgba(15,15,15,0.90);
+  border: 1px solid #3d1a1a;
+  border-top: 3px solid #5a1a00;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
+}
+.card-bear:hover { filter: brightness(1.08); }
+
+.card-batman {
+  background: rgba(5,5,10,0.90);
+  border: 1px solid #2d2800;
+  border-top: 3px solid #5a5000;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  transition: filter 0.2s ease;
+}
+.card-batman:hover { filter: brightness(1.1); }
+
+.card-mcu {
+  background: rgba(5,5,15,0.88);
+  border: 1px solid #1a1a3d;
+  border-top: 3px solid #1a1a5a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  position: relative;
+  transition: filter 0.25s ease;
+}
+.card-mcu:hover { filter: brightness(1.1); }
 
 /* CLASSIFIED stamp (Barry) */
 .stamp-classified {
   position: absolute; top: 14px; right: 8px; z-index: 3;
   font-family: 'Pathway Gothic One', sans-serif;
   font-size: 0.9rem; letter-spacing: 0.2em;
-  color: rgba(139,26,26,0.55);
-  border: 2px solid rgba(139,26,26,0.5);
+  color: rgba(184,196,176,0.6);
+  border: 2px solid rgba(184,196,176,0.45);
   padding: 2px 8px; border-radius: 2px;
   transform: rotate(8deg);
   pointer-events: none;
