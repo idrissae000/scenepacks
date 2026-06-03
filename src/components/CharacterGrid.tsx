@@ -63,7 +63,7 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                     {t.stamp && <span className="stamp-classified">{t.stamp}</span>}
 
                     {/* Character portrait */}
-                    <div className="relative overflow-hidden w-full" style={{ aspectRatio: '3 / 4' }}>
+                    <div className="relative overflow-hidden w-full" style={{ aspectRatio: '1 / 1' }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={char.image}
