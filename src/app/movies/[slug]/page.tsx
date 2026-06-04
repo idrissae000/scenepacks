@@ -10,10 +10,18 @@ export function generateStaticParams() {
   return movies.map((m) => ({ slug: m.slug }))
 }
 
+const movieDescriptions: Record<string, string> = {
+  'batman-2022': 'Free Batman (2022) scenepacks. Robert Pattinson as the Dark Knight. 1080p 24fps aesthetic cinematic clips.',
+  'mcu': 'Free MCU scenepacks. Iron Man, Spider-Man, Thanos and more. 1080p 24fps aesthetic cinematic clips.',
+}
+
 export function generateMetadata({ params }: Props) {
   const movie = movies.find((m) => m.slug === params.slug)
   if (!movie) return {}
-  return { title: `${movie.name} — Idriss.ae Scenepacks`, description: movie.theme.tagline }
+  return {
+    title: `${movie.name} Scenepacks — Idriss.ae`,
+    description: movieDescriptions[movie.slug] || `Free ${movie.name} scenepacks. 1080p 24fps aesthetic cinematic clips.`,
+  }
 }
 
 export default function MoviePage({ params }: Props) {

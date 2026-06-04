@@ -13,8 +13,11 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props) {
   const show = shows.find((s) => s.slug === params.slug)
   const char = show?.characters.find((c) => c.slug === params.character)
-  if (!char) return {}
-  return { title: `${char.name} — ${show!.name} — Idriss.ae Scenepacks` }
+  if (!char || !show) return {}
+  return {
+    title: `${char.name} Scenepack — ${show.name} — Idriss.ae`,
+    description: `Free ${char.name} scenepack from ${show.name}. 1080p 24fps aesthetic cinematic clips. Credit: @idriss.ae`,
+  }
 }
 
 export default function ShowCharacterPage({ params }: Props) {
