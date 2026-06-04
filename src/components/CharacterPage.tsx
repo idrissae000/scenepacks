@@ -62,7 +62,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
               <div
                 className={`${t.cardClass} rounded-md overflow-hidden relative`}
-                style={{ aspectRatio: '3 / 4', ...(zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : {}) }}
+                style={{ aspectRatio: '1 / 1', ...(zone ? { background: zone.gradient, borderColor: `${zone.border}66` } : {}) }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
