@@ -45,7 +45,7 @@ export default function SupportPage() {
               just a one-time show of love if the work means something to you.
             </p>
             <a
-              href="https://ko-fi.com"
+              href="https://ko-fi.com/idrissae"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-12 py-4 rounded-sm transition-all duration-200 text-xl font-bold tracking-wider uppercase"
