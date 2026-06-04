@@ -118,11 +118,14 @@ export default function HomePage() {
                   viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.45, delay: i * 0.06 }}>
                   <Link href={href} className="block">
                     <article className="card-clean rounded-md overflow-hidden h-full">
-                      {/* [LOGO] placeholder — replace with real logo image */}
-                      <div className="logo-placeholder aspect-video flex items-center justify-center">
-                        <span style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#7a746a', letterSpacing: '0.18em', fontSize: '0.95rem' }}>
-                          [LOGO]
-                        </span>
+                      <div className="logo-placeholder overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.theme.logo}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                        />
                       </div>
                       <div className="p-5">
                         <h3 className="font-mobsters leading-tight mb-1.5" style={{ color: '#d4c5a9', fontSize: '1.3rem' }}>
