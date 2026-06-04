@@ -1,20 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 
 export default function RequestPage() {
-  const [form, setForm] = useState({ character: '', show: '', prefs: '', email: '' })
-  const [submitted, setSubmitted] = useState(false)
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setSubmitted(true)
-  }
-
   return (
     <div className="pt-28 pb-20 px-4" style={{ background: '#0d0a07' }}>
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-2xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -29,206 +20,53 @@ export default function RequestPage() {
           <div className="mob-divider max-w-[60px] mx-auto" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* Free Request */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="rounded-sm overflow-hidden"
+          style={{
+            background: '#0e0c08',
+            border: '1px solid rgba(94,27,33,0.35)',
+            boxShadow: '0 8px 48px rgba(94,27,33,0.18)',
+          }}
+        >
+          <div className="h-1" style={{ background: 'linear-gradient(90deg, #5e1b21, #e55c35)' }} />
 
-          {/* ── Priority Request (3 cols) ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-3 rounded-sm overflow-hidden"
-            style={{
-              background: '#120e08',
-              border: '1px solid rgba(94,27,33,0.35)',
-              boxShadow: '0 8px 48px rgba(94,27,33,0.18)',
-            }}
-          >
-            <div className="h-1" style={{ background: 'linear-gradient(90deg, #5e1b21, #e55c35)' }} />
-
-            <div className="p-8">
-              <div className="flex items-end justify-between mb-2">
-                <div>
-                  <div className="mob-label mb-1.5">Priority Request</div>
-                  <h2 className="font-fell italic" style={{ fontSize: '2.1rem', color: '#d4c5a9' }}>Skip the Line</h2>
-                </div>
-                <div className="text-right">
-                  <div className="font-fell" style={{ fontSize: '3rem', color: '#e55c35', lineHeight: 1 }}>$10</div>
-                  <div className="text-xs" style={{ color: '#847464' }}>one-time</div>
-                </div>
-              </div>
-
-              <div className="mob-divider mb-6" />
-
-              <p className="text-sm leading-relaxed mb-6 font-fell italic" style={{ color: '#847464' }}>
-                Pay $10 and your request goes straight to the top. If I can&apos;t deliver
-                for any reason, you get every dollar back. No questions. No games.
-              </p>
-
-              <a
-                href="https://ko-fi.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3.5 mb-8 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
-                style={{
-                  background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
-                  color: '#d4c5a9',
-                  border: '1px solid rgba(229,92,53,0.3)',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 24px rgba(94,27,33,0.5)'}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
-              >
-                Pay $10 on Ko-fi
-              </a>
-
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-10 rounded-sm"
-                  style={{ background: '#0a0806', border: '1px solid rgba(94,27,33,0.2)' }}
-                >
-                  <div className="mob-divider max-w-[40px] mx-auto mb-4" />
-                  <p className="font-fell italic text-2xl mb-2" style={{ color: '#d4c5a9' }}>Order Received.</p>
-                  <p className="text-sm font-fell italic" style={{ color: '#847464' }}>
-                    I&apos;ll be in touch via email.
-                  </p>
-                </motion.div>
-              ) : (
-                <div className="rounded-sm p-5" style={{ background: '#0a0806', border: '1px solid rgba(94,27,33,0.15)' }}>
-                  <div className="mob-label mb-4 pb-2" style={{ borderBottom: '1px solid rgba(94,27,33,0.15)' }}>
-                    Order Details — fill out after paying
-                  </div>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {[
-                      { key: 'character', label: 'Character Name', placeholder: 'e.g. Tony Soprano', type: 'text' },
-                      { key: 'show', label: 'Show or Movie', placeholder: 'e.g. The Sopranos', type: 'text' },
-                      { key: 'email', label: 'Your Email', placeholder: 'you@example.com', type: 'email' },
-                    ].map(({ key, label, placeholder, type }) => (
-                      <div key={key}>
-                        <label className="block mob-label mb-1.5">{label}</label>
-                        <input
-                          type={type}
-                          required
-                          placeholder={placeholder}
-                          value={(form as Record<string, string>)[key]}
-                          onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-sm text-sm focus:outline-none transition-all font-fell"
-                          style={{
-                            background: '#141008',
-                            border: '1px solid rgba(94,27,33,0.2)',
-                            color: '#d4c5a9',
-                          }}
-                          onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
-                          onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.2)'}
-                        />
-                      </div>
-                    ))}
-                    <div>
-                      <label className="block mob-label mb-1.5">Specific Preferences</label>
-                      <textarea
-                        placeholder="Any specific scenes, episodes, moods, or style notes..."
-                        value={form.prefs}
-                        onChange={(e) => setForm({ ...form, prefs: e.target.value })}
-                        rows={3}
-                        className="w-full px-4 py-2.5 rounded-sm text-sm focus:outline-none transition-all resize-none font-fell"
-                        style={{
-                          background: '#141008',
-                          border: '1px solid rgba(94,27,33,0.2)',
-                          color: '#d4c5a9',
-                        }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
-                        onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.2)'}
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full py-3 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
-                      style={{
-                        background: 'linear-gradient(135deg, #5e1b21, #7a2028)',
-                        color: '#d4c5a9',
-                        border: '1px solid rgba(229,92,53,0.3)',
-                        fontFamily: 'Inter, system-ui, sans-serif',
-                      }}
-                    >
-                      Submit Order
-                    </button>
-                  </form>
-                </div>
-              )}
+          <div className="p-8">
+            <div className="mb-2">
+              <div className="mob-label mb-1.5">Community</div>
+              <h2 className="font-fell italic" style={{ fontSize: '2.1rem', color: '#d4c5a9' }}>
+                The Waiting Room
+              </h2>
             </div>
-          </motion.div>
 
-          {/* ── Free Request (2 cols) ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-2 rounded-sm overflow-hidden flex flex-col"
-            style={{
-              background: '#0e0c08',
-              border: '1px solid rgba(255,255,255,0.05)',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.4)',
-            }}
-          >
-            <div className="h-1" style={{ background: 'linear-gradient(90deg, #333, #555)' }} />
+            <div className="mob-divider mb-6" />
 
-            <div className="p-7 flex flex-col flex-1">
-              <div className="mb-2">
-                <div className="mob-label mb-1.5">Community</div>
-                <h2 className="font-fell italic text-2xl" style={{ color: '#d4c5a9' }}>
-                  The Waiting Room
-                </h2>
-              </div>
+            <p className="text-sm leading-relaxed mb-8 font-fell italic" style={{ color: '#847464' }}>
+              Free requests go through Discord. I get to them when I get to them.
+              No guarantees on timing — but I try to get to everyone eventually.
+            </p>
 
-              <div className="mob-divider mb-5" />
-
-              <p className="text-sm leading-relaxed mb-8 flex-1 font-fell italic" style={{ color: '#847464' }}>
-                Free requests go through Discord. I get to them when I get to them.
-                No guarantees on timing — but I try to get to everyone eventually.
-              </p>
-
-              <div className="rounded-sm p-4 mb-7" style={{ background: '#0a0806', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <div className="grid grid-cols-3 gap-1 text-xs mb-2 pb-2"
-                  style={{ borderBottom: '1px solid rgba(94,27,33,0.15)' }}>
-                  <span style={{ color: '#847464' }} />
-                  <span className="text-center" style={{ color: '#847464' }}>Free</span>
-                  <span className="text-center" style={{ color: '#e55c35' }}>$10</span>
-                </div>
-                {[
-                  ['Queue position', 'Whenever', 'Top'],
-                  ['Speed', 'Weeks+', 'Priority'],
-                  ['Refund', 'N/A', '100%'],
-                ].map(([label, free, paid]) => (
-                  <div key={label} className="grid grid-cols-3 gap-1 text-xs py-1.5"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                    <span style={{ color: '#847464' }}>{label}</span>
-                    <span className="text-center" style={{ color: '#847464' }}>{free}</span>
-                    <span className="text-center" style={{ color: '#e55c35' }}>{paid}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a
-                href="https://discord.gg/MVA5ySY2"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
-                style={{
-                  background: 'linear-gradient(135deg, #3d1419, #5e1b21)',
-                  color: '#d4c5a9',
-                  border: '1px solid rgba(94,27,33,0.4)',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.4)'}
-              >
-                <DiscordIcon /> Join Discord to Request
-              </a>
-            </div>
-          </motion.div>
-
-        </div>
+            <a
+              href="https://discord.gg/MVA5ySY2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-4 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"
+              style={{
+                background: 'linear-gradient(135deg, #3d1419, #5e1b21)',
+                color: '#d4c5a9',
+                border: '1px solid rgba(94,27,33,0.4)',
+                fontFamily: 'Inter, system-ui, sans-serif',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.4)'}
+            >
+              <DiscordIcon /> Join Discord to Request
+            </a>
+          </div>
+        </motion.div>
       </div>
     </div>
   )
