@@ -118,7 +118,7 @@ export default function HomePage() {
                   viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.45, delay: i * 0.06 }}>
                   <Link href={href} className="block">
                     <article className="card-clean rounded-md overflow-hidden h-full">
-                      <div className="logo-placeholder overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
+                      <div className="logo-placeholder overflow-hidden" style={{ aspectRatio: '16 / 9' }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={item.theme.logo}
