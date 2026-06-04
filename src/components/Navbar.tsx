@@ -33,12 +33,22 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Left — logo (Mobsters) */}
-          <Link href="/" className="flex items-baseline gap-2 shrink-0">
-            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.55rem', lineHeight: 1 }}>
+          <Link href="/" className="relative flex flex-col shrink-0" style={{ lineHeight: 1 }}>
+            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.55rem', lineHeight: 1, position: 'relative', zIndex: 1 }}>
               Idriss Scenes
             </span>
-            <span style={{ color: '#847464', fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-              Scenepacks
+            <span style={{
+              fontFamily: '"IM Fell English","Palatino Linotype",serif',
+              fontStyle: 'italic',
+              color: '#9a8468',
+              fontSize: '0.88rem',
+              letterSpacing: '0.04em',
+              marginTop: '-0.35rem',
+              paddingLeft: '0.15rem',
+              position: 'relative',
+              zIndex: 2,
+            }}>
+              aesthetic scenepacks
             </span>
           </Link>
 
