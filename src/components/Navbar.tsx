@@ -35,7 +35,7 @@ export default function Navbar() {
           {/* Left — logo (Mobsters) */}
           <Link href="/" className="flex items-baseline gap-2 shrink-0">
             <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.55rem', lineHeight: 1 }}>
-              Idriss.ae
+              Idriss Scenes
             </span>
             <span style={{ color: '#847464', fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
               Scenepacks
