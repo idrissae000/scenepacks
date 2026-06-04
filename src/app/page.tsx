@@ -15,8 +15,10 @@ export default function HomePage() {
   return (
     <>
       {/* ═══ HERO ═══ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+      <section className="relative flex items-center justify-center overflow-hidden"
         style={{
+          paddingTop: '10rem',
+          paddingBottom: '8rem',
           backgroundImage: 'linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.85)), url(/backgrounds/home.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -28,12 +30,12 @@ export default function HomePage() {
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 120% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%)' }} />
 
-        <div className="relative z-10 text-center px-4 w-full max-w-2xl mx-auto flex flex-col items-center gap-10">
+        <div className="relative z-10 text-center px-4 w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
 
           {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#d4c5a9', fontSize: 'clamp(1.25rem, 3.5vw, 2rem)', lineHeight: 1.4 }}
+            style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#d4c5a9', fontSize: 'clamp(1.4rem, 3.5vw, 2.1rem)', lineHeight: 1.4 }}
           >
             The #1 Place for Aesthetic Scenepacks.
           </motion.p>
@@ -41,34 +43,34 @@ export default function HomePage() {
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.25 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full"
+            className="flex flex-col sm:flex-row items-stretch justify-center gap-4 w-full"
           >
             {/* Payhip */}
             <a href="https://payhip.com/Idrissae" target="_blank" rel="noopener noreferrer"
-              className="hero-btn flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
-              style={{ background: 'rgba(15,10,8,0.92)', border: '1.5px solid #e55c35', color: '#d4c5a9' }}>
+              className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
+              style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #e55c35', color: '#e55c35' }}>
               <BagIcon />
-              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', letterSpacing: '0.01em' }}>
+              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#d4c5a9' }}>
                 Editing Presets (Payhip)
               </span>
             </a>
 
-            {/* Discord — most prominent */}
+            {/* Discord */}
             <a href="https://discord.gg/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
-              className="hero-btn flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
-              style={{ background: '#5865F2', border: '1.5px solid #5865F2', color: '#ffffff', boxShadow: '0 0 28px rgba(88,101,242,0.45)' }}>
+              className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
+              style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #5865F2', color: '#5865F2', boxShadow: '0 0 22px rgba(88,101,242,0.3)' }}>
               <DiscordIcon size={22} />
-              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.01em' }}>
+              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#ffffff' }}>
                 Scenepack Discord Server
               </span>
             </a>
 
             {/* TikTok */}
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
-              className="hero-btn flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
-              style={{ background: 'rgba(10,10,14,0.92)', border: '1.5px solid rgba(255,255,255,0.25)', color: '#ffffff' }}>
+              className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
+              style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid rgba(255,255,255,0.35)', color: '#ffffff' }}>
               <TikTokIcon />
-              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', letterSpacing: '0.01em' }}>
+              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#ffffff' }}>
                 Follow on TikTok
               </span>
             </a>
@@ -92,8 +94,6 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #0d0a07, transparent)' }} />
       </section>
 
       {/* ═══ FEATURED ═══ */}
