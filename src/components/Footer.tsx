@@ -9,11 +9,13 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-10">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.6rem', lineHeight: 1 }}>
-              Idriss.ae
-            </div>
-            <div style={{ fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#847464', marginTop: '4px' }}>
-              Scenepacks
+            <div style={{ lineHeight: 1 }}>
+              <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.6rem', lineHeight: 1 }}>
+                Idriss Scenes
+              </div>
+              <div style={{ fontFamily: '"Great Vibes", cursive', color: '#a08868', fontSize: '1.25rem', marginTop: '-0.4rem', paddingLeft: '0.4rem', lineHeight: 1 }}>
+                aesthetic scenepacks
+              </div>
             </div>
             <p className="mt-3 text-sm max-w-xs leading-relaxed" style={{ color: '#6a5a48', fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic' }}>
               The finest cuts. Free for the family.
@@ -55,7 +57,7 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#6a5a48' }}>
-            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9' }}>Idriss.ae</span>
+            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9' }}>Idriss Scenes</span>
             <span> on </span>
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
               className="transition-opacity hover:opacity-80" style={{ color: '#e55c35' }}>TikTok</a>
