@@ -14,17 +14,18 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Full-page fixed background */}
+      <div className="fixed inset-0 pointer-events-none" style={{
+        zIndex: -1,
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.85)), url(/backgrounds/home.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundColor: '#0d0a07',
+      }} />
+
       {/* ═══ HERO ═══ */}
       <section className="relative flex items-center justify-center overflow-hidden"
-        style={{
-          paddingTop: '10rem',
-          paddingBottom: '8rem',
-          backgroundImage: 'linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.85)), url(/backgrounds/home.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          backgroundColor: '#0d0a07',
-        }}>
+        style={{ paddingTop: '10rem', paddingBottom: '8rem' }}>
 
         {/* Subtle vignette edges */}
         <div className="absolute inset-0 pointer-events-none"
@@ -97,7 +98,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ FEATURED ═══ */}
-      <section className="py-20 px-4" style={{ background: '#0d0a07' }}>
+      <section className="py-20 px-4" style={{ background: 'transparent' }}>
         <div className="mx-auto max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="text-center mb-14">
