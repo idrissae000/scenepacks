@@ -38,15 +38,14 @@ export default function Navbar() {
               Idriss Scenes
             </span>
             <span style={{
-              fontFamily: '"IM Fell English","Palatino Linotype",serif',
-              fontStyle: 'italic',
-              color: '#9a8468',
-              fontSize: '0.88rem',
-              letterSpacing: '0.04em',
-              marginTop: '-0.35rem',
-              paddingLeft: '0.15rem',
+              fontFamily: '"Great Vibes", cursive',
+              color: '#a08868',
+              fontSize: '1.25rem',
+              marginTop: '-0.5rem',
+              paddingLeft: '0.4rem',
               position: 'relative',
               zIndex: 2,
+              lineHeight: 1,
             }}>
               aesthetic scenepacks
             </span>

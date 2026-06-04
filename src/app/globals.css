@@ -4,7 +4,7 @@
    The rest are per-show display fonts for the immersive
    individual show/movie pages. Mobsters = local @font-face.
    ════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;700&family=Exo+2:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;700&family=Exo+2:wght@400;600;800&family=Great+Vibes&display=swap');
 
 @tailwind base;
 @tailwind components;
