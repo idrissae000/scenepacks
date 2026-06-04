@@ -25,7 +25,7 @@ export default function HomePage() {
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex items-center justify-center overflow-hidden"
-        style={{ paddingTop: '10rem', paddingBottom: '8rem' }}>
+        style={{ paddingTop: '10rem', paddingBottom: '4rem' }}>
 
         {/* Subtle vignette edges */}
         <div className="absolute inset-0 pointer-events-none"
@@ -76,29 +76,12 @@ export default function HomePage() {
               </span>
             </a>
           </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex items-center justify-center gap-10 sm:gap-16"
-          >
-            {[
-              { n: `${totalChars}+`, label: 'Characters' },
-              { n: `${shows.length + movies.length}`, label: 'Shows & Films' },
-              { n: '∞', label: 'Free' },
-            ].map(({ n, label }) => (
-              <div key={label} className="text-center">
-                <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#d4c5a9', fontSize: '2.2rem', lineHeight: 1, fontWeight: 300 }}>{n}</div>
-                <div className="mob-label mt-1">{label}</div>
-              </div>
-            ))}
-          </motion.div>
         </div>
 
       </section>
 
       {/* ═══ FEATURED ═══ */}
-      <section className="py-20 px-4" style={{ background: 'transparent' }}>
+      <section className="pb-20 px-4 pt-0" style={{ background: 'transparent' }}>
         <div className="mx-auto max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="text-center mb-14">
