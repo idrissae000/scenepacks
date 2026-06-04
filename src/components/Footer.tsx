@@ -57,7 +57,7 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#6a5a48' }}>
-            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9' }}>Idriss Scenes</span>
+            <span style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9' }}>idriss.ae</span>
             <span> on </span>
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
               className="transition-opacity hover:opacity-80" style={{ color: '#e55c35' }}>TikTok</a>
