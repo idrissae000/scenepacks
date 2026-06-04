@@ -123,7 +123,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                     <span style={{ color: accent, marginTop: '1px' }}>—</span>
                     <span>
                       Free to use — credit required<br />
-                      <span style={{ opacity: 0.75 }}>Credit: @idriss.ae on TikTok</span>
+                      <span style={{ color: accent, fontWeight: 700 }}>Credit: @idriss.ae on TikTok</span>
                     </span>
                   </li>
                 </ul>
