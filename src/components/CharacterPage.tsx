@@ -17,7 +17,7 @@ interface Theme {
 }
 
 interface Parent { name: string; slug: string; theme: Theme }
-interface Props { character: Character; parent: Parent; type: 'show' | 'movie' }
+interface Props { character: Character; parent: Parent; type: 'show' | 'movie' | 'game' }
 
 function contrastText(hex: string): string {
   const h = hex.replace('#', '')

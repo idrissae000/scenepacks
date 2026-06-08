@@ -13,7 +13,7 @@ interface Theme {
 }
 
 interface Show { name: string; theme: Theme }
-interface Props { show: Show; type: 'show' | 'movie' }
+interface Props { show: Show; type: 'show' | 'movie' | 'game' }
 
 export default function ShowHero({ show, type }: Props) {
   const t = show.theme
