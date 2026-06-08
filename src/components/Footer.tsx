@@ -26,7 +26,7 @@ export default function Footer() {
             <div>
               <div className="mob-label mb-3">Navigate</div>
               <div className="space-y-2">
-                {[['/', 'Home'], ['/shows', 'Shows'], ['/movies', 'Movies'], ['/request', 'Request'], ['/support', 'Support']].map(([href, label]) => (
+                {[['/', 'Home'], ['/shows', 'Shows'], ['/movies', 'Movies'], ['/games', 'Games'], ['/request', 'Request'], ['/support', 'Support'], ['/coming-soon', 'Coming Soon']].map(([href, label]) => (
                   <div key={href}>
                     <Link href={href} className="text-sm transition-colors" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#847464' }}
                       onMouseEnter={e => e.currentTarget.style.color = '#d4c5a9'}
