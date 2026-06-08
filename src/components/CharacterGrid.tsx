@@ -1,9 +1,10 @@
 'use client'
 
+import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-interface Character { name: string; slug: string; image: string; description: string; packLink: string }
+interface Character { name: string; slug: string; image: string; description: string; packLink: string; groupLabel?: string }
 
 interface Theme {
   accent: string; highlight?: string; text: string; muted: string
@@ -46,10 +47,21 @@ export default function CharacterGrid({ show, baseHref }: Props) {
             const zone = t.charZones?.[char.slug]
             const cAccent = zone ? zone.accent : accent
             const initials = char.name.split(' ').map((w) => w[0]).join('')
+            const prevGroupLabel = i > 0 ? show.characters[i - 1].groupLabel : undefined
+            const showGroupHeader = char.groupLabel && char.groupLabel !== prevGroupLabel
 
             return (
+              <React.Fragment key={char.slug}>
+                {showGroupHeader && (
+                  <div className="col-span-full flex items-center gap-4 mt-4 mb-1">
+                    <div className="h-px flex-1 opacity-20" style={{ background: accent }} />
+                    <span style={{ fontFamily: t.headingFont, color: accent, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>
+                      {char.groupLabel}
+                    </span>
+                    <div className="h-px flex-1 opacity-20" style={{ background: accent }} />
+                  </div>
+                )}
               <motion.div
-                key={char.slug}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
@@ -125,6 +137,7 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                   </article>
                 </Link>
               </motion.div>
+              </React.Fragment>
             )
           })}
         </div>

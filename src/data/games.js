@@ -1,15 +1,5 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '', image = '') {
-  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  return {
-    name, slug,
-    image: image || '/images/placeholder.jpg',
-    description: description || `[Placeholder] ${name} — swap this out with a real description.`,
-    packLink: DISCORD,
-  }
-}
-
 export const games = [
   {
     id: 1,
@@ -27,12 +17,47 @@ export const games = [
       bgImage: '/backgrounds/rdr2.jpg',
       logo: '/logos/rdr2logo.png',
       atmosphere: [], loadFx: null, titleFx: null,
-      label: 'American Frontier, 1899', tagline: 'We are thieves in a world that don\'t want us no more.',
+      label: 'American Frontier, 1899', tagline: "We are thieves in a world that don't want us no more.",
       cursor: 'default',
     },
     characters: [
-      char('Arthur Morgan', "The Van der Linde gang's enforcer and moral center. A man wrestling with who he is and what he's done, one final ride at a time.", '/characters/arthur.png'),
-      char('Dutch van der Linde', "Charismatic outlaw philosopher. His vision of freedom becomes a trap for everyone who believed in it.", '/characters/dutch.png'),
+      {
+        id: 'arthur-morgan-aesthetic',
+        name: 'Arthur Morgan — Aesthetic',
+        slug: 'arthur-morgan-aesthetic',
+        groupLabel: 'Arthur Morgan',
+        image: '/characters/arthur-morgan-aesthetic.png',
+        pageImage: '/character-pages/arthur-morgan-aesthetic.png',
+        description: "The soul of the Van der Linde gang. Honor, loyalty, and a world that keeps asking too much.",
+        packLink: DISCORD,
+      },
+      {
+        id: 'arthur-morgan-sad',
+        name: 'Arthur Morgan — Sad',
+        slug: 'arthur-morgan-sad',
+        groupLabel: 'Arthur Morgan',
+        image: '/characters/arthur-morgan-sad.png',
+        pageImage: '/character-pages/arthur-morgan-sad.png',
+        description: "The weight of a life lived wrong. Every goodbye hits different.",
+        packLink: DISCORD,
+      },
+      {
+        id: 'micah-bell',
+        name: 'Micah Bell',
+        slug: 'micah-bell',
+        image: '/characters/micah-bell.png',
+        pageImage: '/character-pages/micah-bell.png',
+        description: "The rot inside the gang. Every scene he's in makes your skin crawl.",
+        packLink: DISCORD,
+      },
+      {
+        id: 'dutch-van-der-linde',
+        name: 'Dutch van der Linde',
+        slug: 'dutch-van-der-linde',
+        image: '/characters/dutch.png',
+        description: "Charismatic outlaw philosopher. His vision of freedom becomes a trap for everyone who believed in it.",
+        packLink: DISCORD,
+      },
     ],
   },
 ]
