@@ -4,7 +4,7 @@
    The rest are per-show display fonts for the immersive
    individual show/movie pages. Mobsters = local @font-face.
    ════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;700&family=Exo+2:wght@400;600;800&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Cinzel:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Black+Ops+One&family=DM+Serif+Display:ital@0;1&family=Pathway+Gothic+One&family=Space+Grotesk:wght@400;500;700&family=Exo+2:wght@400;600;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -419,6 +419,16 @@ body::before {
   transition: filter 0.25s ease;
 }
 .card-mcu:hover { filter: brightness(1.1); }
+
+.card-rdr2 {
+  background: rgba(15,9,5,0.88);
+  border: 1px solid #3d1f0a;
+  border-top: 3px solid #8b3a0f;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  position: relative;
+  transition: filter 0.2s ease;
+}
+.card-rdr2:hover { filter: brightness(1.08); }
 
 /* CLASSIFIED stamp (Barry) */
 .stamp-classified {
