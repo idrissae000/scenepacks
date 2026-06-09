@@ -63,9 +63,16 @@ export default function Footer() {
               className="transition-opacity hover:opacity-80" style={{ color: '#e55c35' }}>TikTok</a>
             <span style={{ fontStyle: 'italic' }}> — Give your credits or sleep with the fishes.</span>
           </p>
-          <p className="text-sm opacity-40" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic', color: '#847464' }}>
-            &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-sm opacity-40" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic', color: '#847464' }}>
+              &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
+            </p>
+            <Link href="/dmca" className="text-xs transition-colors shrink-0" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#847464' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#b0a090'}
+              onMouseLeave={e => e.currentTarget.style.color = '#847464'}>
+              DMCA &amp; Legal
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
