@@ -218,6 +218,32 @@ export default function HomePage() {
             </div>
           )}
 
+          {/* Footer: & more + browse buttons */}
+          {!isSearching && (
+            <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+              className="mt-10 flex flex-col items-center gap-5">
+              <p style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#847464', fontSize: '14px' }}>
+                &amp; more
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                {[
+                  { label: 'Browse Shows',  href: '/shows'  },
+                  { label: 'Browse Movies', href: '/movies' },
+                  { label: 'Browse Games',  href: '/games'  },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href}
+                    className="w-full sm:w-auto text-center px-8 py-3 rounded-sm transition-all duration-200"
+                    style={{ background: '#0f0b08', border: '1px solid #5e1b21', color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '14px' }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = '#e55c35'; e.currentTarget.style.filter = 'brightness(1.12)' }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = '#5e1b21'; e.currentTarget.style.filter = 'brightness(1)' }}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
         </div>
       </section>
     </>
