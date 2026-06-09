@@ -57,7 +57,7 @@ export const games = [
       headingFont: '"Bebas Neue", system-ui, sans-serif',
       bodyFont: '"Bebas Neue", system-ui, sans-serif',
       texClass: 'tex-gotham', cardClass: 'card-arkham',
-      bgImage: '/backgrounds/arkhambg.jpg',
+      bgImage: '/backgrounds/arkhambg.jpeg',
       logo: '/logos/arkhamlogo.jpg',
       atmosphere: [], loadFx: null, titleFx: null,
       label: 'Gotham City', tagline: 'I am the night.',
