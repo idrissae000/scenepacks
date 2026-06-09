@@ -13,7 +13,7 @@ const GAME_BACKGROUNDS = [
 export default function GamesPage() {
   return (
     <>
-      <BackgroundSlideshow images={GAME_BACKGROUNDS} />
+      <BackgroundSlideshow images={GAME_BACKGROUNDS} mobileBg="#0f0905" />
       <div className="pt-28 pb-20 px-4">
         <div className="mx-auto max-w-7xl">
           <motion.div

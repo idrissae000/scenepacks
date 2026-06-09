@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 
 interface Props {
   images: string[]
+  mobileBg?: string
 }
 
 // Shuffle array (Fisher-Yates) — called once on mount
@@ -18,31 +19,41 @@ function shuffle<T>(arr: T[]): T[] {
 
 const DISPLAY_MS = 2000
 const FADE_MS = 800
+const DESKTOP_BREAKPOINT = 768
 
-export default function BackgroundSlideshow({ images }: Props) {
+export default function BackgroundSlideshow({ images, mobileBg = '#0d0a07' }: Props) {
   const [order] = useState(() => shuffle(images))
+  const [isDesktop, setIsDesktop] = useState(false)
   // Two layer indices — activeLayer alternates 0/1
   const [activeLayer, setActiveLayer] = useState(0)
   const [layerSrc, setLayerSrc] = useState<[string, string]>([order[0] ?? '', order[1] ?? order[0] ?? ''])
   const idxRef = useRef(0)
 
-  // Preload all images on mount
+  // Detect desktop on mount and on resize
   useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth > DESKTOP_BREAKPOINT)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Preload all images on mount (desktop only — no point loading on mobile)
+  useEffect(() => {
+    if (!isDesktop) return
     order.forEach(src => {
       const img = new Image()
       img.src = src
     })
-  }, [order])
+  }, [order, isDesktop])
 
   useEffect(() => {
-    if (order.length <= 1) return
+    if (!isDesktop || order.length <= 1) return
 
     const timer = setInterval(() => {
       idxRef.current = (idxRef.current + 1) % order.length
       const next = order[idxRef.current]
       const incoming = activeLayer === 0 ? 1 : 0
 
-      // Load the next image into the inactive layer before showing it
       setLayerSrc(prev => {
         const updated: [string, string] = [...prev] as [string, string]
         updated[incoming] = next
@@ -52,10 +63,18 @@ export default function BackgroundSlideshow({ images }: Props) {
     }, DISPLAY_MS + FADE_MS)
 
     return () => clearInterval(timer)
-  }, [order, activeLayer])
+  }, [order, activeLayer, isDesktop])
 
   const overlay = 'linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.82))'
 
+  // Mobile: solid color only
+  if (!isDesktop) {
+    return (
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1, background: mobileBg }} />
+    )
+  }
+
+  // Desktop: full cross-fade slideshow
   return (
     <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1 }}>
       {([0, 1] as const).map(layer => (

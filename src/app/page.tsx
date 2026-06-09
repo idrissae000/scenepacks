@@ -123,10 +123,13 @@ export default function HomePage() {
             className="flex flex-col sm:flex-row items-stretch justify-center gap-4 w-full"
           >
             <a href="https://payhip.com/Idrissae" target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
-              style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #e55c35', color: '#e55c35' }}>
+              className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] flex-1"
+              style={{ background: '#f5a3c7', color: '#1a1a2e' }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#e8a0c4')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#f5a3c7')}
+            >
               <BagIcon />
-              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#d4c5a9' }}>
+              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#1a1a2e' }}>
                 Editing Presets (Payhip)
               </span>
             </a>
