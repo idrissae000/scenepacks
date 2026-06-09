@@ -67,9 +67,9 @@ export default function Footer() {
             <p className="text-sm opacity-40" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontStyle: 'italic', color: '#847464' }}>
               &ldquo;A man who doesn&apos;t spend time with his family can never be a real man.&rdquo;
             </p>
-            <Link href="/dmca" className="text-xs transition-colors shrink-0" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#847464' }}
-              onMouseEnter={e => e.currentTarget.style.color = '#b0a090'}
-              onMouseLeave={e => e.currentTarget.style.color = '#847464'}>
+            <Link href="/dmca" className="text-xs transition-colors shrink-0" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#d4c5a9', letterSpacing: '0.04em' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#e55c35'}
+              onMouseLeave={e => e.currentTarget.style.color = '#d4c5a9'}>
               DMCA &amp; Legal
             </Link>
           </div>
