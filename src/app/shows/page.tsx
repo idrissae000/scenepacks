@@ -4,6 +4,20 @@ import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { shows } from '@/data/shows'
+import BackgroundSlideshow from '@/components/BackgroundSlideshow'
+
+const SHOW_BACKGROUNDS = [
+  '/backgrounds/sopranos.jpg',
+  '/backgrounds/breaking-bad.jpg',
+  '/backgrounds/better-call-saul.jpg',
+  '/backgrounds/game-of-thrones.jpeg',
+  '/backgrounds/prison-break.jpeg',
+  '/backgrounds/sons-of-anarchy.jpg',
+  '/backgrounds/you.jpg',
+  '/backgrounds/barry.jpg',
+  '/backgrounds/the-bear.jpg',
+  '/backgrounds/btasbg.jpg',
+]
 
 export default function ShowsPage() {
   const [query, setQuery] = useState('')
@@ -18,110 +32,113 @@ export default function ShowsPage() {
   }, [query])
 
   return (
-    <div className="pt-28 pb-20 px-4" style={{ background: '#0d0a07' }}>
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
-        >
-          <div className="mob-label mb-3">The Collection</div>
-          <h1 className="font-mobsters mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', color: '#d4c5a9' }}>
-            TV Shows
-          </h1>
-          <div className="mob-divider max-w-[60px] mx-auto mb-4" />
-          <p className="text-sm" style={{ color: '#847464' }}>
-            {shows.length} shows &middot; {shows.reduce((a: number, s: any) => a + s.characters.length, 0)} characters
-          </p>
-        </motion.div>
+    <>
+      <BackgroundSlideshow images={SHOW_BACKGROUNDS} />
+      <div className="pt-28 pb-20 px-4">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <div className="mob-label mb-3">The Collection</div>
+            <h1 className="font-mobsters mb-4" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', color: '#d4c5a9' }}>
+              TV Shows
+            </h1>
+            <div className="mob-divider max-w-[60px] mx-auto mb-4" />
+            <p className="text-sm" style={{ color: '#847464' }}>
+              {shows.length} shows &middot; {shows.reduce((a: number, s: any) => a + s.characters.length, 0)} characters
+            </p>
+          </motion.div>
 
-        {/* Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="relative max-w-md mx-auto mb-12"
-        >
-          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-            <svg className="w-4 h-4" style={{ color: '#847464' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <input
-            type="text"
-            placeholder="Search shows or characters..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-sm text-sm focus:outline-none transition-all font-fell"
-            style={{
-              background: '#18100a',
-              border: '1px solid rgba(94,27,33,0.3)',
-              color: '#d4c5a9',
-            }}
-            onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
-            onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.3)'}
-          />
-        </motion.div>
+          {/* Search */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative max-w-md mx-auto mb-12"
+          >
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+              <svg className="w-4 h-4" style={{ color: '#847464' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search shows or characters..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-sm text-sm focus:outline-none transition-all font-fell"
+              style={{
+                background: '#18100a',
+                border: '1px solid rgba(94,27,33,0.3)',
+                color: '#d4c5a9',
+              }}
+              onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(229,92,53,0.5)'}
+              onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(94,27,33,0.3)'}
+            />
+          </motion.div>
 
-        {/* Grid */}
-        {filtered.length === 0 ? (
-          <div className="text-center py-20" style={{ color: '#847464' }}>
-            <p className="font-fell italic">No results for &ldquo;{query}&rdquo;</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((show: any, i: number) => (
-              <motion.div
-                key={show.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: i * 0.04 }}
-              >
-                <Link href={`/shows/${show.slug}`} className="block">
-                  <article className="card-clean rounded-md overflow-hidden h-full">
-                    <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={show.theme.logo}
-                        alt={show.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const el = e.target as HTMLImageElement
-                          el.style.display = 'none'
-                        }}
-                      />
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5">
-                      <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
-                        {show.name}
-                      </h2>
-                      <div className="mt-2 mb-3">
-                        <span className="inline-block text-sm font-semibold" style={{
-                          color: '#e8dcc4',
-                          background: 'rgba(94,27,33,0.45)',
-                          border: '1px solid #5e1b21',
-                          borderRadius: '4px',
-                          padding: '3px 10px',
-                          letterSpacing: '0.03em',
-                        }}>
-                          {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''}
-                        </span>
+          {/* Grid */}
+          {filtered.length === 0 ? (
+            <div className="text-center py-20" style={{ color: '#847464' }}>
+              <p className="font-fell italic">No results for &ldquo;{query}&rdquo;</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((show: any, i: number) => (
+                <motion.div
+                  key={show.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: i * 0.04 }}
+                >
+                  <Link href={`/shows/${show.slug}`} className="block">
+                    <article className="card-clean rounded-md overflow-hidden h-full">
+                      <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={show.theme.logo}
+                          alt={show.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const el = e.target as HTMLImageElement
+                            el.style.display = 'none'
+                          }}
+                        />
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>
-                        {show.blurb}
-                      </p>
-                    </div>
-                  </article>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
+
+                      {/* Content */}
+                      <div className="p-5">
+                        <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
+                          {show.name}
+                        </h2>
+                        <div className="mt-2 mb-3">
+                          <span className="inline-block text-sm font-semibold" style={{
+                            color: '#e8dcc4',
+                            background: 'rgba(94,27,33,0.45)',
+                            border: '1px solid #5e1b21',
+                            borderRadius: '4px',
+                            padding: '3px 10px',
+                            letterSpacing: '0.03em',
+                          }}>
+                            {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
+                        <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>
+                          {show.blurb}
+                        </p>
+                      </div>
+                    </article>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
