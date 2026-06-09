@@ -102,7 +102,7 @@ export default function HomePage() {
       {/* Full-page fixed background */}
       <div className="fixed inset-0 pointer-events-none" style={{
         zIndex: -1,
-        background: 'linear-gradient(135deg, #3d0000 0%, #1a0000 40%, #2d0a0a 70%, #0d0a07 100%)',
+        background: 'linear-gradient(to bottom, #6b0000 0%, #3d0000 35%, #1a0000 70%, #0d0a07 100%)',
       }} />
 
       {/* ═══ HERO ═══ */}
