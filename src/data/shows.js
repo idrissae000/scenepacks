@@ -1,6 +1,6 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '', image = '', dateAdded = '2026-06-09') {
+function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
     name, slug,
@@ -113,7 +113,7 @@ export const shows = [
       char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png'),
       char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png'),
       char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png'),
-      char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png'),
+      char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png', '2026-06-05'),
       char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png'),
       char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png'),
     ],
@@ -267,3 +267,4 @@ export const shows = [
     ],
   },
 ]
+

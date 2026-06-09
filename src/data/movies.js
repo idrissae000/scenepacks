@@ -1,6 +1,6 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '', image = '', dateAdded = '2026-06-09') {
+function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
     name, slug,
@@ -60,7 +60,7 @@ export const movies = [
       },
     },
     characters: [
-      char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png'),
+      char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png', '2026-06-04'),
       char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png'),
       char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png'),
     ],
