@@ -1,4 +1,4 @@
-const DISCORD = 'https://discord.gg/MVA5ySY2'
+const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
 
 export const games = [
   {

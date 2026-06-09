@@ -1,4 +1,4 @@
-const DISCORD = 'https://discord.gg/MVA5ySY2'
+const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
 
 function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -261,7 +261,7 @@ export const shows = [
         image: '/characters/btasbatman.png',
         pageImage: '/character-pages/btasbatmanscp.png',
         description: "The world's greatest detective. Kevin Conroy's Batman remains the gold standard over 30 years later.",
-        packLink: 'https://discord.gg/MVA5ySY2',
+        packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-09',
       },
     ],

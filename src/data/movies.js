@@ -1,4 +1,4 @@
-const DISCORD = 'https://discord.gg/MVA5ySY2'
+const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
 
 function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')

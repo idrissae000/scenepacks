@@ -40,7 +40,7 @@ export default function Footer() {
             <div>
               <div className="mob-label mb-3">The Family</div>
               <div className="space-y-2">
-                <a href="https://discord.gg/MVA5ySY2" target="_blank" rel="noopener noreferrer"
+                <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80" style={{ color: '#e55c35', fontFamily: 'Inter, system-ui, sans-serif' }}>
                   <DiscordIcon /> Discord
                 </a>

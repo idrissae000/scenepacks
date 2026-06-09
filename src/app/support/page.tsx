@@ -79,7 +79,7 @@ export default function SupportPage() {
               color: '#e55c35',
             },
             {
-              href: 'https://discord.gg/MVA5ySY2',
+              href: 'https://discord.com/invite/98C5YUeEz7',
               icon: <DiscordIcon />,
               label: 'Discord',
               sub: 'Join the community',

@@ -87,7 +87,7 @@ export default function Navbar() {
           {/* Right — Join the Family */}
           <div className="flex items-center gap-3">
             <a
-              href="https://discord.gg/MVA5ySY2"
+              href="https://discord.com/invite/98C5YUeEz7"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 btn-join rounded-sm px-6 py-2.5 text-sm"
@@ -133,7 +133,7 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="https://discord.gg/MVA5ySY2"
+              href="https://discord.com/invite/98C5YUeEz7"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 btn-join rounded-sm px-5 py-3 mt-2 w-full"

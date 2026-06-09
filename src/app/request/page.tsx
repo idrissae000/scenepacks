@@ -50,7 +50,7 @@ export default function RequestPage() {
             </p>
 
             <a
-              href="https://discord.gg/MVA5ySY2"
+              href="https://discord.com/invite/98C5YUeEz7"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-4 rounded-sm transition-all duration-200 text-base font-bold tracking-wider uppercase"

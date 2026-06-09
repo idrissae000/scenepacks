@@ -137,7 +137,7 @@ export default function HomePage() {
               </span>
             </a>
 
-            <a href="https://discord.gg/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
+            <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #5865F2', color: '#5865F2', boxShadow: '0 0 22px rgba(88,101,242,0.3)' }}>
               <DiscordIcon size={22} />
