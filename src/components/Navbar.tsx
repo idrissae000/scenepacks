@@ -13,6 +13,7 @@ const links = [
   { label: 'Request',      href: '/request' },
   { label: 'Support',      href: '/support' },
   { label: 'Coming Soon',  href: '/coming-soon' },
+  { label: 'Apply',        href: '/apply' },
 ]
 
 export default function Navbar() {

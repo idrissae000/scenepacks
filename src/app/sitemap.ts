@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/request`, lastModified: new Date() },
     { url: `${BASE}/support`, lastModified: new Date() },
     { url: `${BASE}/coming-soon`, lastModified: new Date() },
+    { url: `${BASE}/apply`, lastModified: new Date() },
   ]
 
   const showRoutes = shows.flatMap((s: any) => [

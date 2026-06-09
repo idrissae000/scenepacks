@@ -3,6 +3,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
+import SessionProviderWrapper from '@/components/SessionProviderWrapper'
 
 export const metadata: Metadata = {
   title: 'Idriss.ae Scenepacks — Free Aesthetic Scenepacks',
@@ -57,10 +58,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-mob-black text-mob-text antialiased">
-        <ScrollToTop />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <SessionProviderWrapper>
+          <ScrollToTop />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </SessionProviderWrapper>
       </body>
     </html>
   )
