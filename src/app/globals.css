@@ -430,6 +430,26 @@ body::before {
 }
 .card-rdr2:hover { filter: brightness(1.08); }
 
+.card-arkham {
+  background: rgba(8,10,15,0.90);
+  border: 1px solid #1a2a3a;
+  border-top: 3px solid #1a3a5c;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.8);
+  position: relative;
+  transition: filter 0.2s ease;
+}
+.card-arkham:hover { filter: brightness(1.1); }
+
+.card-btas {
+  background: rgba(8,8,14,0.92);
+  border: 1px solid #2a2a3a;
+  border-top: 3px solid #f5c518;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.8);
+  position: relative;
+  transition: filter 0.2s ease;
+}
+.card-btas:hover { filter: brightness(1.1); }
+
 /* CLASSIFIED stamp (Barry) */
 .stamp-classified {
   position: absolute; top: 14px; right: 8px; z-index: 3;
