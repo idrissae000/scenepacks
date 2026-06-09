@@ -2,15 +2,100 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
+import { games } from '@/data/games'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const featured: any[] = [shows[0], shows[1], shows[3], movies[0], shows[7], movies[1]]
+function buildAllChars(): any[] {
+  const result: any[] = []
+  for (const s of shows as any[]) {
+    for (const c of s.characters) {
+      result.push({
+        name: c.name,
+        slug: c.slug,
+        image: c.image,
+        dateAdded: c.dateAdded || '2020-01-01',
+        parentName: s.name,
+        parentSlug: s.slug,
+        type: 'show',
+        href: `/shows/${s.slug}/${c.slug}`,
+      })
+    }
+  }
+  for (const m of movies as any[]) {
+    for (const c of m.characters) {
+      result.push({
+        name: c.name,
+        slug: c.slug,
+        image: c.image,
+        dateAdded: c.dateAdded || '2020-01-01',
+        parentName: m.name,
+        parentSlug: m.slug,
+        type: 'movie',
+        href: `/movies/${m.slug}/${c.slug}`,
+      })
+    }
+  }
+  for (const g of games as any[]) {
+    for (const c of g.characters) {
+      result.push({
+        name: c.name,
+        slug: c.slug,
+        image: c.image,
+        dateAdded: c.dateAdded || '2020-01-01',
+        parentName: g.name,
+        parentSlug: g.slug,
+        type: 'game',
+        href: `/games/${g.slug}/${c.slug}`,
+      })
+    }
+  }
+  return result
+}
+
+const ALL_CHARS = buildAllChars()
+
+// Sort descending by dateAdded — top 6 are "new"
+const sorted = [...ALL_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+const NEW_CHARS = sorted.slice(0, 6)
+const REST_CHARS = sorted.slice(6)
+
+function pickRandom6(pool: typeof REST_CHARS) {
+  const copy = [...pool]
+  const out = []
+  while (out.length < 6 && copy.length > 0) {
+    const idx = Math.floor(Math.random() * copy.length)
+    out.push(copy.splice(idx, 1)[0])
+  }
+  // if pool has fewer than 6, fill from new chars
+  if (out.length < 6) {
+    const extra = [...NEW_CHARS].sort(() => Math.random() - 0.5)
+    for (const e of extra) {
+      if (out.length >= 6) break
+      if (!out.find(x => x.slug === e.slug && x.type === e.type)) out.push(e)
+    }
+  }
+  return out
+}
 
 export default function HomePage() {
-  const totalChars = shows.reduce((a, s) => a + s.characters.length, 0)
-    + movies.reduce((a, m) => a + m.characters.length, 0)
+  const [randomChars] = useState(() => pickRandom6(REST_CHARS))
+  const [query, setQuery] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const gridChars = useMemo(() => [...NEW_CHARS, ...randomChars], [randomChars])
+
+  const searchResults = useMemo(() => {
+    if (!query.trim()) return []
+    const q = query.trim().toLowerCase()
+    return ALL_CHARS.filter(c =>
+      c.name.toLowerCase().includes(q) || c.parentName.toLowerCase().includes(q)
+    )
+  }, [query])
+
+  const isSearching = query.trim().length > 0
 
   return (
     <>
@@ -27,13 +112,11 @@ export default function HomePage() {
       <section className="relative flex items-center justify-center overflow-hidden"
         style={{ paddingTop: '10rem', paddingBottom: '4rem' }}>
 
-        {/* Subtle vignette edges */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 120% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%)' }} />
 
         <div className="relative z-10 text-center px-4 w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
 
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#d4c5a9', fontSize: 'clamp(1.4rem, 3.5vw, 2.1rem)', lineHeight: 1.4 }}
@@ -41,12 +124,10 @@ export default function HomePage() {
             The #1 Place for Aesthetic Scenepacks.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.25 }}
             className="flex flex-col sm:flex-row items-stretch justify-center gap-4 w-full"
           >
-            {/* Payhip */}
             <a href="https://payhip.com/Idrissae" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #e55c35', color: '#e55c35' }}>
@@ -56,7 +137,6 @@ export default function HomePage() {
               </span>
             </a>
 
-            {/* Discord */}
             <a href="https://discord.gg/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #5865F2', color: '#5865F2', boxShadow: '0 0 22px rgba(88,101,242,0.3)' }}>
@@ -66,7 +146,6 @@ export default function HomePage() {
               </span>
             </a>
 
-            {/* TikTok */}
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid rgba(255,255,255,0.35)', color: '#ffffff' }}>
@@ -80,57 +159,140 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ FEATURED ═══ */}
+      {/* ═══ BROWSE CHARACTERS ═══ */}
       <section className="pb-20 px-4 pt-0" style={{ background: 'transparent' }}>
         <div className="mx-auto max-w-7xl">
+
+          {/* Heading */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-            className="text-center mb-14">
-            <div className="mob-label mb-3">Featured</div>
+            className="text-center mb-10">
+            <div className="mob-label mb-3">Characters</div>
             <h2 style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#d4c5a9', fontSize: '2.6rem', fontStyle: 'italic' }}>
-              Select Your Scene
+              Browse Characters
             </h2>
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featured.map((item, i) => {
-              const href = 'characters' in item ? `/shows/${item.slug}` : `/movies/${item.slug}`
-              return (
-                <motion.div key={item.id + item.slug}
-                  initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.45, delay: i * 0.06 }}>
-                  <Link href={href} className="block">
-                    <article className="card-clean rounded-md overflow-hidden h-full">
-                      <div className="logo-placeholder overflow-hidden" style={{ aspectRatio: '16 / 9' }}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.theme.logo}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-                        />
-                      </div>
-                      <div className="p-5">
-                        <h3 className="font-mobsters leading-tight mb-1.5" style={{ color: '#d4c5a9', fontSize: '1.3rem' }}>
-                          {item.name}
-                        </h3>
-                        <p className="text-sm" style={{ color: '#9a8b76' }}>{item.theme.tagline}</p>
-                      </div>
-                    </article>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            className="text-center mt-12 flex items-center justify-center gap-4">
-            <Link href="/shows" className="btn-primary rounded-sm px-8 py-3 inline-block">All Shows</Link>
-            <Link href="/movies" className="btn-primary rounded-sm px-8 py-3 inline-block">All Movies</Link>
+          {/* Search bar */}
+          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-10 max-w-xl mx-auto">
+            <div className="relative">
+              <SearchIcon />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="Search characters, shows, games..."
+                className="w-full pl-11 pr-4 py-3 rounded-lg outline-none transition-all duration-200"
+                style={{
+                  background: 'rgba(18,10,8,0.9)',
+                  border: '2px solid #5e1b21',
+                  color: '#d4c5a9',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '0.95rem',
+                }}
+              />
+            </div>
           </motion.div>
+
+          {/* Search results */}
+          {isSearching && (
+            <div>
+              {searchResults.length === 0 ? (
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="text-center py-16"
+                  style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '1rem' }}>
+                  No results found for &ldquo;{query}&rdquo;
+                </motion.p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {searchResults.map((char, i) => (
+                    <CharCard key={`${char.type}-${char.slug}`} char={char} index={i} isNew={false} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 4×3 grid */}
+          {!isSearching && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {gridChars.map((char, i) => (
+                <CharCard key={`${char.type}-${char.slug}`} char={char} index={i} isNew={i < 6} />
+              ))}
+            </div>
+          )}
+
         </div>
       </section>
     </>
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.45, delay: index * 0.04 }}
+    >
+      <Link href={char.href} className="block group" style={{ aspectRatio: '1 / 1', position: 'relative', overflow: 'hidden', borderRadius: '0.5rem', display: 'block' }}>
+        <div style={{ position: 'absolute', inset: 0, transition: 'border-color 200ms', border: '2px solid rgba(255,255,255,0.07)', borderRadius: '0.5rem', zIndex: 2, pointerEvents: 'none' }}
+          className="group-hover:border-[#5e1b21]" />
+
+        {/* Image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={char.image}
+          alt={char.name}
+          className="w-full h-full transition-transform duration-200 group-hover:scale-[1.03]"
+          style={{ objectFit: 'cover', display: 'block', position: 'absolute', inset: 0 }}
+          onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+        />
+
+        {/* Gradient overlay */}
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 1,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
+        }} />
+
+        {/* NEW badge */}
+        {isNew && (
+          <div style={{
+            position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3,
+            background: '#16a34a', color: '#fff',
+            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em',
+            padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          }}>
+            NEW
+          </div>
+        )}
+
+        {/* Name + franchise */}
+        <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', zIndex: 3 }}>
+          <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>
+            {char.name}
+          </p>
+          <p style={{ color: '#a89880', fontSize: '0.75rem', lineHeight: 1.3, fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0' }}>
+            {char.parentName}
+          </p>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
+function SearchIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a7560" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', zIndex: 1 }}>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
   )
 }
 

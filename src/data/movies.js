@@ -1,12 +1,13 @@
 const DISCORD = 'https://discord.gg/MVA5ySY2'
 
-function char(name, description = '', image = '') {
+function char(name, description = '', image = '', dateAdded = '2026-06-09') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   return {
     name, slug,
     image: image || '/images/placeholder.jpg',
     description: description || `[Placeholder] ${name} — swap this out with a real description.`,
     packLink: DISCORD,
+    dateAdded,
   }
 }
 

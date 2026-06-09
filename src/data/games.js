@@ -28,6 +28,7 @@ export const games = [
         image: '/characters/arthur.png',
         description: "The soul of the Van der Linde gang. Honor, loyalty, and a world that keeps asking too much.",
         packLink: DISCORD,
+        dateAdded: '2026-06-09',
         packs: [
           { label: 'Aesthetic Pack', image: '/character-pages/arthuraesthetic.png', packLink: DISCORD },
           { label: 'Sad Pack',       image: '/character-pages/arthursad.png',       packLink: DISCORD },
@@ -41,6 +42,7 @@ export const games = [
         pageImage: '/character-pages/micahscp.png',
         description: "The rot inside the gang. Every scene he's in makes your skin crawl.",
         packLink: DISCORD,
+        dateAdded: '2026-06-09',
       },
     ],
   },
@@ -72,6 +74,7 @@ export const games = [
         pageImage: '/character-pages/arkhambatmanscp.png',
         description: "The Dark Knight at his most brutal. Gotham's protector across Asylum, City, Origins and Knight.",
         packLink: DISCORD,
+        dateAdded: '2026-06-09',
       },
     ],
   },
