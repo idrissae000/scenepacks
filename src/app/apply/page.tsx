@@ -11,9 +11,9 @@ const INPUT_STYLE: React.CSSProperties = {
   background: '#0f0b08',
   border: '1px solid #3d1215',
   borderRadius: '0.375rem',
-  color: '#d4c5a9',
+  color: '#ffffff',
   fontFamily: 'Inter, system-ui, sans-serif',
-  fontSize: '0.95rem',
+  fontSize: '15px',
   padding: '0.75rem 1rem',
   width: '100%',
   outline: 'none',
@@ -23,16 +23,16 @@ const INPUT_STYLE: React.CSSProperties = {
 const LABEL_STYLE: React.CSSProperties = {
   color: '#d4c5a9',
   fontFamily: 'Inter, system-ui, sans-serif',
-  fontSize: '0.9rem',
-  fontWeight: 600,
+  fontSize: '16px',
+  fontWeight: 500,
   display: 'block',
   marginBottom: '0.5rem',
 }
 
 const SUBTEXT_STYLE: React.CSSProperties = {
-  color: '#8a7560',
+  color: '#847464',
   fontFamily: 'Inter, system-ui, sans-serif',
-  fontSize: '0.8rem',
+  fontSize: '13px',
   marginTop: '-0.25rem',
   marginBottom: '0.5rem',
 }
@@ -97,7 +97,7 @@ export default function ApplyPage() {
             <h1 style={{
               fontFamily: '"Mobsters","Palatino Linotype",serif',
               color: '#d4c5a9',
-              fontSize: 'clamp(2.2rem, 6vw, 3.2rem)',
+              fontSize: 'clamp(2.8rem, 7vw, 3.8rem)',
               lineHeight: 1.1,
               marginBottom: '1rem',
             }}>
@@ -106,8 +106,8 @@ export default function ApplyPage() {
             <p style={{
               fontFamily: '"IM Fell English", Georgia, serif',
               fontStyle: 'italic',
-              color: '#9a8b76',
-              fontSize: '1.05rem',
+              color: '#d4c5a9',
+              fontSize: '16px',
               lineHeight: 1.6,
             }}>
               Join the Idriss Scenes creator team. Apply to make scenepacks or audios for the community.
@@ -119,7 +119,7 @@ export default function ApplyPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.1 }}>
             {!isLoggedIn ? (
               <div className="text-center py-8">
-                <p style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                <p style={{ color: '#847464', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', marginBottom: '1.5rem' }}>
                   You must log in with Discord to apply.
                 </p>
                 <button
@@ -139,15 +139,15 @@ export default function ApplyPage() {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={session.user.image} alt="avatar" className="w-9 h-9 rounded-full" />
                   )}
-                  <span style={{ color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.9rem' }}>
+                  <span style={{ color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px' }}>
                     Logged in as <strong>{session.user?.name}</strong>
                   </span>
                 </div>
                 <button
                   onClick={() => signOut()}
-                  style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.8rem', cursor: 'pointer', background: 'none', border: 'none' }}
+                  style={{ color: '#847464', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '13px', cursor: 'pointer', background: 'none', border: 'none' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#d4c5a9')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#8a7560')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#847464')}
                 >
                   Log out
                 </button>
@@ -169,11 +169,11 @@ export default function ApplyPage() {
                     style={{
                       fontFamily: 'Inter, system-ui, sans-serif',
                       fontWeight: 600,
-                      fontSize: '0.95rem',
+                      fontSize: '15px',
                       border: '2px solid',
                       borderColor: creatorType === t ? '#5e1b21' : '#3d1215',
                       background: creatorType === t ? 'rgba(94,27,33,0.25)' : 'rgba(15,11,8,0.6)',
-                      color: creatorType === t ? '#d4c5a9' : '#8a7560',
+                      color: '#d4c5a9',
                       cursor: 'pointer',
                     }}
                   >
@@ -198,12 +198,12 @@ export default function ApplyPage() {
                     placeholder={creatorType === 'scenepack'
                       ? 'e.g. aesthetic, sad, mixed, dark, cinematic...'
                       : 'Describe your style, genres, vibe...'}
-                    style={{ ...INPUT_STYLE, resize: 'vertical' }}
+                    className="apply-input" style={{ ...INPUT_STYLE, resize: 'vertical' }}
                     onFocus={e => e.currentTarget.style.borderColor = '#5e1b21'}
                     onBlur={e => e.currentTarget.style.borderColor = '#3d1215'}
                     required
                   />
-                  <p style={{ ...SUBTEXT_STYLE, marginTop: '0.35rem', textAlign: 'right' }}>{q1.length}/500</p>
+                  <p style={{ color: '#847464', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '13px', marginTop: '0.35rem', textAlign: 'right' }}>{q1.length}/500</p>
                 </div>
 
                 {/* Q2 */}
@@ -226,7 +226,7 @@ export default function ApplyPage() {
                     placeholder={creatorType === 'scenepack'
                       ? 'Google Drive, YouTube, TikTok link etc.'
                       : 'Paste your audio link here'}
-                    style={INPUT_STYLE}
+                    className="apply-input" style={INPUT_STYLE}
                     onFocus={e => e.currentTarget.style.borderColor = '#5e1b21'}
                     onBlur={e => e.currentTarget.style.borderColor = '#3d1215'}
                     required
@@ -237,7 +237,7 @@ export default function ApplyPage() {
                 {creatorType === 'audio' && (
                   <div>
                     <label style={LABEL_STYLE}>
-                      Share a second audio sample <span style={{ color: '#8a7560', fontWeight: 400 }}>(optional)</span>
+                      Share a second audio sample <span style={{ color: '#847464', fontWeight: 400 }}>(optional)</span>
                     </label>
                     <input
                       type="text"
@@ -245,7 +245,7 @@ export default function ApplyPage() {
                       onChange={e => setQ3(e.target.value)}
                       maxLength={500}
                       placeholder="Paste second audio link here"
-                      style={INPUT_STYLE}
+                      className="apply-input" style={INPUT_STYLE}
                       onFocus={e => e.currentTarget.style.borderColor = '#5e1b21'}
                       onBlur={e => e.currentTarget.style.borderColor = '#3d1215'}
                     />
@@ -253,7 +253,7 @@ export default function ApplyPage() {
                 )}
 
                 {error && (
-                  <p style={{ color: '#e55c35', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.9rem', textAlign: 'center' }}>
+                  <p style={{ color: '#e55c35', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', textAlign: 'center' }}>
                     {error}
                   </p>
                 )}
@@ -297,9 +297,9 @@ export default function ApplyPage() {
               <p style={{
                 fontFamily: '"IM Fell English", Georgia, serif',
                 fontStyle: 'italic',
-                color: '#9a8b76',
-                fontSize: '1rem',
-                lineHeight: 1.7,
+                color: '#d4c5a9',
+                fontSize: '16px',
+                lineHeight: 1.6,
                 marginBottom: '2rem',
               }}>
                 We&rsquo;ll review your application and reach out through Discord if you make the cut. Keep creating.
