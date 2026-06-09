@@ -102,18 +102,12 @@ export default function HomePage() {
       {/* Full-page fixed background */}
       <div className="fixed inset-0 pointer-events-none" style={{
         zIndex: -1,
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.85)), url(/backgrounds/home.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundColor: '#0d0a07',
+        background: 'linear-gradient(135deg, #3d0000 0%, #1a0000 40%, #2d0a0a 70%, #0d0a07 100%)',
       }} />
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex items-center justify-center overflow-hidden"
         style={{ paddingTop: '10rem', paddingBottom: '4rem' }}>
-
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 120% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%)' }} />
 
         <div className="relative z-10 text-center px-4 w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
 
