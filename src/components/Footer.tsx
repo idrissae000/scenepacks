@@ -35,6 +35,12 @@ export default function Footer() {
                     </Link>
                   </div>
                 ))}
+                <div>
+                  <Link href="/contact" className="text-sm font-semibold transition-opacity hover:opacity-80"
+                    style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#e55c35' }}>
+                    Business Inquiries
+                  </Link>
+                </div>
               </div>
             </div>
             <div>
