@@ -10,9 +10,6 @@ interface Props {
 
 export default function PageViewTracker({ slug, type, label }: Props) {
   useEffect(() => {
-    const key = `viewed_${type}_${slug}`
-    if (typeof window === 'undefined' || sessionStorage.getItem(key)) return
-    sessionStorage.setItem(key, '1')
     fetch('/api/analytics/view', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -48,17 +48,14 @@ export default function CharacterPage({ character, parent, type }: Props) {
       .catch(() => { setViews(0); setDownloads(0) })
   }, [analyticsSlug])
 
-  // View tracking — once per session per character
+  // View tracking — fires on every page visit
   useEffect(() => {
-    const key = `viewed_character_${parent.slug}_${character.slug}`
-    if (sessionStorage.getItem(key)) return
-    sessionStorage.setItem(key, '1')
     fetch('/api/analytics/view', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name }),
     }).then(r => r.json()).then(d => { if (d.views != null) setViews(d.views) }).catch(() => {})
-  }, [character.slug, parent.slug, character.name, analyticsSlug])
+  }, [analyticsSlug, character.name])
 
   // Download tracking — optimistic +1, then sync real value from Supabase
   const trackDownload = useCallback(() => {
