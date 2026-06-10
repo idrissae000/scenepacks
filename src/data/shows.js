@@ -264,6 +264,15 @@ export const shows = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-09',
       },
+      {
+        name: 'The Joker',
+        slug: 'the-joker',
+        image: '/characters/btasjoker.png',
+        pageImage: '/character-pages/btasjokerscp.png',
+        description: "The Clown Prince of Crime at his most unhinged. Unpredictable, theatrical, and genuinely dangerous.",
+        packLink: 'https://discord.com/invite/98C5YUeEz7',
+        dateAdded: '2026-06-10',
+      },
     ],
   },
 ]
