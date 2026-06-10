@@ -60,15 +60,18 @@ export default function CharacterPage({ character, parent, type }: Props) {
     }).then(r => r.json()).then(d => { if (d.views != null) setViews(d.views) }).catch(() => {})
   }, [character.slug, parent.slug, character.name, analyticsSlug])
 
-  // Download tracking — every click, update count instantly
+  // Download tracking — optimistic +1, then sync real value from Supabase
   const trackDownload = useCallback(() => {
     setDownloads(prev => (prev ?? 0) + 1)
     fetch('/api/analytics/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name }),
-    }).catch(() => {})
-  }, [character.slug, parent.slug, character.name, analyticsSlug])
+    })
+      .then(r => r.json())
+      .then(d => { if (d.downloads != null) setDownloads(d.downloads) })
+      .catch(() => {})
+  }, [analyticsSlug, character.name])
 
   return (
     <div className="relative" style={{ minHeight: '100vh', cursor: t.cursor || 'default' }}>
