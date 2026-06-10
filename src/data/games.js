@@ -80,7 +80,7 @@ export const games = [
         id: 'joker-arkham',
         name: 'The Joker',
         slug: 'the-joker',
-        image: '/characters/arkhamjoker.png',
+        image: '/characters/arkhamjokerpic.png',
         pageImage: '/character-pages/arkhamjokerscp.png',
         description: "Chaos incarnate. Mark Hamill's Joker in the Arkham series remains the most terrifying version of the character ever put to a screen.",
         packLink: 'https://discord.gg/MVA5ySY2',

@@ -267,8 +267,8 @@ export const shows = [
       {
         name: 'The Joker',
         slug: 'the-joker',
-        image: '/characters/btasjoker.png',
-        pageImage: '/character-pages/btasjokerscp.png',
+        image: '/characters/jokerbtas.png',
+        pageImage: '/character-pages/jokerbtasscp.png',
         description: "The Clown Prince of Crime at his most unhinged. Unpredictable, theatrical, and genuinely dangerous.",
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-10',
