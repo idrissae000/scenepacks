@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import PageAtmosphere from './PageAtmosphere'
+import { formatCount } from '@/lib/analytics'
 
 interface Pack { label: string; image: string; packLink: string }
 interface Character { name: string; slug: string; image: string; description: string; packLink: string; pageImage?: string; packs?: Pack[] }
@@ -35,6 +36,18 @@ export default function CharacterPage({ character, parent, type }: Props) {
   const initials = character.name.split(' ').map((w) => w[0]).join('')
   const pageImage = character.pageImage || `/character-pages/${character.slug}.png`
 
+  const analyticsSlug = `${parent.slug}__${character.slug}`
+  const [views, setViews] = useState<number | null>(null)
+  const [downloads, setDownloads] = useState<number | null>(null)
+
+  // Fetch current counts
+  useEffect(() => {
+    fetch(`/api/analytics?slug=${encodeURIComponent(analyticsSlug)}&type=character`)
+      .then(r => r.json())
+      .then(d => { setViews(d.views ?? 0); setDownloads(d.downloads ?? 0) })
+      .catch(() => { setViews(0); setDownloads(0) })
+  }, [analyticsSlug])
+
   // View tracking — once per session per character
   useEffect(() => {
     const key = `viewed_character_${parent.slug}_${character.slug}`
@@ -43,18 +56,19 @@ export default function CharacterPage({ character, parent, type }: Props) {
     fetch('/api/analytics/view', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: `${parent.slug}__${character.slug}`, type: 'character', label: character.name }),
-    }).catch(() => {})
-  }, [character.slug, parent.slug, character.name])
+      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name }),
+    }).then(r => r.json()).then(d => { if (d.views != null) setViews(d.views) }).catch(() => {})
+  }, [character.slug, parent.slug, character.name, analyticsSlug])
 
-  // Download tracking — every click
+  // Download tracking — every click, update count instantly
   const trackDownload = useCallback(() => {
+    setDownloads(prev => (prev ?? 0) + 1)
     fetch('/api/analytics/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: `${parent.slug}__${character.slug}`, type: 'character', label: character.name }),
+      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name }),
     }).catch(() => {})
-  }, [character.slug, parent.slug, character.name])
+  }, [character.slug, parent.slug, character.name, analyticsSlug])
 
   return (
     <div className="relative" style={{ minHeight: '100vh', cursor: t.cursor || 'default' }}>
@@ -89,11 +103,14 @@ export default function CharacterPage({ character, parent, type }: Props) {
                   <div className="h-px w-6" style={{ background: t.accent }} />
                   <span className="mob-label" style={{ color: accent }}>{parent.name}</span>
                 </div>
-                <h1 className="leading-[0.95] mb-4" style={{
-                  fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
-                }}>
-                  {character.name}
-                </h1>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
+                  <h1 className="leading-[0.95]" style={{
+                    fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
+                  }}>
+                    {character.name}
+                  </h1>
+                  <AnalyticsBadge views={views} downloads={downloads} />
+                </div>
                 <div className="h-px mb-5" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
                 <p className="text-base leading-relaxed max-w-2xl" style={{ color: t.muted, fontFamily: t.bodyFont }}>
                   {character.description}
@@ -215,12 +232,15 @@ export default function CharacterPage({ character, parent, type }: Props) {
                   <span className="mob-label" style={{ color: accent }}>{zone ? zone.label : parent.name}</span>
                 </div>
 
-                <h1 className="leading-[0.95]" style={{
-                  fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
-                  textTransform: t.nameUpper ? 'uppercase' : undefined, letterSpacing: t.nameUpper ? '0.06em' : undefined,
-                }}>
-                  {character.name}
-                </h1>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                  <h1 className="leading-[0.95]" style={{
+                    fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
+                    textTransform: t.nameUpper ? 'uppercase' : undefined, letterSpacing: t.nameUpper ? '0.06em' : undefined,
+                  }}>
+                    {character.name}
+                  </h1>
+                  <AnalyticsBadge views={views} downloads={downloads} />
+                </div>
 
                 <div className="h-px" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
 
@@ -268,6 +288,18 @@ export default function CharacterPage({ character, parent, type }: Props) {
           )}
         </div>
       </section>
+    </div>
+  )
+}
+
+function AnalyticsBadge({ views, downloads }: { views: number | null; downloads: number | null }) {
+  const v = views === null ? '—' : formatCount(views)
+  const d = downloads === null ? '—' : formatCount(downloads)
+  return (
+    <div className="flex items-center gap-3 shrink-0" style={{ fontFamily: 'inherit', fontSize: '12px', color: '#847464' }}>
+      <span>{v} views</span>
+      <span style={{ opacity: 0.4 }}>·</span>
+      <span>{d} downloads</span>
     </div>
   )
 }

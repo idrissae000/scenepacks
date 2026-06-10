@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { movies } from '@/data/movies'
 import BackgroundSlideshow from '@/components/BackgroundSlideshow'
+import { formatCount } from '@/lib/analytics'
 
 const MOVIE_BACKGROUNDS = [
   '/backgrounds/batman.jpg',
@@ -11,6 +13,15 @@ const MOVIE_BACKGROUNDS = [
 ]
 
 export default function MoviesPage() {
+  const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
+
+  useEffect(() => {
+    fetch('/api/analytics/bulk?type=movie')
+      .then(r => r.json())
+      .then(d => setAnalytics(d))
+      .catch(() => {})
+  }, [])
+
   return (
     <>
       <BackgroundSlideshow images={MOVIE_BACKGROUNDS} />
@@ -60,7 +71,7 @@ export default function MoviesPage() {
                       <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                         {movie.name}
                       </h2>
-                      <div className="mt-2 mb-3">
+                      <div className="mt-2 mb-3 flex items-center gap-3 flex-wrap">
                         <span className="inline-block text-sm font-semibold" style={{
                           color: '#e8dcc4',
                           background: 'rgba(94,27,33,0.45)',
@@ -70,6 +81,9 @@ export default function MoviesPage() {
                           letterSpacing: '0.03em',
                         }}>
                           {movie.characters.length} Character{movie.characters.length !== 1 ? 's' : ''}
+                        </span>
+                        <span className="text-xs" style={{ color: '#847464' }}>
+                          {analytics[movie.slug] ? formatCount(analytics[movie.slug].views) : '—'} views
                         </span>
                       </div>
                       <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>

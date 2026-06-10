@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { shows } from '@/data/shows'
 import BackgroundSlideshow from '@/components/BackgroundSlideshow'
+import { formatCount } from '@/lib/analytics'
 
 const SHOW_BACKGROUNDS = [
   '/backgrounds/sopranos.jpg',
@@ -21,6 +22,14 @@ const SHOW_BACKGROUNDS = [
 
 export default function ShowsPage() {
   const [query, setQuery] = useState('')
+  const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
+
+  useEffect(() => {
+    fetch('/api/analytics/bulk?type=show')
+      .then(r => r.json())
+      .then(d => setAnalytics(d))
+      .catch(() => {})
+  }, [])
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim()
@@ -115,7 +124,7 @@ export default function ShowsPage() {
                         <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                           {show.name}
                         </h2>
-                        <div className="mt-2 mb-3">
+                        <div className="mt-2 mb-3 flex items-center gap-3 flex-wrap">
                           <span className="inline-block text-sm font-semibold" style={{
                             color: '#e8dcc4',
                             background: 'rgba(94,27,33,0.45)',
@@ -125,6 +134,9 @@ export default function ShowsPage() {
                             letterSpacing: '0.03em',
                           }}>
                             {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''}
+                          </span>
+                          <span className="text-xs" style={{ color: '#847464' }}>
+                            {analytics[show.slug] ? formatCount(analytics[show.slug].views) : '—'} views
                           </span>
                         </div>
                         <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>

@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { games } from '@/data/games'
 import BackgroundSlideshow from '@/components/BackgroundSlideshow'
+import { formatCount } from '@/lib/analytics'
 
 const GAME_BACKGROUNDS = [
   '/backgrounds/rdr2bg.jpg',
@@ -11,6 +13,15 @@ const GAME_BACKGROUNDS = [
 ]
 
 export default function GamesPage() {
+  const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
+
+  useEffect(() => {
+    fetch('/api/analytics/bulk?type=game')
+      .then(r => r.json())
+      .then(d => setAnalytics(d))
+      .catch(() => {})
+  }, [])
+
   return (
     <>
       <BackgroundSlideshow images={GAME_BACKGROUNDS} mobileBg="#0f0905" />
@@ -58,7 +69,7 @@ export default function GamesPage() {
                       <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
                         {game.name}
                       </h2>
-                      <div className="mt-2 mb-3">
+                      <div className="mt-2 mb-3 flex items-center gap-3 flex-wrap">
                         <span className="inline-block text-sm font-semibold" style={{
                           color: '#e8dcc4',
                           background: 'rgba(94,27,33,0.45)',
@@ -68,6 +79,9 @@ export default function GamesPage() {
                           letterSpacing: '0.03em',
                         }}>
                           {game.characters.length} Character{game.characters.length !== 1 ? 's' : ''}
+                        </span>
+                        <span className="text-xs" style={{ color: '#847464' }}>
+                          {analytics[game.slug] ? formatCount(analytics[game.slug].views) : '—'} views
                         </span>
                       </div>
                       <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>
