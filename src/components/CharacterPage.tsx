@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import PageAtmosphere from './PageAtmosphere'
@@ -33,6 +34,27 @@ export default function CharacterPage({ character, parent, type }: Props) {
   const accent = zone ? zone.accent : (t.highlight || t.accent)
   const initials = character.name.split(' ').map((w) => w[0]).join('')
   const pageImage = character.pageImage || `/character-pages/${character.slug}.png`
+
+  // View tracking — once per session per character
+  useEffect(() => {
+    const key = `viewed_character_${parent.slug}_${character.slug}`
+    if (sessionStorage.getItem(key)) return
+    sessionStorage.setItem(key, '1')
+    fetch('/api/analytics/view', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: `${parent.slug}__${character.slug}`, type: 'character', label: character.name }),
+    }).catch(() => {})
+  }, [character.slug, parent.slug, character.name])
+
+  // Download tracking — every click
+  const trackDownload = useCallback(() => {
+    fetch('/api/analytics/download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: `${parent.slug}__${character.slug}`, type: 'character', label: character.name }),
+    }).catch(() => {})
+  }, [character.slug, parent.slug, character.name])
 
   return (
     <div className="relative" style={{ minHeight: '100vh', cursor: t.cursor || 'default' }}>
@@ -135,6 +157,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                           {pack.label}
                         </div>
                         <a href={pack.packLink} target="_blank" rel="noopener noreferrer"
+                          onClick={trackDownload}
                           className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                           style={{
                             fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700,
@@ -225,6 +248,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </div>
 
                 <a href={character.packLink} target="_blank" rel="noopener noreferrer"
+                  onClick={trackDownload}
                   className="flex items-center justify-center gap-3 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                   style={{
                     fontFamily: t.headingFont, fontSize: '1.1rem', fontWeight: 700,

@@ -3,6 +3,7 @@ import { movies } from '@/data/movies'
 import ShowHero from '@/components/ShowHero'
 import CharacterGrid from '@/components/CharacterGrid'
 import PageAtmosphere from '@/components/PageAtmosphere'
+import PageViewTracker from '@/components/PageViewTracker'
 
 interface Props { params: { slug: string } }
 
@@ -33,6 +34,7 @@ export default function MoviePage({ params }: Props) {
       {movie.theme.bgImage && <link rel="preload" as="image" href={movie.theme.bgImage} />}
       <div className="relative" style={{ minHeight: '100vh', cursor: movie.theme.cursor || 'default' }}>
         <PageAtmosphere theme={movie.theme} />
+        <PageViewTracker slug={movie.slug} type="movie" label={movie.name} />
         <div className="relative" style={{ zIndex: 1 }}>
           <ShowHero show={movie} type="movie" />
           <CharacterGrid show={movie} baseHref={`/movies/${movie.slug}`} />

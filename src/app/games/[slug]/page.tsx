@@ -3,6 +3,7 @@ import { games } from '@/data/games'
 import ShowHero from '@/components/ShowHero'
 import CharacterGrid from '@/components/CharacterGrid'
 import PageAtmosphere from '@/components/PageAtmosphere'
+import PageViewTracker from '@/components/PageViewTracker'
 
 interface Props { params: { slug: string } }
 
@@ -32,6 +33,7 @@ export default function GamePage({ params }: Props) {
       {game.theme.bgImage && <link rel="preload" as="image" href={game.theme.bgImage} />}
       <div className="relative" style={{ minHeight: '100vh', cursor: game.theme.cursor || 'default' }}>
         <PageAtmosphere theme={game.theme} />
+        <PageViewTracker slug={game.slug} type="game" label={game.name} />
         <div className="relative" style={{ zIndex: 1 }}>
           <ShowHero show={game} type="game" />
           <CharacterGrid show={game} baseHref={`/games/${game.slug}`} />
