@@ -83,7 +83,7 @@ export const games = [
         image: '/characters/arkhamjokerpic.png',
         pageImage: '/character-pages/arkhamjokerscp.png',
         description: "Chaos incarnate. Mark Hamill's Joker in the Arkham series remains the most terrifying version of the character ever put to a screen.",
-        packLink: 'https://discord.gg/MVA5ySY2',
+        packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-10',
       },
     ],
