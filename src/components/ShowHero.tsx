@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { formatCount } from '@/lib/analytics'
 
 interface Theme {
   accent: string; accentLight: string; highlight: string
@@ -19,13 +18,11 @@ interface Props { show: Show; type: 'show' | 'movie' | 'game' }
 export default function ShowHero({ show, type }: Props) {
   const t = show.theme
   const accent = t.highlight || t.accent
-  const [views, setViews] = useState<number | null>(null)
 
   useEffect(() => {
     fetch(`/api/analytics?slug=${encodeURIComponent(show.slug)}&type=${type}`)
       .then(r => r.json())
-      .then(d => setViews(d.views ?? 0))
-      .catch(() => setViews(0))
+      .catch(() => {})
   }, [show.slug, type])
 
   return (
@@ -68,20 +65,6 @@ export default function ShowHero({ show, type }: Props) {
         >
           &ldquo;{t.tagline}&rdquo;
         </motion.p>
-
-        {/* Visits */}
-        {views !== null && (
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }}
-            className="text-xs mb-5"
-            style={{ color: '#847464', fontFamily: t.bodyFont }}
-          >
-            {formatCount(views)} visits
-          </motion.p>
-        )}
-        {views === null && (
-          <p className="text-xs mb-5" style={{ color: '#847464', fontFamily: t.bodyFont }}>— visits</p>
-        )}
 
         {/* Divider */}
         <motion.div
