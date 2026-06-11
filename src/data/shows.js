@@ -275,5 +275,36 @@ export const shows = [
       },
     ],
   },
+  {
+    id: 12,
+    name: 'The Boys',
+    slug: 'the-boys',
+    blurb: 'A group of vigilantes set out to take down corrupt superheroes who abuse their powers — led by the most dangerous man alive.',
+    theme: {
+      bg: '#0a0a0f', surface: '#0f0f1a',
+      accent: '#8b0000', accentLight: '#c41e3a', highlight: '#c41e3a',
+      text: '#ffffff', muted: '#9090a8', border: '#1a1a2e',
+      cardText: '#ffffff', cardMuted: '#9090a8',
+      headingFont: '"Oswald", system-ui, sans-serif',
+      bodyFont: 'Inter, system-ui, sans-serif',
+      texClass: '', cardClass: 'card-clean',
+      bgImage: '/backgrounds/theboys.jpg',
+      logo: '/logos/theboyslogo.png',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'Vought International', tagline: 'The only thing wrong with the world is superheroes.',
+      cursor: 'default',
+    },
+    characters: [
+      {
+        name: 'Homelander',
+        slug: 'homelander',
+        image: '/characters/homelander.png',
+        pageImage: '/character-pages/homelanderscp.png',
+        description: 'The most powerful man in the world. The most dangerous man in the world. And he knows it.',
+        packLink: 'https://discord.com/invite/98C5YUeEz7',
+        dateAdded: '2026-06-11',
+      },
+    ],
+  },
 ]
 
