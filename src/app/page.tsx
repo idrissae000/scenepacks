@@ -10,6 +10,8 @@ import { games } from '@/data/games'
 type FilterType = 'all' | 'show' | 'movie' | 'game'
 type SortType = 'popular' | 'newest' | 'oldest'
 
+const PAGE_SIZE = 12
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildAllChars(): any[] {
   const result: any[] = []
@@ -50,26 +52,10 @@ function buildAllChars(): any[] {
 }
 
 const ALL_CHARS = buildAllChars()
-const sorted = [...ALL_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
-const NEW_CHARS = sorted.slice(0, 6)
-const REST_CHARS = sorted.slice(6)
-
-function pickRandom6(pool: typeof REST_CHARS) {
-  const copy = [...pool]
-  const out = []
-  while (out.length < 6 && copy.length > 0) {
-    const idx = Math.floor(Math.random() * copy.length)
-    out.push(copy.splice(idx, 1)[0])
-  }
-  if (out.length < 6) {
-    const extra = [...NEW_CHARS].sort(() => Math.random() - 0.5)
-    for (const e of extra) {
-      if (out.length >= 6) break
-      if (!out.find(x => x.slug === e.slug && x.type === e.type)) out.push(e)
-    }
-  }
-  return out
-}
+const sortedByDate = [...ALL_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+const NEW_CHARS = sortedByDate.slice(0, 6)
+const REST_CHARS = sortedByDate.slice(6)
+const NEW_SLUGS = new Set(NEW_CHARS.map(c => c.analyticsSlug))
 
 const FILTER_PILLS: { label: string; value: FilterType }[] = [
   { label: 'All', value: 'all' },
@@ -85,12 +71,13 @@ const SORT_OPTIONS: { label: string; value: SortType }[] = [
 ]
 
 export default function HomePage() {
-  const [randomChars] = useState(() => pickRandom6(REST_CHARS))
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<FilterType>('all')
   const [sortType, setSortType] = useState<SortType>('popular')
   const [sortDesc, setSortDesc] = useState(true)
   const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [loadingMore, setLoadingMore] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -100,30 +87,33 @@ export default function HomePage() {
       .catch(() => {})
   }, [])
 
-  const baseGridChars = useMemo(() => [...NEW_CHARS, ...randomChars], [randomChars])
+  // Reset visible count when sort/filter changes
+  useEffect(() => { setVisibleCount(PAGE_SIZE) }, [sortType, sortDesc, filter])
 
-  // Sort the character grid (only for 'all' filter)
-  const sortedGridChars = useMemo(() => {
+  // Full sorted list for the character grid
+  const sortedAllChars = useMemo(() => {
     if (sortType === 'popular') {
-      const withViews = baseGridChars.map(c => ({ ...c, views: analytics[c.analyticsSlug]?.views ?? 0 }))
+      const withViews = ALL_CHARS.map(c => ({ ...c, views: analytics[c.analyticsSlug]?.views ?? 0 }))
       return sortDesc
         ? [...withViews].sort((a, b) => b.views - a.views)
         : [...withViews].sort((a, b) => a.views - b.views)
     }
+    // newest/oldest: always pin NEW_CHARS first, then sort the rest
+    let rest: typeof REST_CHARS
     if (sortType === 'newest') {
-      return sortDesc
-        ? [...baseGridChars].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
-        : [...baseGridChars].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
+      rest = sortDesc
+        ? [...REST_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+        : [...REST_CHARS].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
+    } else {
+      rest = sortDesc
+        ? [...REST_CHARS].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
+        : [...REST_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
     }
-    // oldest
-    return sortDesc
-      ? [...baseGridChars].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
-      : [...baseGridChars].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
-  }, [baseGridChars, sortType, sortDesc, analytics])
+    return [...NEW_CHARS, ...rest]
+  }, [sortType, sortDesc, analytics])
 
   const isSearching = query.trim().length > 0
 
-  // Search results depend on active filter
   const searchResults = useMemo(() => {
     if (!isSearching) return []
     const q = query.trim().toLowerCase()
@@ -144,7 +134,6 @@ export default function HomePage() {
         m.characters.some((c: any) => c.name.toLowerCase().includes(q))
       )
     }
-    // game
     return (games as any[]).filter(g =>
       g.name.toLowerCase().includes(q) ||
       g.characters.some((c: any) => c.name.toLowerCase().includes(q))
@@ -152,7 +141,7 @@ export default function HomePage() {
   }, [query, filter, isSearching])
 
   const showCategoryCards = filter !== 'all' && !isSearching
-  const showSortedCharGrid = filter === 'all' && !isSearching
+  const showCharGrid = filter === 'all' && !isSearching
 
   const categoryItems = useMemo(() => {
     if (filter === 'show') return shows as any[]
@@ -163,6 +152,17 @@ export default function HomePage() {
 
   const categoryHrefBase = filter === 'show' ? '/shows' : filter === 'movie' ? '/movies' : '/games'
 
+  const visibleChars = sortedAllChars.slice(0, visibleCount)
+  const hasMore = visibleCount < sortedAllChars.length
+
+  const handleLoadMore = () => {
+    setLoadingMore(true)
+    setTimeout(() => {
+      setVisibleCount(v => v + PAGE_SIZE)
+      setLoadingMore(false)
+    }, 300)
+  }
+
   const pillBase: React.CSSProperties = {
     background: '#0f0b08', color: '#847464',
     border: '1px solid #3d1215', borderRadius: '999px',
@@ -171,8 +171,7 @@ export default function HomePage() {
     transition: 'all 0.18s ease', whiteSpace: 'nowrap',
   }
   const pillActive: React.CSSProperties = {
-    background: '#5e1b21', color: '#d4c5a9',
-    border: '1px solid transparent',
+    background: '#5e1b21', color: '#d4c5a9', border: '1px solid transparent',
   }
 
   return (
@@ -239,11 +238,10 @@ export default function HomePage() {
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
           </motion.div>
 
-          {/* Search + filter/sort controls */}
+          {/* Controls */}
           <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-8 max-w-4xl mx-auto flex flex-col gap-3">
-
-            {/* Search bar */}
+            {/* Search */}
             <div className="relative">
               <SearchIcon />
               <input
@@ -260,67 +258,44 @@ export default function HomePage() {
               />
             </div>
 
-            {/* Filter pills + sort — same row on desktop, stacked on mobile */}
+            {/* Filter pills + sort */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              {/* Filter pills — horizontal scroll on mobile */}
               <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" style={{ scrollbarWidth: 'none' }}>
                 {FILTER_PILLS.map(pill => (
-                  <button
-                    key={pill.value}
-                    onClick={() => { setFilter(pill.value); setQuery('') }}
-                    style={{ ...pillBase, ...(filter === pill.value ? pillActive : {}) }}
-                  >
+                  <button key={pill.value} onClick={() => { setFilter(pill.value); setQuery('') }}
+                    style={{ ...pillBase, ...(filter === pill.value ? pillActive : {}) }}>
                     {pill.label}
                   </button>
                 ))}
               </div>
 
-              {/* Sort — only visible when 'all' is selected */}
               <AnimatePresence>
                 {filter === 'all' && (
-                  <motion.div
-                    key="sort"
+                  <motion.div key="sort"
                     initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }}
                     transition={{ duration: 0.18 }}
                     className="flex items-center gap-2 shrink-0"
                   >
-                    <select
-                      value={sortType}
-                      onChange={e => setSortType(e.target.value as SortType)}
+                    <select value={sortType} onChange={e => setSortType(e.target.value as SortType)}
                       style={{
-                        background: '#0f0b08', border: '1px solid #3d1215',
-                        color: '#847464', borderRadius: '999px',
-                        padding: '6px 12px', fontSize: '13px',
-                        fontFamily: 'Inter, system-ui, sans-serif',
-                        cursor: 'pointer', outline: 'none', appearance: 'none',
-                        paddingRight: '28px',
+                        background: '#0f0b08', border: '1px solid #3d1215', color: '#847464',
+                        borderRadius: '999px', padding: '6px 28px 6px 12px', fontSize: '13px',
+                        fontFamily: 'Inter, system-ui, sans-serif', cursor: 'pointer', outline: 'none', appearance: 'none',
                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23847464' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'right 10px center',
-                      }}
-                    >
-                      {SORT_OPTIONS.map(o => (
-                        <option key={o.value} value={o.value}>{o.label}</option>
-                      ))}
+                        backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
+                      }}>
+                      {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
-                    {/* Chevron direction toggle */}
-                    <button
-                      onClick={() => setSortDesc(v => !v)}
-                      title="Reverse order"
+                    <button onClick={() => setSortDesc(v => !v)} title="Reverse order"
                       style={{
-                        background: '#0f0b08', border: '1px solid #3d1215',
-                        borderRadius: '50%', width: '32px', height: '32px',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'pointer', flexShrink: 0,
-                      }}
-                    >
-                      <motion.svg
-                        animate={{ rotate: sortDesc ? 0 : 180 }}
-                        transition={{ duration: 0.22, ease: 'easeInOut' }}
+                        background: '#0f0b08', border: '1px solid #3d1215', borderRadius: '50%',
+                        width: '32px', height: '32px', display: 'flex', alignItems: 'center',
+                        justifyContent: 'center', cursor: 'pointer', flexShrink: 0,
+                      }}>
+                      <motion.svg animate={{ rotate: sortDesc ? 0 : 180 }} transition={{ duration: 0.22, ease: 'easeInOut' }}
                         width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="#847464" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                      >
+                        stroke="#847464" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="6 9 12 15 18 9" />
                       </motion.svg>
                     </button>
@@ -330,76 +305,74 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* ── Content area ── */}
+          {/* ── Content ── */}
           <AnimatePresence mode="wait">
 
-            {/* Search results — character cards for 'all', category cards for specific filters */}
+            {/* Search results */}
             {isSearching && (
               <motion.div key="search" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
                 {searchResults.length === 0 ? (
-                  <p className="text-center py-16" style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '1rem' }}>
+                  <p className="text-center py-16" style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif' }}>
                     No results for &ldquo;{query}&rdquo;
                   </p>
                 ) : filter === 'all' ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     {(searchResults as any[]).map((char, i) => (
-                      <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i} isNew={false} />
+                      <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i}
+                        isNew={NEW_SLUGS.has(char.analyticsSlug)} />
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 max-w-5xl mx-auto">
                     {(searchResults as any[]).map((item, i) => (
-                      <CategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
+                      <CompactCategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
                     ))}
                   </div>
                 )}
               </motion.div>
             )}
 
-            {/* Category cards (Shows / Movies / Games) */}
+            {/* Category cards */}
             {showCategoryCards && (
-              <motion.div key={`category-${filter}`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <motion.div key={`cat-${filter}`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 max-w-5xl mx-auto">
                   {categoryItems.map((item: any, i: number) => (
-                    <CategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
+                    <CompactCategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
                   ))}
                 </div>
               </motion.div>
             )}
 
-            {/* Default: sorted character grid */}
-            {showSortedCharGrid && (
+            {/* Character grid with Load More */}
+            {showCharGrid && (
               <motion.div key="chars" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {sortedGridChars.map((char, i) => {
-                    const isNew = NEW_CHARS.some(n => n.analyticsSlug === char.analyticsSlug)
-                    return <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i} isNew={isNew} />
-                  })}
+                  {visibleChars.map((char, i) => (
+                    <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i}
+                      isNew={sortType !== 'popular' && NEW_SLUGS.has(char.analyticsSlug)} />
+                  ))}
                 </div>
 
-                {/* & more + browse buttons */}
-                <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-                  className="mt-10 flex flex-col items-center gap-5">
-                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#847464', fontSize: '14px' }}>
-                    &amp; more
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                    {[
-                      { label: 'Browse Shows',  href: '/shows'  },
-                      { label: 'Browse Movies', href: '/movies' },
-                      { label: 'Browse Games',  href: '/games'  },
-                    ].map(({ label, href }) => (
-                      <Link key={href} href={href}
-                        className="w-full sm:w-auto text-center px-8 py-3 rounded-sm transition-all duration-200"
-                        style={{ background: '#0f0b08', border: '1px solid #5e1b21', color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '14px' }}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = '#e55c35'; e.currentTarget.style.filter = 'brightness(1.12)' }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = '#5e1b21'; e.currentTarget.style.filter = 'brightness(1)' }}
-                      >
-                        {label}
-                      </Link>
-                    ))}
+                {hasMore && (
+                  <div className="mt-10 flex justify-center">
+                    <button
+                      onClick={handleLoadMore}
+                      disabled={loadingMore}
+                      style={{
+                        background: loadingMore ? '#1a1008' : '#0f0b08',
+                        border: '1px solid #5e1b21', color: '#d4c5a9',
+                        borderRadius: '999px', padding: '12px 36px',
+                        fontSize: '14px', fontFamily: 'Inter, system-ui, sans-serif',
+                        fontWeight: 500, cursor: loadingMore ? 'default' : 'pointer',
+                        transition: 'all 0.18s ease',
+                      }}
+                      onMouseEnter={e => { if (!loadingMore) e.currentTarget.style.background = '#5e1b21' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = loadingMore ? '#1a1008' : '#0f0b08' }}
+                    >
+                      {loadingMore ? 'Loading...' : 'Load More'}
+                    </button>
                   </div>
-                </motion.div>
+                )}
               </motion.div>
             )}
 
@@ -418,7 +391,8 @@ function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boo
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.3) }}
     >
-      <Link href={char.href} className="block group" style={{ aspectRatio: '1 / 1', position: 'relative', overflow: 'hidden', borderRadius: '0.5rem', display: 'block' }}>
+      <Link href={char.href} className="block group"
+        style={{ aspectRatio: '1 / 1', position: 'relative', overflow: 'hidden', borderRadius: '0.5rem', display: 'block' }}>
         <div style={{ position: 'absolute', inset: 0, transition: 'border-color 200ms', border: '2px solid rgba(255,255,255,0.07)', borderRadius: '0.5rem', zIndex: 2, pointerEvents: 'none' }}
           className="group-hover:border-[#5e1b21]" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -446,32 +420,29 @@ function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boo
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function CategoryCard({ item, index, hrefBase }: { item: any; index: number; hrefBase: string }) {
+function CompactCategoryCard({ item, index, hrefBase }: { item: any; index: number; hrefBase: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.35) }}
+      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.3) }}
     >
-      <Link href={`${hrefBase}/${item.slug}`} className="block">
-        <article className="card-clean rounded-md overflow-hidden h-full">
-          <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
+      <Link href={`${hrefBase}/${item.slug}`} className="block group">
+        <article className="rounded-md overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(94,27,33,0.35)', transition: 'border-color 0.18s' }}>
+          <div className="overflow-hidden" style={{ aspectRatio: '16/9' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.theme.logo} alt={item.name} className="w-full h-full object-cover"
+            <img src={item.theme.logo} alt={item.name}
+              className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.04]"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           </div>
-          <div className="p-5">
-            <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>{item.name}</h2>
-            <div className="mt-2 mb-3">
-              <span className="inline-block text-sm font-semibold" style={{
-                color: '#e8dcc4', background: 'rgba(94,27,33,0.45)',
-                border: '1px solid #5e1b21', borderRadius: '4px',
-                padding: '3px 10px', letterSpacing: '0.03em',
-              }}>
-                {item.characters.length} Character{item.characters.length !== 1 ? 's' : ''}
-              </span>
-            </div>
-            <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>{item.blurb}</p>
+          <div className="px-3 py-2.5">
+            <h2 className="font-mobsters leading-tight truncate" style={{ color: '#d4c5a9', fontSize: '1rem' }}>{item.name}</h2>
+            <span className="inline-block mt-1 text-xs font-semibold" style={{
+              color: '#e8dcc4', background: 'rgba(94,27,33,0.45)',
+              border: '1px solid #5e1b21', borderRadius: '3px', padding: '1px 7px',
+            }}>
+              {item.characters.length} char{item.characters.length !== 1 ? 's' : ''}
+            </span>
           </div>
         </article>
       </Link>
