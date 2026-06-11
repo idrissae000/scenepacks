@@ -296,11 +296,39 @@ function AnalyticsBadge({ views, downloads }: { views: number | null; downloads:
   const v = views === null ? '—' : formatCount(views)
   const d = downloads === null ? '—' : formatCount(downloads)
   return (
-    <div className="flex items-center gap-3 shrink-0" style={{ fontFamily: 'inherit', fontSize: '12px', color: '#847464' }}>
-      <span>{v} views</span>
-      <span style={{ opacity: 0.4 }}>·</span>
-      <span>{d} downloads</span>
+    <div className="flex items-center gap-3 shrink-0 flex-wrap">
+      <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm"
+        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <EyeIcon />
+        <span style={{ fontFamily: 'inherit', fontSize: '13px', color: '#d4c5a9', fontWeight: 600 }}>{v}</span>
+        <span style={{ fontFamily: 'inherit', fontSize: '11px', color: '#847464', marginLeft: '1px' }}>views</span>
+      </div>
+      <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm"
+        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <DownloadIcon />
+        <span style={{ fontFamily: 'inherit', fontSize: '13px', color: '#d4c5a9', fontWeight: 600 }}>{d}</span>
+        <span style={{ fontFamily: 'inherit', fontSize: '11px', color: '#847464', marginLeft: '1px' }}>downloads</span>
+      </div>
     </div>
+  )
+}
+
+function EyeIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#847464" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#847464" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
   )
 }
 
