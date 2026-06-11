@@ -1,11 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
+
+type FilterType = 'all' | 'show' | 'movie' | 'game'
+type SortType = 'popular' | 'newest' | 'oldest'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildAllChars(): any[] {
@@ -13,42 +16,33 @@ function buildAllChars(): any[] {
   for (const s of shows as any[]) {
     for (const c of s.characters) {
       result.push({
-        name: c.name,
-        slug: c.slug,
-        image: c.image,
+        name: c.name, slug: c.slug, image: c.image,
         dateAdded: c.dateAdded || '2020-01-01',
-        parentName: s.name,
-        parentSlug: s.slug,
-        type: 'show',
-        href: `/shows/${s.slug}/${c.slug}`,
+        parentName: s.name, parentSlug: s.slug,
+        type: 'show', href: `/shows/${s.slug}/${c.slug}`,
+        analyticsSlug: `${s.slug}__${c.slug}`,
       })
     }
   }
   for (const m of movies as any[]) {
     for (const c of m.characters) {
       result.push({
-        name: c.name,
-        slug: c.slug,
-        image: c.image,
+        name: c.name, slug: c.slug, image: c.image,
         dateAdded: c.dateAdded || '2020-01-01',
-        parentName: m.name,
-        parentSlug: m.slug,
-        type: 'movie',
-        href: `/movies/${m.slug}/${c.slug}`,
+        parentName: m.name, parentSlug: m.slug,
+        type: 'movie', href: `/movies/${m.slug}/${c.slug}`,
+        analyticsSlug: `${m.slug}__${c.slug}`,
       })
     }
   }
   for (const g of games as any[]) {
     for (const c of g.characters) {
       result.push({
-        name: c.name,
-        slug: c.slug,
-        image: c.image,
+        name: c.name, slug: c.slug, image: c.image,
         dateAdded: c.dateAdded || '2020-01-01',
-        parentName: g.name,
-        parentSlug: g.slug,
-        type: 'game',
-        href: `/games/${g.slug}/${c.slug}`,
+        parentName: g.name, parentSlug: g.slug,
+        type: 'game', href: `/games/${g.slug}/${c.slug}`,
+        analyticsSlug: `${g.slug}__${c.slug}`,
       })
     }
   }
@@ -56,8 +50,6 @@ function buildAllChars(): any[] {
 }
 
 const ALL_CHARS = buildAllChars()
-
-// Sort descending by dateAdded — top 6 are "new"
 const sorted = [...ALL_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
 const NEW_CHARS = sorted.slice(0, 6)
 const REST_CHARS = sorted.slice(6)
@@ -69,7 +61,6 @@ function pickRandom6(pool: typeof REST_CHARS) {
     const idx = Math.floor(Math.random() * copy.length)
     out.push(copy.splice(idx, 1)[0])
   }
-  // if pool has fewer than 6, fill from new chars
   if (out.length < 6) {
     const extra = [...NEW_CHARS].sort(() => Math.random() - 0.5)
     for (const e of extra) {
@@ -80,26 +71,112 @@ function pickRandom6(pool: typeof REST_CHARS) {
   return out
 }
 
+const FILTER_PILLS: { label: string; value: FilterType }[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Shows', value: 'show' },
+  { label: 'Movies', value: 'movie' },
+  { label: 'Games', value: 'game' },
+]
+
+const SORT_OPTIONS: { label: string; value: SortType }[] = [
+  { label: 'Most Popular', value: 'popular' },
+  { label: 'Newest', value: 'newest' },
+  { label: 'Oldest', value: 'oldest' },
+]
+
 export default function HomePage() {
   const [randomChars] = useState(() => pickRandom6(REST_CHARS))
   const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState<FilterType>('all')
+  const [sortType, setSortType] = useState<SortType>('popular')
+  const [sortDesc, setSortDesc] = useState(true)
+  const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const gridChars = useMemo(() => [...NEW_CHARS, ...randomChars], [randomChars])
+  useEffect(() => {
+    fetch('/api/analytics/bulk?type=character')
+      .then(r => r.json())
+      .then(d => setAnalytics(d))
+      .catch(() => {})
+  }, [])
 
-  const searchResults = useMemo(() => {
-    if (!query.trim()) return []
-    const q = query.trim().toLowerCase()
-    return ALL_CHARS.filter(c =>
-      c.name.toLowerCase().includes(q) || c.parentName.toLowerCase().includes(q)
-    )
-  }, [query])
+  const baseGridChars = useMemo(() => [...NEW_CHARS, ...randomChars], [randomChars])
+
+  // Sort the character grid (only for 'all' filter)
+  const sortedGridChars = useMemo(() => {
+    if (sortType === 'popular') {
+      const withViews = baseGridChars.map(c => ({ ...c, views: analytics[c.analyticsSlug]?.views ?? 0 }))
+      return sortDesc
+        ? [...withViews].sort((a, b) => b.views - a.views)
+        : [...withViews].sort((a, b) => a.views - b.views)
+    }
+    if (sortType === 'newest') {
+      return sortDesc
+        ? [...baseGridChars].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+        : [...baseGridChars].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
+    }
+    // oldest
+    return sortDesc
+      ? [...baseGridChars].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
+      : [...baseGridChars].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+  }, [baseGridChars, sortType, sortDesc, analytics])
 
   const isSearching = query.trim().length > 0
 
+  // Search results depend on active filter
+  const searchResults = useMemo(() => {
+    if (!isSearching) return []
+    const q = query.trim().toLowerCase()
+    if (filter === 'all') {
+      return ALL_CHARS.filter(c =>
+        c.name.toLowerCase().includes(q) || c.parentName.toLowerCase().includes(q)
+      )
+    }
+    if (filter === 'show') {
+      return (shows as any[]).filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.characters.some((c: any) => c.name.toLowerCase().includes(q))
+      )
+    }
+    if (filter === 'movie') {
+      return (movies as any[]).filter(m =>
+        m.name.toLowerCase().includes(q) ||
+        m.characters.some((c: any) => c.name.toLowerCase().includes(q))
+      )
+    }
+    // game
+    return (games as any[]).filter(g =>
+      g.name.toLowerCase().includes(q) ||
+      g.characters.some((c: any) => c.name.toLowerCase().includes(q))
+    )
+  }, [query, filter, isSearching])
+
+  const showCategoryCards = filter !== 'all' && !isSearching
+  const showSortedCharGrid = filter === 'all' && !isSearching
+
+  const categoryItems = useMemo(() => {
+    if (filter === 'show') return shows as any[]
+    if (filter === 'movie') return movies as any[]
+    if (filter === 'game') return games as any[]
+    return []
+  }, [filter])
+
+  const categoryHrefBase = filter === 'show' ? '/shows' : filter === 'movie' ? '/movies' : '/games'
+
+  const pillBase: React.CSSProperties = {
+    background: '#0f0b08', color: '#847464',
+    border: '1px solid #3d1215', borderRadius: '999px',
+    padding: '6px 16px', fontSize: '13px', fontWeight: 500,
+    fontFamily: 'Inter, system-ui, sans-serif', cursor: 'pointer',
+    transition: 'all 0.18s ease', whiteSpace: 'nowrap',
+  }
+  const pillActive: React.CSSProperties = {
+    background: '#5e1b21', color: '#d4c5a9',
+    border: '1px solid transparent',
+  }
+
   return (
     <>
-      {/* Full-page fixed background */}
       <div className="fixed inset-0 pointer-events-none" style={{
         zIndex: -1,
         background: 'linear-gradient(to bottom, #6b0000 0%, #3d0000 35%, #1a0000 70%, #0d0a07 100%)',
@@ -108,9 +185,7 @@ export default function HomePage() {
       {/* ═══ HERO ═══ */}
       <section className="relative flex items-center justify-center overflow-hidden"
         style={{ paddingTop: '10rem', paddingBottom: '4rem' }}>
-
         <div className="relative z-10 text-center px-4 w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
-
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#d4c5a9', fontSize: 'clamp(1.4rem, 3.5vw, 2.1rem)', lineHeight: 1.4 }}
@@ -130,7 +205,6 @@ export default function HomePage() {
                 Editing Presets (Payhip)
               </span>
             </a>
-
             <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid #5865F2', color: '#5865F2', boxShadow: '0 0 22px rgba(88,101,242,0.3)' }}>
@@ -139,7 +213,6 @@ export default function HomePage() {
                 Scenepack Discord Server
               </span>
             </a>
-
             <a href="https://www.tiktok.com/@idriss.ae" target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-7 py-5 rounded-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 flex-1"
               style={{ background: 'rgba(18,12,10,0.88)', border: '2px solid rgba(255,255,255,0.35)', color: '#ffffff' }}>
@@ -150,11 +223,10 @@ export default function HomePage() {
             </a>
           </motion.div>
         </div>
-
       </section>
 
-      {/* ═══ BROWSE CHARACTERS ═══ */}
-      <section className="pb-20 px-4 pt-0" style={{ background: 'transparent' }}>
+      {/* ═══ BROWSE ═══ */}
+      <section className="pb-20 px-4 pt-0">
         <div className="mx-auto max-w-7xl">
 
           {/* Heading */}
@@ -167,9 +239,11 @@ export default function HomePage() {
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
           </motion.div>
 
-          {/* Search bar */}
+          {/* Search + filter/sort controls */}
           <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-10 max-w-xl mx-auto">
+            className="mb-8 max-w-4xl mx-auto flex flex-col gap-3">
+
+            {/* Search bar */}
             <div className="relative">
               <SearchIcon />
               <input
@@ -177,73 +251,159 @@ export default function HomePage() {
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Search characters, shows, games..."
+                placeholder={filter === 'all' ? 'Search characters, shows, games...' : `Search ${filter}s...`}
                 className="w-full pl-11 pr-4 py-3 rounded-lg outline-none transition-all duration-200"
                 style={{
-                  background: 'rgba(18,10,8,0.9)',
-                  border: '2px solid #5e1b21',
-                  color: '#d4c5a9',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                  fontSize: '0.95rem',
+                  background: 'rgba(18,10,8,0.9)', border: '2px solid #5e1b21',
+                  color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.95rem',
                 }}
               />
             </div>
-          </motion.div>
 
-          {/* Search results */}
-          {isSearching && (
-            <div>
-              {searchResults.length === 0 ? (
-                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="text-center py-16"
-                  style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '1rem' }}>
-                  No results found for &ldquo;{query}&rdquo;
-                </motion.p>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {searchResults.map((char, i) => (
-                    <CharCard key={`${char.type}-${char.slug}`} char={char} index={i} isNew={false} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 4×3 grid */}
-          {!isSearching && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {gridChars.map((char, i) => (
-                <CharCard key={`${char.type}-${char.slug}`} char={char} index={i} isNew={i < 6} />
-              ))}
-            </div>
-          )}
-
-          {/* Footer: & more + browse buttons */}
-          {!isSearching && (
-            <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-              className="mt-10 flex flex-col items-center gap-5">
-              <p style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#847464', fontSize: '14px' }}>
-                &amp; more
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                {[
-                  { label: 'Browse Shows',  href: '/shows'  },
-                  { label: 'Browse Movies', href: '/movies' },
-                  { label: 'Browse Games',  href: '/games'  },
-                ].map(({ label, href }) => (
-                  <Link key={href} href={href}
-                    className="w-full sm:w-auto text-center px-8 py-3 rounded-sm transition-all duration-200"
-                    style={{ background: '#0f0b08', border: '1px solid #5e1b21', color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '14px' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = '#e55c35'; e.currentTarget.style.filter = 'brightness(1.12)' }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = '#5e1b21'; e.currentTarget.style.filter = 'brightness(1)' }}
+            {/* Filter pills + sort — same row on desktop, stacked on mobile */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              {/* Filter pills — horizontal scroll on mobile */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" style={{ scrollbarWidth: 'none' }}>
+                {FILTER_PILLS.map(pill => (
+                  <button
+                    key={pill.value}
+                    onClick={() => { setFilter(pill.value); setQuery('') }}
+                    style={{ ...pillBase, ...(filter === pill.value ? pillActive : {}) }}
                   >
-                    {label}
-                  </Link>
+                    {pill.label}
+                  </button>
                 ))}
               </div>
-            </motion.div>
-          )}
 
+              {/* Sort — only visible when 'all' is selected */}
+              <AnimatePresence>
+                {filter === 'all' && (
+                  <motion.div
+                    key="sort"
+                    initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="flex items-center gap-2 shrink-0"
+                  >
+                    <select
+                      value={sortType}
+                      onChange={e => setSortType(e.target.value as SortType)}
+                      style={{
+                        background: '#0f0b08', border: '1px solid #3d1215',
+                        color: '#847464', borderRadius: '999px',
+                        padding: '6px 12px', fontSize: '13px',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        cursor: 'pointer', outline: 'none', appearance: 'none',
+                        paddingRight: '28px',
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23847464' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'right 10px center',
+                      }}
+                    >
+                      {SORT_OPTIONS.map(o => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                      ))}
+                    </select>
+
+                    {/* Chevron direction toggle */}
+                    <button
+                      onClick={() => setSortDesc(v => !v)}
+                      title="Reverse order"
+                      style={{
+                        background: '#0f0b08', border: '1px solid #3d1215',
+                        borderRadius: '50%', width: '32px', height: '32px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', flexShrink: 0,
+                      }}
+                    >
+                      <motion.svg
+                        animate={{ rotate: sortDesc ? 0 : 180 }}
+                        transition={{ duration: 0.22, ease: 'easeInOut' }}
+                        width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="#847464" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </motion.svg>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+
+          {/* ── Content area ── */}
+          <AnimatePresence mode="wait">
+
+            {/* Search results — character cards for 'all', category cards for specific filters */}
+            {isSearching && (
+              <motion.div key="search" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                {searchResults.length === 0 ? (
+                  <p className="text-center py-16" style={{ color: '#8a7560', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '1rem' }}>
+                    No results for &ldquo;{query}&rdquo;
+                  </p>
+                ) : filter === 'all' ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {(searchResults as any[]).map((char, i) => (
+                      <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i} isNew={false} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(searchResults as any[]).map((item, i) => (
+                      <CategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* Category cards (Shows / Movies / Games) */}
+            {showCategoryCards && (
+              <motion.div key={`category-${filter}`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categoryItems.map((item: any, i: number) => (
+                    <CategoryCard key={item.id} item={item} index={i} hrefBase={categoryHrefBase} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Default: sorted character grid */}
+            {showSortedCharGrid && (
+              <motion.div key="chars" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {sortedGridChars.map((char, i) => {
+                    const isNew = NEW_CHARS.some(n => n.analyticsSlug === char.analyticsSlug)
+                    return <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i} isNew={isNew} />
+                  })}
+                </div>
+
+                {/* & more + browse buttons */}
+                <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                  className="mt-10 flex flex-col items-center gap-5">
+                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', fontStyle: 'italic', color: '#847464', fontSize: '14px' }}>
+                    &amp; more
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    {[
+                      { label: 'Browse Shows',  href: '/shows'  },
+                      { label: 'Browse Movies', href: '/movies' },
+                      { label: 'Browse Games',  href: '/games'  },
+                    ].map(({ label, href }) => (
+                      <Link key={href} href={href}
+                        className="w-full sm:w-auto text-center px-8 py-3 rounded-sm transition-all duration-200"
+                        style={{ background: '#0f0b08', border: '1px solid #5e1b21', color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '14px' }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = '#e55c35'; e.currentTarget.style.filter = 'brightness(1.12)' }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = '#5e1b21'; e.currentTarget.style.filter = 'brightness(1)' }}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+
+          </AnimatePresence>
         </div>
       </section>
     </>
@@ -255,52 +415,65 @@ function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boo
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.45, delay: index * 0.04 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.3) }}
     >
       <Link href={char.href} className="block group" style={{ aspectRatio: '1 / 1', position: 'relative', overflow: 'hidden', borderRadius: '0.5rem', display: 'block' }}>
         <div style={{ position: 'absolute', inset: 0, transition: 'border-color 200ms', border: '2px solid rgba(255,255,255,0.07)', borderRadius: '0.5rem', zIndex: 2, pointerEvents: 'none' }}
           className="group-hover:border-[#5e1b21]" />
-
-        {/* Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={char.image}
-          alt={char.name}
+        <img src={char.image} alt={char.name}
           className="w-full h-full transition-transform duration-200 group-hover:scale-[1.03]"
           style={{ objectFit: 'cover', display: 'block', position: 'absolute', inset: 0 }}
           onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
         />
-
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute', inset: 0, zIndex: 1,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
-        }} />
-
-        {/* NEW badge */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)' }} />
         {isNew && (
           <div style={{
             position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3,
-            background: '#16a34a', color: '#fff',
-            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em',
-            padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+            background: '#16a34a', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
+            letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
             fontFamily: 'Inter, system-ui, sans-serif',
-          }}>
-            NEW
-          </div>
+          }}>NEW</div>
         )}
-
-        {/* Name + franchise */}
         <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', zIndex: 3 }}>
-          <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>
-            {char.name}
-          </p>
-          <p style={{ color: '#a89880', fontSize: '0.75rem', lineHeight: 1.3, fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0' }}>
-            {char.parentName}
-          </p>
+          <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>{char.name}</p>
+          <p style={{ color: '#a89880', fontSize: '0.75rem', lineHeight: 1.3, fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0' }}>{char.parentName}</p>
         </div>
+      </Link>
+    </motion.div>
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function CategoryCard({ item, index, hrefBase }: { item: any; index: number; hrefBase: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.35) }}
+    >
+      <Link href={`${hrefBase}/${item.slug}`} className="block">
+        <article className="card-clean rounded-md overflow-hidden h-full">
+          <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.theme.logo} alt={item.name} className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+          </div>
+          <div className="p-5">
+            <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>{item.name}</h2>
+            <div className="mt-2 mb-3">
+              <span className="inline-block text-sm font-semibold" style={{
+                color: '#e8dcc4', background: 'rgba(94,27,33,0.45)',
+                border: '1px solid #5e1b21', borderRadius: '4px',
+                padding: '3px 10px', letterSpacing: '0.03em',
+              }}>
+                {item.characters.length} Character{item.characters.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+            <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>{item.blurb}</p>
+          </div>
+        </article>
       </Link>
     </motion.div>
   )
@@ -310,8 +483,7 @@ function SearchIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a7560" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
       style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', zIndex: 1 }}>
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   )
 }
