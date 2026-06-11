@@ -18,6 +18,7 @@ const SHOW_BACKGROUNDS = [
   '/backgrounds/barry.jpg',
   '/backgrounds/the-bear.jpg',
   '/backgrounds/btasbg.jpg',
+  '/backgrounds/theboysbg.jpg',
 ]
 
 export default function ShowsPage() {
