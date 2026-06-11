@@ -8,7 +8,7 @@ import { movies } from '@/data/movies'
 import { games } from '@/data/games'
 
 type FilterType = 'all' | 'show' | 'movie' | 'game'
-type SortType = 'popular' | 'newest' | 'oldest'
+type SortType = 'popular' | 'newest'
 
 const PAGE_SIZE = 12
 
@@ -67,7 +67,6 @@ const FILTER_PILLS: { label: string; value: FilterType }[] = [
 const SORT_OPTIONS: { label: string; value: SortType }[] = [
   { label: 'Most Popular', value: 'popular' },
   { label: 'Newest', value: 'newest' },
-  { label: 'Oldest', value: 'oldest' },
 ]
 
 export default function HomePage() {
@@ -98,17 +97,10 @@ export default function HomePage() {
         ? [...withViews].sort((a, b) => b.views - a.views)
         : [...withViews].sort((a, b) => a.views - b.views)
     }
-    // newest/oldest: always pin NEW_CHARS first, then sort the rest
-    let rest: typeof REST_CHARS
-    if (sortType === 'newest') {
-      rest = sortDesc
-        ? [...REST_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
-        : [...REST_CHARS].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
-    } else {
-      rest = sortDesc
-        ? [...REST_CHARS].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
-        : [...REST_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
-    }
+    // newest: always pin NEW_CHARS first, then sort the rest
+    const rest = sortDesc
+      ? [...REST_CHARS].sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))
+      : [...REST_CHARS].sort((a, b) => a.dateAdded.localeCompare(b.dateAdded))
     return [...NEW_CHARS, ...rest]
   }, [sortType, sortDesc, analytics])
 
