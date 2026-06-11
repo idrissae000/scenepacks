@@ -72,7 +72,7 @@ const SORT_OPTIONS: { label: string; value: SortType }[] = [
 export default function HomePage() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<FilterType>('all')
-  const [sortType, setSortType] = useState<SortType>('popular')
+  const [sortType, setSortType] = useState<SortType>('newest')
   const [sortDesc, setSortDesc] = useState(true)
   const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
