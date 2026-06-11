@@ -304,7 +304,7 @@ function AnalyticsBadge({ views, downloads }: { views: number | null; downloads:
       </div>
       <div className="flex items-center gap-1.5">
         <span style={{ fontSize: '15px', color: '#ffffff', fontWeight: 700, textShadow: shadow }}>{d}</span>
-        <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 400, textShadow: shadow }}>pack grabs</span>
+        <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 400, textShadow: shadow }}>Downloads</span>
       </div>
     </div>
   )
