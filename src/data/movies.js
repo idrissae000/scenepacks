@@ -64,7 +64,7 @@ export const movies = [
       char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png', '2026-06-04'),
       char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png'),
       char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png'),
-      { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: 'https://discord.gg/MVA5ySY2' },
+      { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: DISCORD },
     ],
   },
 ]

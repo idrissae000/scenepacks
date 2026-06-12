@@ -51,7 +51,7 @@ export const games = [
         image: '/characters/dutchpic.png',
         pageImage: '/character-pages/dutchscp.png',
         description: "The dreamer who led them all. A man with a plan, until the plan fell apart.",
-        packLink: 'https://discord.gg/MVA5ySY2',
+        packLink: DISCORD,
         dateAdded: '2026-06-12',
       },
     ],
