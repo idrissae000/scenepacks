@@ -44,6 +44,16 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-06',
       },
+      {
+        id: 'dutch-van-der-linde',
+        name: 'Dutch van der Linde',
+        slug: 'dutch-van-der-linde',
+        image: '/characters/dutch.png',
+        pageImage: '/character-pages/dutch.png',
+        description: "The dreamer who led them all. A man with a plan, until the plan fell apart.",
+        packLink: 'https://discord.gg/MVA5ySY2',
+        dateAdded: '2026-06-12',
+      },
     ],
   },
   {

@@ -54,15 +54,17 @@ export const movies = [
       label: 'The Marvel Universe', tagline: 'Whatever it takes.',
       cursor: 'default',
       charZones: {
-        'iron-man':  { bg: '#140300', border: '#3d1a00', accent: '#2d1000', label: 'Iron Man',   gradient: 'linear-gradient(135deg, rgba(20,3,0,0.9) 0%, rgba(30,8,0,0.88) 100%)' },
-        'spider-man':{ bg: '#050010', border: '#1a0a2d', accent: '#1a0a3d', label: 'Spider-Man', gradient: 'linear-gradient(135deg, rgba(10,5,15,0.9) 0%, rgba(5,0,20,0.88) 100%)' },
-        'thanos':    { bg: '#0a0018', border: '#2d0a3d', accent: '#1a0530', label: 'Thanos',     gradient: 'linear-gradient(135deg, rgba(15,0,25,0.9) 0%, rgba(5,0,15,0.88) 100%)' },
+        'iron-man':        { bg: '#140300', border: '#3d1a00', accent: '#2d1000', label: 'Iron Man',        gradient: 'linear-gradient(135deg, rgba(20,3,0,0.9) 0%, rgba(30,8,0,0.88) 100%)' },
+        'spider-man':      { bg: '#050010', border: '#1a0a2d', accent: '#1a0a3d', label: 'Spider-Man',      gradient: 'linear-gradient(135deg, rgba(10,5,15,0.9) 0%, rgba(5,0,20,0.88) 100%)' },
+        'thanos':          { bg: '#0a0018', border: '#2d0a3d', accent: '#1a0530', label: 'Thanos',          gradient: 'linear-gradient(135deg, rgba(15,0,25,0.9) 0%, rgba(5,0,15,0.88) 100%)' },
+        'captain-america': { bg: '#000a1a', border: '#0a2040', accent: '#0a1a30', label: 'Captain America', gradient: 'linear-gradient(135deg, rgba(0,10,26,0.9) 0%, rgba(0,5,18,0.88) 100%)' },
       },
     },
     characters: [
       char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png', '2026-06-04'),
       char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png'),
       char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png'),
+      { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captain-america.png', '2026-06-12'), packLink: 'https://discord.gg/MVA5ySY2' },
     ],
   },
 ]
