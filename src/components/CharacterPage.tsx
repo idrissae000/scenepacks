@@ -178,8 +178,9 @@ export default function CharacterPage({ character, parent, type }: Props) {
                           className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                           style={{
                             fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700,
-                            background: `linear-gradient(135deg, ${t.accent}, ${accent})`,
-                            color: contrastText(accent), border: `1px solid ${accent}55`,
+                            background: '#0d0907',
+                            color: '#ffffff', border: `2px solid ${accent}`,
+                            boxShadow: `0 0 12px ${accent}55`,
                           }}
                         >
                           <DiscordIcon /> Get Pack
@@ -272,8 +273,8 @@ export default function CharacterPage({ character, parent, type }: Props) {
                   className="flex items-center justify-center gap-3 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                   style={{
                     fontFamily: t.headingFont, fontSize: '1.1rem', fontWeight: 700,
-                    background: `linear-gradient(135deg, ${t.accent}, ${accent})`,
-                    color: contrastText(accent), boxShadow: `0 4px 24px ${accent}40`, border: `1px solid ${accent}55`,
+                    background: '#0d0907',
+                    color: '#ffffff', boxShadow: `0 4px 24px ${accent}55`, border: `2px solid ${accent}`,
                   }}
                 >
                   <DiscordIcon /> {t.getPackLabel ? t.getPackLabel : 'Get Pack on Discord'}
