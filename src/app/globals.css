@@ -450,6 +450,16 @@ body::before {
 }
 .card-btas:hover { filter: brightness(1.1); }
 
+.card-gow {
+  background: rgba(10,5,5,0.92);
+  border: 1px solid #3a1010;
+  border-top: 3px solid #8b0000;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.85);
+  position: relative;
+  transition: filter 0.2s ease;
+}
+.card-gow:hover { filter: brightness(1.08); }
+
 /* CLASSIFIED stamp (Barry) */
 .stamp-classified {
   position: absolute; top: 14px; right: 8px; z-index: 3;
