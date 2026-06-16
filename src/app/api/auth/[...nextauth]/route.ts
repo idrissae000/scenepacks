@@ -6,14 +6,21 @@ const handler = NextAuth({
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      authorization: { params: { scope: 'identify email' } },
+      authorization: { params: { scope: 'identify email guilds.join' } },
     }),
   ],
   callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token
+        token.discordId = account.providerAccountId
+      }
+      return token
+    },
     async session({ session, token }) {
-      if (session.user && token) {
-        (session.user as any).id = token.sub
-        ;(session.user as any).discordId = token.sub
+      if (session.user) {
+        ;(session.user as any).discordId = token.discordId
+        ;(session.user as any).accessToken = token.accessToken
       }
       return session
     },

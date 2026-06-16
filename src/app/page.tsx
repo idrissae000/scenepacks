@@ -69,11 +69,16 @@ const SORT_OPTIONS: { label: string; value: SortType }[] = [
   { label: 'Newest', value: 'newest' },
 ]
 
+function loadPref<T>(key: string, fallback: T): T {
+  if (typeof window === 'undefined') return fallback
+  try { const p = JSON.parse(localStorage.getItem('scenepack-prefs') || '{}'); return (p[key] as T) ?? fallback } catch { return fallback }
+}
+
 export default function HomePage() {
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<FilterType>('all')
-  const [sortType, setSortType] = useState<SortType>('newest')
-  const [sortDesc, setSortDesc] = useState(true)
+  const [filter, setFilter] = useState<FilterType>(() => loadPref('filter', 'all' as FilterType))
+  const [sortType, setSortType] = useState<SortType>(() => loadPref('sortType', 'newest' as SortType))
+  const [sortDesc, setSortDesc] = useState<boolean>(() => loadPref('sortDesc', true))
   const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -85,6 +90,11 @@ export default function HomePage() {
       .then(d => setAnalytics(d))
       .catch(() => {})
   }, [])
+
+  // Persist sort/filter preferences
+  useEffect(() => {
+    try { localStorage.setItem('scenepack-prefs', JSON.stringify({ sortType, sortDesc, filter })) } catch (_) {}
+  }, [sortType, sortDesc, filter])
 
   // Reset visible count when sort/filter changes
   useEffect(() => { setVisibleCount(PAGE_SIZE) }, [sortType, sortDesc, filter])
