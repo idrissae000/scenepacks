@@ -32,12 +32,12 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png'),
-      char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissy.png'),
-      char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png'),
-      char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png'),
-      char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.', '/characters/ralph.png'),
-      char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five.", '/characters/tonyb.png'),
+      { ...char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png', '2025-06-13'), driveLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A' },
+      { ...char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissy.png', '2025-05-22'), driveLink: 'https://drive.google.com/drive/folders/1plsZC676S2n9jE3ZShzc5tQGtaZJmWPI' },
+      { ...char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png', '2025-05-17'), driveLink: 'https://drive.google.com/drive/folders/16w1doz8oohYRK5rne3ZT6J3Ln6N5kIsT' },
+      { ...char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png', '2025-05-28'), driveLink: 'https://drive.google.com/drive/folders/1f06j9DPY7J3oktbwSVxK2FcR53g8ZgZm' },
+      { ...char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.', '/characters/ralph.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1ZV5ficOkEeTFW_jj_UL11xczmji10Aan' },
+      { ...char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five.", '/characters/tonyb.png', '2025-05-16'), driveLink: 'https://drive.google.com/drive/folders/1PrnaP1de6U5HWcTIMuCh9DMO1HvzvkHY' },
     ],
   },
   {
@@ -60,8 +60,8 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Walter White', "High school chemistry teacher → Heisenberg. Television's most devastating moral collapse, one bad decision at a time.", '/characters/walter.png'),
-      char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass.", '/characters/jesse.png'),
+      { ...char('Walter White', "High school chemistry teacher → Heisenberg. Television's most devastating moral collapse, one bad decision at a time.", '/characters/walter.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1eip9louQbm4dM9vVABTD6Z6vJi8_DbFa' },
+      { ...char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass.", '/characters/jesse.png', '2025-06-02'), driveLink: 'https://drive.google.com/drive/folders/1gUp0naO2sSrXMpe8-Y41PcipszQ0fPeE' },
     ],
   },
   {
@@ -84,9 +84,9 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Jimmy McGill / Saul Goodman', 'The charming, street-smart lawyer who the world never accepted — and the flashy, fearless criminal attorney he became. Two names, one devastating arc.', '/characters/jimmy.png'), pageImage: '/character-pages/jimmy-mcgill.png' },
-      char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png'),
-      char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png'),
+      { ...char('Jimmy McGill / Saul Goodman', 'The charming, street-smart lawyer who the world never accepted — and the flashy, fearless criminal attorney he became. Two names, one devastating arc.', '/characters/jimmy.png', '2025-05-26'), pageImage: '/character-pages/jimmy-mcgill.png', driveLink: 'https://drive.google.com/drive/folders/1Z-TBVkhm8a7U77aNxUdu032h1-0k9lJD' },
+      { ...char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png', '2025-05-30'), driveLink: 'https://drive.google.com/drive/folders/19Y6-uM_pRGgpfG6I_Dtakstz7BwmcnSt' },
+      { ...char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png', '2025-05-17'), driveLink: 'https://drive.google.com/drive/folders/14n487IlTOUWezWXV0kozECgqxCCHQIT6' },
     ],
   },
   {
@@ -109,13 +109,13 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe.", '/characters/jon.png'),
-      char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png'),
-      char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png'),
-      char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png'),
-      char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png', '2026-06-05'),
-      char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png'),
-      char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png'),
+      { ...char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe.", '/characters/jon.png', '2025-06-28'), driveLink: 'https://drive.google.com/drive/folders/1uF6SRetdPO2P6jSlU7XmIlX59AbhmzIt' },
+      { ...char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png', '2025-06-29'), driveLink: 'https://drive.google.com/drive/folders/1BZ9nCl6sv6ck-p6Wqt6Z8F1fs5VwUP-c' },
+      { ...char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1zKZDLqqFvuA0tmP4rAt4FKwip4sWgcBt' },
+      { ...char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1UPbmsiZ9vO_Rbv2tE2t1woa4VbIKlNAr' },
+      { ...char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1aVuV9IkP1XTikI44yAvttdIKDox14csO' },
+      { ...char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png', '2025-06-25'), driveLink: 'https://drive.google.com/drive/folders/1NkzQCw7RtsKOYcCHGcvjZx-ElmEyD9hO' },
+      { ...char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png', '2025-06-27'), driveLink: 'https://drive.google.com/drive/folders/1x02Nq1jkfZT6F2D6P0FEeCCTbkKzwbkp' },
     ],
   },
   {
@@ -138,8 +138,8 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally.", '/characters/mahone.png'),
-      char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it.", '/characters/kellerman.png'),
+      { ...char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally.", '/characters/mahone.png', '2025-05-31'), driveLink: 'https://drive.google.com/drive/folders/1ykLy5-BGFUWESzjZpA48tyjd2dpzcPE5' },
+      { ...char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it.", '/characters/kellerman.png', '2025-06-01'), driveLink: 'https://drive.google.com/drive/folders/14E_Mg232_kS_lp3zr3CI3i9_gr9lSSQg' },
     ],
   },
   {
@@ -162,7 +162,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off.", '/characters/jax.png'),
+      { ...char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off.", '/characters/jax.png', '2025-06-20'), driveLink: 'https://drive.google.com/drive/folders/1iQiQf074sx1qiXkPBYeNSaGe-vtW8uC-' },
     ],
   },
   {
@@ -185,7 +185,7 @@ export const shows = [
       cursor: 'crosshair',
     },
     characters: [
-      char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television.", '/characters/joe.png'),
+      { ...char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television.", '/characters/joe.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1KW_VtiBmSbk5U_UQVWZsPDR52RRnKIu9' },
     ],
   },
   {
@@ -208,7 +208,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken.", '/characters/barry.png'),
+      { ...char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken.", '/characters/barry.png', '2025-06-16'), driveLink: 'https://drive.google.com/drive/folders/1rxOZ7qY8YVweYrWxpP8gpezpyxQ1XCW8' },
     ],
   },
   {
@@ -232,7 +232,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters.", '/characters/carmy.png'),
+      { ...char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters.", '/characters/carmy.png', '2025-06-18'), driveLink: 'https://drive.google.com/drive/folders/1rUIQ5cgUf3dCADSvWRbld_ZJioQixZeD' },
     ],
   },
   {
@@ -263,6 +263,7 @@ export const shows = [
         description: "The world's greatest detective. Kevin Conroy's Batman remains the gold standard over 30 years later.",
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-09',
+        driveLink: 'https://drive.google.com/drive/folders/1ihTsoGpaKjgvE7q1yYkwZSmV14u1sryA',
       },
       {
         name: 'The Joker',
@@ -272,6 +273,7 @@ export const shows = [
         description: "The Clown Prince of Crime at his most unhinged. Unpredictable, theatrical, and genuinely dangerous.",
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-10',
+        driveLink: 'https://drive.google.com/drive/folders/1yJES_eGw4plGF8rdOfOlcvJt5szIpUKK',
       },
     ],
   },
@@ -303,6 +305,7 @@ export const shows = [
         description: 'The most powerful man in the world. The most dangerous man in the world. And he knows it.',
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-11',
+        driveLink: 'https://drive.google.com/drive/folders/1zVvU_ksc_xF092MXChdQhX3gou9AZLwq',
       },
     ],
   },

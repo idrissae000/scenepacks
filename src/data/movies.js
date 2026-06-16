@@ -32,7 +32,7 @@ export const movies = [
       cursor: 'default',
     },
     characters: [
-      char('Batman', "Robert Pattinson's brooding, obsessive Dark Knight. A detective first, superhero second. Two years in, and Gotham is still losing.", '/characters/bats.png'),
+      { ...char('Batman', "Robert Pattinson's brooding, obsessive Dark Knight. A detective first, superhero second. Two years in, and Gotham is still losing.", '/characters/bats.png', '2025-06-21'), driveLink: 'https://drive.google.com/drive/folders/19x64JP7zo-ggbJmEtBTo1GMSao-nNORI' },
     ],
   },
   {
@@ -61,10 +61,10 @@ export const movies = [
       },
     },
     characters: [
-      char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png', '2026-06-04'),
-      char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png'),
-      char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png'),
-      { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: DISCORD },
+      { ...char('Iron Man', "Tony Stark — genius, billionaire, playboy, philanthropist. The man who started it all and ended it all. I love you 3000.", '/characters/ironman.png', '2025-09-22'), driveLink: 'https://drive.google.com/drive/folders/1f7uprSJp2qnsBJY-3Vw_qQzLI4wh2fI0' },
+      { ...char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png', '2025-06-23'), driveLink: 'https://drive.google.com/drive/folders/1eUrCE-l-EUNHnF7Ih0N064rSM6WmVhvv' },
+      { ...char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png', '2025-07-09'), driveLink: 'https://drive.google.com/drive/folders/1RD01wP8AElSRVpcPhO32qTFq2k1xJyzc' },
+      { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: DISCORD, driveLink: 'https://drive.google.com/drive/folders/1MchpUHcDLJ9qaIBhljR2uYBftQWENtI6' },
     ],
   },
 ]
