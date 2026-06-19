@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
 import { createClient } from '@supabase/supabase-js'
 
 const ADMIN_DISCORD_ID = '349045631656001537'
@@ -19,7 +20,7 @@ function fmt(ts: string | null) {
 }
 
 export default async function AdminUsersPage() {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const discordId = (session?.user as any)?.discordId
 
   if (!session || discordId !== ADMIN_DISCORD_ID) notFound()
