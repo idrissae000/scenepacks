@@ -38,16 +38,22 @@ export default function GamesClient({ images }: { images: string[] }) {
                 <Link href={`/games/${game.slug}`} className="block">
                   <article className="card-clean rounded-md overflow-hidden h-full">
                     <div className="logo-placeholder aspect-video flex items-center justify-center overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={game.theme.logo}
-                        alt={game.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const el = e.target as HTMLImageElement
-                          el.style.display = 'none'
-                        }}
-                      />
+                      {game.theme.logo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={game.theme.logo}
+                          alt={game.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const el = e.target as HTMLImageElement
+                            el.style.display = 'none'
+                          }}
+                        />
+                      ) : (
+                        <span className="font-mobsters text-2xl" style={{ color: '#c9a84c', letterSpacing: '0.05em' }}>
+                          {game.name}
+                        </span>
+                      )}
                     </div>
                     <div className="p-5">
                       <h2 className="font-mobsters leading-tight" style={{ color: '#d4c5a9', fontSize: '1.45rem' }}>
