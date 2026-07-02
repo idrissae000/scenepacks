@@ -50,6 +50,9 @@ export default function ApplyPage() {
   const isLoggedIn = status === 'authenticated' && session?.user
   const canSubmit = q1.trim().length > 0 && q2.trim().length > 0 && !loading
 
+  const isDriveLink = (v: string) => /drive\.google\.com/i.test(v)
+  const hasDriveLink = isDriveLink(q2) || isDriveLink(q3)
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -249,6 +252,36 @@ export default function ApplyPage() {
                       onFocus={e => e.currentTarget.style.borderColor = '#5e1b21'}
                       onBlur={e => e.currentTarget.style.borderColor = '#3d1215'}
                     />
+                  </div>
+                )}
+
+                {hasDriveLink && (
+                  <div style={{
+                    background: 'rgba(201,168,76,0.12)',
+                    border: '1px solid rgba(201,168,76,0.5)',
+                    borderRadius: '8px',
+                    padding: '1rem 1.25rem',
+                    display: 'flex',
+                    gap: '0.75rem',
+                    alignItems: 'flex-start',
+                  }}>
+                    <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: '1px' }}>⚠️</span>
+                    <div>
+                      <p style={{ color: '#c9a84c', fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 700, fontSize: '14px', marginBottom: '0.3rem' }}>
+                        Google Drive link detected
+                      </p>
+                      <p style={{ color: '#d4c5a9', fontFamily: 'Inter, system-ui, sans-serif', fontSize: '13px', lineHeight: 1.55, margin: 0 }}>
+                        Make sure your sharing settings are set to{' '}
+                        <strong style={{ color: '#c9a84c' }}>"Anyone with the link"</strong>{' '}
+                        and the role is set to{' '}
+                        <strong style={{ color: '#c9a84c' }}>"Viewer"</strong>
+                        {' '}— otherwise we won't be able to open it.
+                        <br />
+                        <span style={{ color: '#847464', fontSize: '12px' }}>
+                          In Google Drive: right-click file → Share → Change to Anyone with the link → Viewer → Copy link
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 )}
 

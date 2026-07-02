@@ -35,7 +35,7 @@ function formatCount(n: number) {
   return n.toString()
 }
 
-type Tab = 'overview' | 'events' | 'users' | 'characters'
+type Tab = 'overview' | 'events' | 'users' | 'characters' | 'applications'
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
@@ -50,6 +50,7 @@ export default function AdminPage() {
   const [analytics, setAnalytics] = useState<any[]>([])
   const [events, setEvents] = useState<any[]>([])
   const [users, setUsers] = useState<any[]>([])
+  const [applications, setApplications] = useState<any[]>([])
 
   // Filters
   const [eventFilter, setEventFilter] = useState<'all' | 'discord' | 'web'>('all')
@@ -58,7 +59,7 @@ export default function AdminPage() {
 
   const fetchAll = useCallback(async () => {
     setLoading(true)
-    const [{ data: a }, { data: e }, { data: u }] = await Promise.all([
+    const [{ data: a }, { data: e }, { data: u }, { data: ap }] = await Promise.all([
       supabase
         .from('analytics')
         .select('slug, label, type, downloads, discord_downloads, web_downloads, views, last_download_at')
@@ -75,10 +76,16 @@ export default function AdminPage() {
         .from('users')
         .select('discord_id, username, avatar, email, first_login, last_login, login_count')
         .order('last_login', { ascending: false }),
+
+      supabase
+        .from('applications')
+        .select('id, type, discord_id, discord_username, question1, question2, question3, created_at')
+        .order('created_at', { ascending: false }),
     ])
     setAnalytics(a ?? [])
     setEvents(e ?? [])
     setUsers(u ?? [])
+    setApplications(ap ?? [])
     setLastRefresh(new Date())
     setLoading(false)
   }, [])
@@ -187,7 +194,7 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: '4px', marginBottom: '2rem', background: '#120a06', border: '1px solid #2a1410', borderRadius: '6px', padding: '4px', width: 'fit-content' }}>
-          {(['overview', 'events', 'characters', 'users'] as Tab[]).map(t => (
+          {(['overview', 'events', 'characters', 'users', 'applications'] as Tab[]).map(t => (
             <button key={t} style={tabStyle(t)} onClick={() => setTab(t)}>
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -440,6 +447,106 @@ export default function AdminPage() {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* ── APPLICATIONS ── */}
+        {tab === 'applications' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <h2 style={{ ...S.h2, marginBottom: 0 }}>
+                Applications <span style={{ fontSize: '1rem', color: '#847464' }}>({applications.length})</span>
+              </h2>
+            </div>
+
+            {applications.length === 0 && (
+              <div style={{ ...S.card, textAlign: 'center', color: '#847464', padding: '3rem' }}>No applications yet</div>
+            )}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {applications.map((app) => {
+                const links = [app.question2, app.question3].filter(Boolean)
+                const driveLinks = links.filter((l: string) => /drive\.google\.com/i.test(l))
+                const hasDrive = driveLinks.length > 0
+                return (
+                  <div key={app.id} style={{ ...S.card, display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                    {/* Header row */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span style={{ color: '#e8dcc4', fontWeight: 700, fontSize: '0.95rem' }}>
+                          {app.discord_username ?? 'Unknown'}
+                        </span>
+                        <span style={{
+                          fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '3px',
+                          background: app.type === 'audio' ? 'rgba(88,101,242,0.15)' : 'rgba(94,27,33,0.3)',
+                          color: app.type === 'audio' ? '#7289da' : '#e55c35',
+                          border: `1px solid ${app.type === 'audio' ? '#5865F2' : '#5e1b21'}`,
+                        }}>
+                          {app.type === 'audio' ? 'Audio' : 'Scenepack'}
+                        </span>
+                        {app.discord_id && (
+                          <span style={{ color: '#5e4030', fontFamily: 'monospace', fontSize: '0.72rem' }}>
+                            {app.discord_id}
+                          </span>
+                        )}
+                      </div>
+                      <span style={{ color: '#847464', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>{fmt(app.created_at)}</span>
+                    </div>
+
+                    {/* Google Drive warning */}
+                    {hasDrive && (
+                      <div style={{
+                        background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.4)',
+                        borderRadius: '6px', padding: '0.6rem 0.9rem',
+                        display: 'flex', gap: '0.6rem', alignItems: 'flex-start',
+                      }}>
+                        <span style={{ flexShrink: 0 }}>⚠️</span>
+                        <div>
+                          <span style={{ color: '#c9a84c', fontWeight: 700, fontSize: '0.78rem' }}>Google Drive link — </span>
+                          <span style={{ color: '#9a8b76', fontSize: '0.78rem' }}>
+                            Verify sharing is set to <strong style={{ color: '#c9a84c' }}>"Anyone with the link → Viewer"</strong> before clicking
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Q1 */}
+                    <div>
+                      <div style={{ fontSize: '0.7rem', color: '#5e4030', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.25rem' }}>
+                        {app.type === 'audio' ? 'Type of audios' : 'Type of scenepacks'}
+                      </div>
+                      <div style={{ color: '#d4c5a9', fontSize: '0.85rem', lineHeight: 1.55 }}>{app.question1 ?? '—'}</div>
+                    </div>
+
+                    {/* Q2 */}
+                    <div>
+                      <div style={{ fontSize: '0.7rem', color: '#5e4030', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.25rem' }}>
+                        {app.type === 'audio' ? 'Audio Sample 1' : 'Scenepack Link'}
+                      </div>
+                      {app.question2 ? (
+                        <a href={app.question2} target="_blank" rel="noopener noreferrer"
+                          style={{ color: '#c9a84c', fontSize: '0.82rem', wordBreak: 'break-all', textDecoration: 'underline' }}>
+                          {app.question2}
+                        </a>
+                      ) : <span style={{ color: '#5e4030' }}>—</span>}
+                    </div>
+
+                    {/* Q3 — audio only */}
+                    {app.question3 && (
+                      <div>
+                        <div style={{ fontSize: '0.7rem', color: '#5e4030', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.25rem' }}>
+                          Audio Sample 2
+                        </div>
+                        <a href={app.question3} target="_blank" rel="noopener noreferrer"
+                          style={{ color: '#c9a84c', fontSize: '0.82rem', wordBreak: 'break-all', textDecoration: 'underline' }}>
+                          {app.question3}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         )}

@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession()
@@ -45,6 +51,7 @@ export async function POST(req: NextRequest) {
     timestamp: new Date().toISOString(),
   }
 
+  // Send to Discord (unchanged)
   const res = await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -54,6 +61,16 @@ export async function POST(req: NextRequest) {
   if (!res.ok) {
     return NextResponse.json({ error: 'Failed to send to Discord' }, { status: 500 })
   }
+
+  // Also save to Supabase (non-blocking — never fail the request over this)
+  supabase.from('applications').insert({
+    type,
+    discord_id:       discordId ?? null,
+    discord_username: discordUsername ?? null,
+    question1:        question1 ?? null,
+    question2:        question2 ?? null,
+    question3:        question3 ?? null,
+  }).then(() => {}).catch(() => {})
 
   return NextResponse.json({ ok: true })
 }
