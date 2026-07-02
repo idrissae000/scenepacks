@@ -63,14 +63,14 @@ export async function POST(req: NextRequest) {
   }
 
   // Also save to Supabase (non-blocking — never fail the request over this)
-  supabase.from('applications').insert({
+  void supabase.from('applications').insert({
     type,
     discord_id:       discordId ?? null,
     discord_username: discordUsername ?? null,
     question1:        question1 ?? null,
     question2:        question2 ?? null,
     question3:        question3 ?? null,
-  }).then(() => {}).catch(() => {})
+  })
 
   return NextResponse.json({ ok: true })
 }
