@@ -40,9 +40,10 @@ export default async function AdminUsersPage() {
 
     supabase
       .from('analytics')
-      .select('slug, label, downloads, updated_at')
+      .select('slug, label, downloads, last_download_at')
       .gt('downloads', 0)
-      .order('updated_at', { ascending: false })
+      .not('last_download_at', 'is', null)
+      .order('last_download_at', { ascending: false })
       .limit(30),
   ])
 
@@ -153,7 +154,7 @@ export default async function AdminUsersPage() {
                     <td className={cell} style={{ color: '#e8dcc4', fontWeight: 500 }}>{r.label}</td>
                     <td className={cell} style={{ color: '#847464', fontSize: '0.8rem', fontFamily: 'monospace' }}>{r.slug}</td>
                     <td className={cell} style={{ textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{r.downloads}</td>
-                    <td className={cell} style={{ textAlign: 'right', color: '#9a8b76', whiteSpace: 'nowrap' }}>{fmt(r.updated_at)}</td>
+                    <td className={cell} style={{ textAlign: 'right', color: '#9a8b76', whiteSpace: 'nowrap' }}>{fmt(r.last_download_at)}</td>
                   </tr>
                 ))}
               </tbody>
