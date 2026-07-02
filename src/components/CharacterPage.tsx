@@ -97,6 +97,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
         href="https://discord.com/invite/98C5YUeEz7"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={trackDownload}
         className="flex-1 flex items-center justify-center gap-2 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
         style={{ fontFamily: t.headingFont, fontSize: '0.95rem', fontWeight: 700, background: '#5865F2', color: '#ffffff', border: '2px solid #5865F2' }}
       >
