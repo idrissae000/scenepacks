@@ -53,17 +53,19 @@ export default function CharacterPage({ character, parent, type }: Props) {
     }).then(r => r.json()).then(d => { if (d.views != null) setViews(d.views) }).catch(() => {})
   }, [analyticsSlug, character.name])
 
-  const trackDownload = useCallback(() => {
+  const trackDownload = useCallback((method: 'discord' | 'web' | 'unknown' = 'unknown') => {
     setDownloads(prev => (prev ?? 0) + 1)
+    const discordId = (session?.user as any)?.discordId ?? null
+    const username  = (session?.user as any)?.name ?? session?.user?.name ?? null
     fetch('/api/analytics/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name }),
+      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name, method, discordId, username }),
     })
       .then(r => r.json())
       .then(d => { if (d.downloads != null) setDownloads(d.downloads) })
       .catch(() => {})
-  }, [analyticsSlug, character.name])
+  }, [analyticsSlug, character.name, session])
 
   const handleWebDownload = useCallback(async () => {
     if (!session) {
@@ -84,7 +86,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
       // ignore — still open the link
     } finally {
       setJoining(false)
-      trackDownload()
+      trackDownload('web')
       window.open(downloadUrl, '_blank')
     }
   }, [session, downloadUrl, trackDownload])
@@ -97,7 +99,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
         href="https://discord.com/invite/98C5YUeEz7"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={trackDownload}
+        onClick={() => trackDownload('discord')}
         className="flex-1 flex items-center justify-center gap-2 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
         style={{ fontFamily: t.headingFont, fontSize: '0.95rem', fontWeight: 700, background: '#5865F2', color: '#ffffff', border: '2px solid #5865F2' }}
       >
@@ -251,7 +253,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                           {pack.label}
                         </div>
                         <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
-                          onClick={trackDownload}
+                          onClick={() => trackDownload('discord')}
                           className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                           style={{ fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700, background: '#5865F2', color: '#ffffff', border: '2px solid #5865F2' }}
                         >

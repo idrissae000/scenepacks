@@ -1,6 +1,8 @@
-import { notFound } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
+'use client'
+
+import { useEffect, useState, useCallback } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
 const ADMIN_DISCORD_ID = '349045631656001537'
@@ -19,148 +21,428 @@ function fmt(ts: string | null) {
   })
 }
 
-export default async function AdminUsersPage() {
-  const session = await getServerSession(authOptions)
+function fmtShort(ts: string | null) {
+  if (!ts) return '—'
+  return new Date(ts).toLocaleString('en-US', {
+    timeZone: 'America/Chicago',
+    month: 'short', day: 'numeric',
+    hour: 'numeric', minute: '2-digit', hour12: true,
+  })
+}
+
+function formatCount(n: number) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
+  return n.toString()
+}
+
+type Tab = 'overview' | 'events' | 'users' | 'characters'
+
+export default function AdminPage() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
   const discordId = (session?.user as any)?.discordId
 
-  if (!session || discordId !== ADMIN_DISCORD_ID) notFound()
+  const [tab, setTab] = useState<Tab>('overview')
+  const [loading, setLoading] = useState(true)
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null)
 
-  const [{ data: users }, { data: downloads }, { data: recent }] = await Promise.all([
-    supabase
-      .from('users')
-      .select('discord_id, username, avatar, email, first_login, last_login, login_count')
-      .order('last_login', { ascending: false }),
+  // Data
+  const [analytics, setAnalytics] = useState<any[]>([])
+  const [events, setEvents] = useState<any[]>([])
+  const [users, setUsers] = useState<any[]>([])
 
-    supabase
-      .from('analytics')
-      .select('slug, label, downloads')
-      .gt('downloads', 0)
-      .order('downloads', { ascending: false })
-      .limit(50),
+  // Filters
+  const [eventFilter, setEventFilter] = useState<'all' | 'discord' | 'web'>('all')
+  const [eventSearch, setEventSearch] = useState('')
+  const [charSearch, setCharSearch] = useState('')
 
-    supabase
-      .from('analytics')
-      .select('slug, label, downloads, last_download_at')
-      .gt('downloads', 0)
-      .not('last_download_at', 'is', null)
-      .order('last_download_at', { ascending: false })
-      .limit(30),
-  ])
+  const fetchAll = useCallback(async () => {
+    setLoading(true)
+    const [{ data: a }, { data: e }, { data: u }] = await Promise.all([
+      supabase
+        .from('analytics')
+        .select('slug, label, type, downloads, discord_downloads, web_downloads, views, last_download_at')
+        .gt('downloads', 0)
+        .order('downloads', { ascending: false }),
 
-  const cell = 'px-4 py-3 text-sm'
-  const headCell = 'px-4 py-3 text-xs uppercase tracking-widest text-left'
+      supabase
+        .from('download_events')
+        .select('id, slug, label, method, discord_id, username, created_at')
+        .order('created_at', { ascending: false })
+        .limit(200),
+
+      supabase
+        .from('users')
+        .select('discord_id, username, avatar, email, first_login, last_login, login_count')
+        .order('last_login', { ascending: false }),
+    ])
+    setAnalytics(a ?? [])
+    setEvents(e ?? [])
+    setUsers(u ?? [])
+    setLastRefresh(new Date())
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (status === 'loading') return
+    if (!session || discordId !== ADMIN_DISCORD_ID) {
+      router.replace('/404')
+      return
+    }
+    fetchAll()
+  }, [status, session, discordId, router, fetchAll])
+
+  if (status === 'loading' || loading) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#0d0a07', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#847464', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem' }}>Loading admin…</div>
+      </div>
+    )
+  }
+
+  if (!session || discordId !== ADMIN_DISCORD_ID) return null
+
+  // Computed stats
+  const totalDownloads = analytics.filter(a => a.type === 'character').reduce((s, a) => s + (a.downloads ?? 0), 0)
+  const totalViews = analytics.filter(a => a.type === 'character').reduce((s, a) => s + (a.views ?? 0), 0)
+  const totalDiscord = analytics.filter(a => a.type === 'character').reduce((s, a) => s + (a.discord_downloads ?? 0), 0)
+  const totalWeb = analytics.filter(a => a.type === 'character').reduce((s, a) => s + (a.web_downloads ?? 0), 0)
+
+  // Last 24h events
+  const now = Date.now()
+  const events24h = events.filter(e => now - new Date(e.created_at).getTime() < 86400000)
+  const events7d  = events.filter(e => now - new Date(e.created_at).getTime() < 7 * 86400000)
+
+  // Filtered events
+  const filteredEvents = events
+    .filter(e => eventFilter === 'all' || e.method === eventFilter)
+    .filter(e => !eventSearch || e.label?.toLowerCase().includes(eventSearch.toLowerCase()) || e.username?.toLowerCase().includes(eventSearch.toLowerCase()))
+
+  // Filtered characters
+  const charRows = analytics.filter(a => a.type === 'character')
+    .filter(a => !charSearch || a.label?.toLowerCase().includes(charSearch.toLowerCase()))
+
+  const S = {
+    page: { minHeight: '100vh', background: '#0d0a07', color: '#d4c5a9', padding: '7rem 1.5rem 4rem', fontFamily: 'Inter, system-ui, sans-serif' } as React.CSSProperties,
+    inner: { maxWidth: '1200px', margin: '0 auto' } as React.CSSProperties,
+    h1: { fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '2.2rem', color: '#d4c5a9', lineHeight: 1 } as React.CSSProperties,
+    h2: { fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.35rem', color: '#d4c5a9', marginBottom: '1rem' } as React.CSSProperties,
+    card: { background: '#120a06', border: '1px solid #2a1410', borderRadius: '8px', padding: '1.25rem 1.5rem' } as React.CSSProperties,
+    table: { width: '100%', borderCollapse: 'collapse' as const, minWidth: '600px' },
+    th: { padding: '10px 14px', textAlign: 'left' as const, fontSize: '0.7rem', textTransform: 'uppercase' as const, letterSpacing: '0.08em', color: '#5e1b21', borderBottom: '1px solid #2a1410', background: '#160c08' },
+    td: { padding: '10px 14px', fontSize: '0.82rem', borderBottom: '1px solid #1a0f0a' },
+    input: { background: '#160c08', border: '1px solid #2a1410', borderRadius: '4px', color: '#d4c5a9', padding: '6px 12px', fontSize: '0.82rem', outline: 'none', width: '100%' } as React.CSSProperties,
+  }
+
+  const tabStyle = (t: Tab) => ({
+    padding: '8px 18px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 600,
+    cursor: 'pointer', border: 'none', letterSpacing: '0.04em',
+    background: tab === t ? '#5e1b21' : 'transparent',
+    color: tab === t ? '#fff' : '#847464',
+    transition: 'all 0.15s',
+  } as React.CSSProperties)
+
+  const methodBadge = (method: string) => {
+    const isDiscord = method === 'discord'
+    return (
+      <span style={{
+        fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '3px',
+        background: isDiscord ? 'rgba(88,101,242,0.2)' : 'rgba(212,197,169,0.12)',
+        color: isDiscord ? '#7289da' : '#d4c5a9',
+        border: `1px solid ${isDiscord ? '#5865F2' : '#3a2a1a'}`,
+      }}>
+        {isDiscord ? 'Discord' : method === 'web' ? 'Web DL' : method}
+      </span>
+    )
+  }
+
+  const StatCard = ({ label, value, sub }: { label: string; value: string | number; sub?: string }) => (
+    <div style={{ ...S.card, flex: 1 }}>
+      <div style={{ fontSize: '0.7rem', color: '#847464', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' }}>{label}</div>
+      <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#e55c35', lineHeight: 1 }}>{typeof value === 'number' ? formatCount(value) : value}</div>
+      {sub && <div style={{ fontSize: '0.72rem', color: '#5e4030', marginTop: '0.3rem' }}>{sub}</div>}
+    </div>
+  )
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0d0a07', color: '#d4c5a9', padding: '7rem 2rem 4rem', fontFamily: 'Inter, system-ui, sans-serif' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+    <div style={S.page}>
+      <div style={S.inner}>
 
         {/* Header */}
-        <div style={{ marginBottom: '3rem' }}>
-          <h1 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '2.5rem', color: '#d4c5a9', lineHeight: 1 }}>
-            Admin
-          </h1>
-          <p style={{ color: '#847464', marginTop: '0.5rem', fontSize: '0.85rem' }}>idrissscenes.com · internal</p>
+        <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <h1 style={S.h1}>Admin</h1>
+            <p style={{ color: '#847464', marginTop: '0.4rem', fontSize: '0.8rem' }}>
+              idrissscenes.com · internal
+              {lastRefresh && <span> · refreshed {lastRefresh.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</span>}
+            </p>
+          </div>
+          <button
+            onClick={fetchAll}
+            style={{ background: '#1a0f0a', border: '1px solid #3a1a10', color: '#d4c5a9', borderRadius: '4px', padding: '7px 16px', fontSize: '0.78rem', cursor: 'pointer', letterSpacing: '0.04em' }}
+          >
+            ↻ Refresh
+          </button>
         </div>
 
+        {/* Tabs */}
+        <div style={{ display: 'flex', gap: '4px', marginBottom: '2rem', background: '#120a06', border: '1px solid #2a1410', borderRadius: '6px', padding: '4px', width: 'fit-content' }}>
+          {(['overview', 'events', 'characters', 'users'] as Tab[]).map(t => (
+            <button key={t} style={tabStyle(t)} onClick={() => setTab(t)}>
+              {t.charAt(0).toUpperCase() + t.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* ── OVERVIEW ── */}
+        {tab === 'overview' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {/* Stat row */}
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <StatCard label="Total Downloads" value={totalDownloads} />
+              <StatCard label="Total Views" value={totalViews} />
+              <StatCard label="Discord DLs" value={totalDiscord} sub={totalDownloads ? `${Math.round(totalDiscord / totalDownloads * 100)}% of total` : undefined} />
+              <StatCard label="Web DLs" value={totalWeb} sub={totalDownloads ? `${Math.round(totalWeb / totalDownloads * 100)}% of total` : undefined} />
+              <StatCard label="Users" value={users.length} />
+              <StatCard label="Last 24h DLs" value={events24h.length} sub={`${events7d.length} this week`} />
+            </div>
+
+            {/* Method split bar */}
+            {totalDownloads > 0 && (
+              <div style={S.card}>
+                <div style={{ fontSize: '0.75rem', color: '#847464', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Discord vs Web Download split</div>
+                <div style={{ display: 'flex', borderRadius: '4px', overflow: 'hidden', height: '28px' }}>
+                  <div style={{ flex: totalDiscord, background: '#5865F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', fontWeight: 700, minWidth: totalDiscord ? '40px' : 0 }}>
+                    {totalDiscord > 0 && `${Math.round(totalDiscord / totalDownloads * 100)}%`}
+                  </div>
+                  <div style={{ flex: totalWeb, background: '#e55c35', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', fontWeight: 700, minWidth: totalWeb ? '40px' : 0 }}>
+                    {totalWeb > 0 && `${Math.round(totalWeb / totalDownloads * 100)}%`}
+                  </div>
+                  {totalDownloads - totalDiscord - totalWeb > 0 && (
+                    <div style={{ flex: totalDownloads - totalDiscord - totalWeb, background: '#3a2a1a', minWidth: '30px' }} />
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.6rem', fontSize: '0.72rem', color: '#847464' }}>
+                  <span style={{ color: '#7289da' }}>■ Discord: {formatCount(totalDiscord)}</span>
+                  <span style={{ color: '#e55c35' }}>■ Web DL: {formatCount(totalWeb)}</span>
+                  {totalDownloads - totalDiscord - totalWeb > 0 && <span>■ Pre-tracking: {formatCount(totalDownloads - totalDiscord - totalWeb)}</span>}
+                </div>
+              </div>
+            )}
+
+            {/* Recent 10 events */}
+            <div>
+              <h2 style={S.h2}>Latest Downloads</h2>
+              <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
+                <table style={S.table}>
+                  <thead>
+                    <tr>
+                      <th style={S.th}>Character</th>
+                      <th style={S.th}>Method</th>
+                      <th style={S.th}>User</th>
+                      <th style={{ ...S.th, textAlign: 'right' }}>Time (CT)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {events.slice(0, 15).map((e, i) => (
+                      <tr key={e.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                        <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{e.label}</td>
+                        <td style={S.td}>{methodBadge(e.method)}</td>
+                        <td style={{ ...S.td, color: '#9a8b76' }}>
+                          {e.username
+                            ? <span style={{ color: '#c9a84c' }}>{e.username}</span>
+                            : <span style={{ color: '#3a2a1a' }}>—</span>}
+                        </td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#847464', whiteSpace: 'nowrap' }}>{fmtShort(e.created_at)}</td>
+                      </tr>
+                    ))}
+                    {events.length === 0 && (
+                      <tr><td colSpan={4} style={{ ...S.td, textAlign: 'center', color: '#847464', padding: '2rem' }}>No events yet</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Top 10 */}
+            <div>
+              <h2 style={S.h2}>Top Characters</h2>
+              <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
+                <table style={S.table}>
+                  <thead>
+                    <tr>
+                      <th style={S.th}>#</th>
+                      <th style={S.th}>Character</th>
+                      <th style={{ ...S.th, textAlign: 'right' }}>Discord</th>
+                      <th style={{ ...S.th, textAlign: 'right' }}>Web DL</th>
+                      <th style={{ ...S.th, textAlign: 'right' }}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {charRows.slice(0, 10).map((a, i) => (
+                      <tr key={a.slug} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                        <td style={{ ...S.td, color: '#5e1b21', width: '36px' }}>{i + 1}</td>
+                        <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{a.label}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#7289da' }}>{a.discord_downloads ?? 0}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#c9a84c' }}>{a.web_downloads ?? 0}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{a.downloads}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── EVENTS ── */}
+        {tab === 'events' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div style={{ flex: '1 1 220px' }}>
+                <input
+                  style={S.input}
+                  placeholder="Search character or username…"
+                  value={eventSearch}
+                  onChange={e => setEventSearch(e.target.value)}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {(['all', 'discord', 'web'] as const).map(f => (
+                  <button key={f} onClick={() => setEventFilter(f)} style={{
+                    padding: '6px 14px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', border: 'none',
+                    background: eventFilter === f ? '#5e1b21' : '#1a0f0a',
+                    color: eventFilter === f ? '#fff' : '#847464',
+                  }}>
+                    {f === 'all' ? 'All' : f === 'discord' ? 'Discord' : 'Web DL'}
+                  </button>
+                ))}
+              </div>
+              <span style={{ fontSize: '0.75rem', color: '#5e4030' }}>{filteredEvents.length} events</span>
+            </div>
+
+            <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
+              <table style={S.table}>
+                <thead>
+                  <tr>
+                    <th style={S.th}>Character</th>
+                    <th style={S.th}>Method</th>
+                    <th style={S.th}>Discord ID</th>
+                    <th style={S.th}>Username</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Time (CT)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredEvents.map((e, i) => (
+                    <tr key={e.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                      <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{e.label}</td>
+                      <td style={S.td}>{methodBadge(e.method)}</td>
+                      <td style={{ ...S.td, color: '#5e4030', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                        {e.discord_id ?? <span style={{ color: '#2a1a10' }}>not logged in</span>}
+                      </td>
+                      <td style={{ ...S.td, color: e.username ? '#c9a84c' : '#2a1a10' }}>
+                        {e.username ?? 'anonymous'}
+                      </td>
+                      <td style={{ ...S.td, textAlign: 'right', color: '#847464', whiteSpace: 'nowrap' }}>{fmt(e.created_at)}</td>
+                    </tr>
+                  ))}
+                  {filteredEvents.length === 0 && (
+                    <tr><td colSpan={5} style={{ ...S.td, textAlign: 'center', color: '#847464', padding: '2rem' }}>No events match filter</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* ── CHARACTERS ── */}
+        {tab === 'characters' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <input
+              style={{ ...S.input, maxWidth: '320px' }}
+              placeholder="Search characters…"
+              value={charSearch}
+              onChange={e => setCharSearch(e.target.value)}
+            />
+            <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
+              <table style={S.table}>
+                <thead>
+                  <tr>
+                    <th style={S.th}>#</th>
+                    <th style={S.th}>Character</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Views</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Discord</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Web DL</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Total</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Conv %</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Last DL (CT)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {charRows.map((a, i) => {
+                    const conv = a.views > 0 ? Math.round((a.downloads / a.views) * 100) : 0
+                    return (
+                      <tr key={a.slug} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                        <td style={{ ...S.td, color: '#5e1b21', width: '36px' }}>{i + 1}</td>
+                        <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{a.label}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#847464' }}>{formatCount(a.views)}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#7289da' }}>{a.discord_downloads ?? 0}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#c9a84c' }}>{a.web_downloads ?? 0}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{formatCount(a.downloads)}</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: conv >= 50 ? '#4caf50' : conv >= 25 ? '#c9a84c' : '#847464' }}>{conv}%</td>
+                        <td style={{ ...S.td, textAlign: 'right', color: '#847464', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{fmtShort(a.last_download_at)}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* ── USERS ── */}
-        <section style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.5rem', color: '#d4c5a9', marginBottom: '1rem' }}>
-            Discord Users <span style={{ fontSize: '1rem', color: '#847464' }}>({users?.length ?? 0})</span>
-          </h2>
-          <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '750px' }}>
-              <thead>
-                <tr style={{ background: '#160c08', borderBottom: '1px solid #2a1410' }}>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>User</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Email</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>First Login</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Last Login</th>
-                  <th className={headCell} style={{ color: '#5e1b21', textAlign: 'right' }}>Logins</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(users ?? []).map((u, i) => (
-                  <tr key={u.discord_id} style={{ borderBottom: '1px solid #1a0f0a', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
-                    <td className={cell}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        {u.avatar
-                          ? <img src={u.avatar} alt="" width={32} height={32} style={{ borderRadius: '50%', flexShrink: 0, border: '1px solid #3a1a10' }} />
-                          : <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#2a1410', flexShrink: 0 }} />
-                        }
-                        <span style={{ color: '#e8dcc4', fontWeight: 500 }}>{u.username ?? '—'}</span>
-                      </div>
-                    </td>
-                    <td className={cell} style={{ color: '#9a8b76' }}>{u.email ?? '—'}</td>
-                    <td className={cell} style={{ color: '#9a8b76', whiteSpace: 'nowrap' }}>{fmt(u.first_login)}</td>
-                    <td className={cell} style={{ color: '#9a8b76', whiteSpace: 'nowrap' }}>{fmt(u.last_login)}</td>
-                    <td className={cell} style={{ textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{u.login_count}</td>
+        {tab === 'users' && (
+          <div>
+            <h2 style={S.h2}>Discord Users <span style={{ fontSize: '1rem', color: '#847464' }}>({users.length})</span></h2>
+            <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
+              <table style={{ ...S.table, minWidth: '750px' }}>
+                <thead>
+                  <tr>
+                    <th style={S.th}>User</th>
+                    <th style={S.th}>Email</th>
+                    <th style={S.th}>Discord ID</th>
+                    <th style={S.th}>First Login</th>
+                    <th style={S.th}>Last Login</th>
+                    <th style={{ ...S.th, textAlign: 'right' }}>Logins</th>
                   </tr>
-                ))}
-                {(!users || users.length === 0) && (
-                  <tr><td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#847464' }}>No users yet</td></tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map((u, i) => (
+                    <tr key={u.discord_id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                      <td style={S.td}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          {u.avatar
+                            ? <img src={u.avatar} alt="" width={28} height={28} style={{ borderRadius: '50%', flexShrink: 0, border: '1px solid #3a1a10' }} />
+                            : <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#2a1410', flexShrink: 0 }} />
+                          }
+                          <span style={{ color: '#e8dcc4', fontWeight: 500 }}>{u.username ?? '—'}</span>
+                        </div>
+                      </td>
+                      <td style={{ ...S.td, color: '#9a8b76' }}>{u.email ?? '—'}</td>
+                      <td style={{ ...S.td, color: '#5e4030', fontFamily: 'monospace', fontSize: '0.75rem' }}>{u.discord_id}</td>
+                      <td style={{ ...S.td, color: '#9a8b76', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{fmt(u.first_login)}</td>
+                      <td style={{ ...S.td, color: '#9a8b76', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{fmt(u.last_login)}</td>
+                      <td style={{ ...S.td, textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{u.login_count}</td>
+                    </tr>
+                  ))}
+                  {users.length === 0 && (
+                    <tr><td colSpan={6} style={{ ...S.td, textAlign: 'center', color: '#847464', padding: '2rem' }}>No users yet</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </section>
-
-        {/* ── TOP DOWNLOADS ── */}
-        <section style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.5rem', color: '#d4c5a9', marginBottom: '1rem' }}>
-            Top Downloads <span style={{ fontSize: '1rem', color: '#847464' }}>(all time)</span>
-          </h2>
-          <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '500px' }}>
-              <thead>
-                <tr style={{ background: '#160c08', borderBottom: '1px solid #2a1410' }}>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>#</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Character / Pack</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Slug</th>
-                  <th className={headCell} style={{ color: '#5e1b21', textAlign: 'right' }}>Downloads</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(downloads ?? []).map((d, i) => (
-                  <tr key={d.slug} style={{ borderBottom: '1px solid #1a0f0a', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
-                    <td className={cell} style={{ color: '#847464', width: '40px' }}>{i + 1}</td>
-                    <td className={cell} style={{ color: '#e8dcc4', fontWeight: 500 }}>{d.label}</td>
-                    <td className={cell} style={{ color: '#847464', fontSize: '0.8rem', fontFamily: 'monospace' }}>{d.slug}</td>
-                    <td className={cell} style={{ textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{d.downloads}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* ── RECENT DOWNLOADS ── */}
-        <section>
-          <h2 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.5rem', color: '#d4c5a9', marginBottom: '1rem' }}>
-            Recent Activity
-          </h2>
-          <div style={{ overflowX: 'auto', border: '1px solid #2a1410', borderRadius: '6px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '500px' }}>
-              <thead>
-                <tr style={{ background: '#160c08', borderBottom: '1px solid #2a1410' }}>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Character / Pack</th>
-                  <th className={headCell} style={{ color: '#5e1b21' }}>Slug</th>
-                  <th className={headCell} style={{ color: '#5e1b21', textAlign: 'right' }}>Total DLs</th>
-                  <th className={headCell} style={{ color: '#5e1b21', textAlign: 'right' }}>Last Activity (CT)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(recent ?? []).map((r, i) => (
-                  <tr key={r.slug + i} style={{ borderBottom: '1px solid #1a0f0a', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
-                    <td className={cell} style={{ color: '#e8dcc4', fontWeight: 500 }}>{r.label}</td>
-                    <td className={cell} style={{ color: '#847464', fontSize: '0.8rem', fontFamily: 'monospace' }}>{r.slug}</td>
-                    <td className={cell} style={{ textAlign: 'right', color: '#e55c35', fontWeight: 700 }}>{r.downloads}</td>
-                    <td className={cell} style={{ textAlign: 'right', color: '#9a8b76', whiteSpace: 'nowrap' }}>{fmt(r.last_download_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        )}
 
       </div>
     </div>
