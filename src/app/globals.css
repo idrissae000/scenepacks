@@ -516,3 +516,17 @@ body::before {
 
 /* Apply page — placeholder color */
 .apply-input::placeholder { color: #847464; font-size: 14px; }
+
+/* Trending carousel infinite scroll */
+@keyframes trending-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.trending-track {
+  animation: trending-scroll var(--carousel-duration, 45s) linear infinite;
+  will-change: transform;
+}
+.trending-track:hover,
+.trending-track.paused {
+  animation-play-state: paused;
+}

@@ -6,6 +6,7 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
+import TrendingCarousel from '@/components/TrendingCarousel'
 
 type FilterType = 'all' | 'show' | 'movie' | 'game'
 type SortType = 'popular' | 'newest'
@@ -80,9 +81,17 @@ export default function HomePage() {
   const [sortType, setSortType] = useState<SortType>(() => loadPref('sortType', 'newest' as SortType))
   const [sortDesc, setSortDesc] = useState<boolean>(() => loadPref('sortDesc', true))
   const [analytics, setAnalytics] = useState<Record<string, { views: number }>>({})
+  const [trendingSlugs, setTrendingSlugs] = useState<Set<string>>(new Set())
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [loadingMore, setLoadingMore] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    fetch('/api/trending')
+      .then(r => r.json())
+      .then(({ trending }: { trending: string[] }) => setTrendingSlugs(new Set(trending ?? [])))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetch('/api/analytics/bulk?type=character')
@@ -240,6 +249,9 @@ export default function HomePage() {
             <div className="divider-stain max-w-[80px] mx-auto mt-4" />
           </motion.div>
 
+          {/* Trending Carousel */}
+          <TrendingCarousel />
+
           {/* Controls */}
           <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-8 max-w-4xl mx-auto flex flex-col gap-3">
@@ -321,7 +333,7 @@ export default function HomePage() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     {(searchResults as any[]).map((char, i) => (
                       <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i}
-                        isNew={NEW_SLUGS.has(char.analyticsSlug)} />
+                        isNew={NEW_SLUGS.has(char.analyticsSlug)} isTrending={trendingSlugs.has(char.analyticsSlug)} />
                     ))}
                   </div>
                 ) : (
@@ -351,7 +363,8 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {visibleChars.map((char, i) => (
                     <CharCard key={`${char.type}-${char.parentSlug}-${char.slug}`} char={char} index={i}
-                      isNew={sortType !== 'popular' && NEW_SLUGS.has(char.analyticsSlug)} />
+                      isNew={sortType !== 'popular' && NEW_SLUGS.has(char.analyticsSlug)}
+                      isTrending={trendingSlugs.has(char.analyticsSlug)} />
                   ))}
                 </div>
 
@@ -386,7 +399,7 @@ export default function HomePage() {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boolean }) {
+function CharCard({ char, index, isNew, isTrending }: { char: any; index: number; isNew: boolean; isTrending?: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -404,14 +417,22 @@ function CharCard({ char, index, isNew }: { char: any; index: number; isNew: boo
           onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
         />
         <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)' }} />
-        {isNew && (
-          <div style={{
-            position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3,
-            background: '#16a34a', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
-            letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
-            fontFamily: 'Inter, system-ui, sans-serif',
-          }}>NEW</div>
-        )}
+        <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+          {isNew && (
+            <div style={{
+              background: '#16a34a', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
+              letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+              fontFamily: 'Inter, system-ui, sans-serif',
+            }}>NEW</div>
+          )}
+          {isTrending && (
+            <div style={{
+              background: '#8b0000', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
+              letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+              fontFamily: 'Inter, system-ui, sans-serif',
+            }}>TRENDING</div>
+          )}
+        </div>
         <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', zIndex: 3 }}>
           <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>{char.name}</p>
           <p style={{ color: '#a89880', fontSize: '0.75rem', lineHeight: 1.3, fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0' }}>{char.parentName}</p>

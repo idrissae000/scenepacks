@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -26,6 +26,18 @@ function contrastText(hex: string): string {
 }
 
 export default function CharacterGrid({ show, baseHref }: Props) {
+  const [trendingSet, setTrendingSet] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    fetch('/api/trending')
+      .then(r => r.json())
+      .then(({ trending }: { trending: string[] }) => setTrendingSet(new Set(trending ?? [])))
+      .catch(() => {})
+  }, [])
+
+  // Derive parent slug from baseHref (e.g. /shows/the-sopranos → the-sopranos)
+  const parentSlug = baseHref.split('/').filter(Boolean).pop() ?? ''
+
   const t = show.theme
   const accent = t.highlight || t.accent
   const cardText = t.cardText || t.text
@@ -108,6 +120,15 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                           letterSpacing: '0.08em', background: 'rgba(0,0,0,0.5)',
                         }}>
                           {zone.label}
+                        </span>
+                      )}
+                      {trendingSet.has(`${parentSlug}__${char.slug}`) && (
+                        <span className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-sm" style={{
+                          fontFamily: 'Inter, system-ui, sans-serif', color: '#fff',
+                          background: '#8b0000', fontSize: '0.6rem', fontWeight: 700,
+                          letterSpacing: '0.08em',
+                        }}>
+                          TRENDING
                         </span>
                       )}
                     </div>
