@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
@@ -38,13 +38,19 @@ function buildLookup(): Map<string, TrendingChar> {
 }
 
 const CHAR_LOOKUP = buildLookup()
-const CARD_W = 155
-const GAP = 12
+const CARD_W = 224
+const GAP = 14
+const STEP = CARD_W + GAP
+// px per animation frame (~60fps) → ~22px/s auto-scroll
+const SPEED = 0.36
 
 export default function TrendingCarousel() {
   const [chars, setChars] = useState<TrendingChar[]>([])
   const [ready, setReady] = useState(false)
   const trackRef = useRef<HTMLDivElement>(null)
+  const offsetRef = useRef(0)
+  const pausedRef = useRef(false)
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
     fetch('/api/trending')
@@ -54,7 +60,6 @@ export default function TrendingCarousel() {
           .map((slug: string) => CHAR_LOOKUP.get(slug))
           .filter(Boolean) as TrendingChar[]
         if (resolved.length > 0) {
-          // Preload images
           resolved.forEach(c => {
             const img = new Image()
             img.src = c.image
@@ -66,12 +71,37 @@ export default function TrendingCarousel() {
       .catch(() => {})
   }, [])
 
+  useEffect(() => {
+    if (!ready || chars.length === 0) return
+    const totalHalf = chars.length * STEP
+
+    const tick = () => {
+      if (!pausedRef.current) {
+        offsetRef.current += SPEED
+        if (offsetRef.current >= totalHalf) offsetRef.current -= totalHalf
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(-${offsetRef.current}px)`
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [ready, chars.length])
+
+  const advance = useCallback((dir: 1 | -1) => {
+    const totalHalf = chars.length * STEP
+    offsetRef.current = ((offsetRef.current + dir * STEP) % totalHalf + totalHalf) % totalHalf
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(-${offsetRef.current}px)`
+    }
+  }, [chars.length])
+
   if (!ready || chars.length === 0) return null
 
-  // Double cards for seamless infinite loop
   const doubled = [...chars, ...chars]
-  const totalHalfPx = chars.length * (CARD_W + GAP)
-  const duration = Math.max(20, chars.length * 4.5)
 
   return (
     <div style={{ marginBottom: '2.5rem' }}>
@@ -90,29 +120,69 @@ export default function TrendingCarousel() {
       </div>
 
       {/* Carousel viewport */}
-      <div
-        style={{ overflow: 'hidden', position: 'relative' }}
-        onMouseEnter={() => trackRef.current?.classList.add('paused')}
-        onMouseLeave={() => trackRef.current?.classList.remove('paused')}
-      >
-        {/* Left/right fade masks */}
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '48px', background: 'linear-gradient(to right, #0d0a07, transparent)', zIndex: 2, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '48px', background: 'linear-gradient(to left, #0d0a07, transparent)', zIndex: 2, pointerEvents: 'none' }} />
-
-        {/* Scrolling track */}
-        <div
-          ref={trackRef}
-          className="trending-track"
+      <div style={{ position: 'relative' }}>
+        {/* Left arrow */}
+        <button
+          onClick={() => advance(-1)}
+          aria-label="Previous"
           style={{
-            display: 'flex',
-            gap: `${GAP}px`,
-            width: `${doubled.length * (CARD_W + GAP)}px`,
-            ['--carousel-duration' as string]: `${duration}s`,
+            position: 'absolute', left: '-18px', top: '50%', transform: 'translateY(-50%)',
+            zIndex: 10, background: 'rgba(13,10,7,0.9)', border: '1px solid rgba(139,0,0,0.5)',
+            borderRadius: '50%', width: '36px', height: '36px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: '#d4c5a9', transition: 'border-color 150ms, background 150ms',
           }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#8b0000'; (e.currentTarget as HTMLButtonElement).style.background = '#1a0000' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(139,0,0,0.5)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(13,10,7,0.9)' }}
         >
-          {doubled.map((char, i) => (
-            <CarouselCard key={`${char.analyticsSlug}-${i}`} char={char} />
-          ))}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* Right arrow */}
+        <button
+          onClick={() => advance(1)}
+          aria-label="Next"
+          style={{
+            position: 'absolute', right: '-18px', top: '50%', transform: 'translateY(-50%)',
+            zIndex: 10, background: 'rgba(13,10,7,0.9)', border: '1px solid rgba(139,0,0,0.5)',
+            borderRadius: '50%', width: '36px', height: '36px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: '#d4c5a9', transition: 'border-color 150ms, background 150ms',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#8b0000'; (e.currentTarget as HTMLButtonElement).style.background = '#1a0000' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(139,0,0,0.5)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(13,10,7,0.9)' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+
+        {/* Overflow mask */}
+        <div
+          style={{ overflow: 'hidden', position: 'relative' }}
+          onMouseEnter={() => { pausedRef.current = true }}
+          onMouseLeave={() => { pausedRef.current = false }}
+        >
+          {/* Left/right fade masks */}
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '56px', background: 'linear-gradient(to right, #0d0a07, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '56px', background: 'linear-gradient(to left, #0d0a07, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+
+          {/* Scrolling track */}
+          <div
+            ref={trackRef}
+            style={{
+              display: 'flex',
+              gap: `${GAP}px`,
+              width: `${doubled.length * STEP}px`,
+              willChange: 'transform',
+            }}
+          >
+            {doubled.map((char, i) => (
+              <CarouselCard key={`${char.analyticsSlug}-${i}`} char={char} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -126,7 +196,7 @@ function CarouselCard({ char }: { char: TrendingChar }) {
       style={{
         flexShrink: 0,
         width: `${CARD_W}px`,
-        aspectRatio: '2/3',
+        aspectRatio: '1 / 1',
         borderRadius: '6px',
         overflow: 'hidden',
         display: 'block',
@@ -145,7 +215,6 @@ function CarouselCard({ char }: { char: TrendingChar }) {
         el.style.borderColor = 'rgba(255,255,255,0.08)'
       }}
     >
-      {/* Image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={char.image}
@@ -153,9 +222,7 @@ function CarouselCard({ char }: { char: TrendingChar }) {
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
         onError={e => { (e.target as HTMLImageElement).style.opacity = '0' }}
       />
-      {/* Gradient overlay */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)' }} />
-      {/* HOT badge */}
       <div style={{
         position: 'absolute', top: '0.4rem', left: '0.4rem',
         background: '#8b0000', color: '#fff',
@@ -165,12 +232,11 @@ function CarouselCard({ char }: { char: TrendingChar }) {
       }}>
         TRENDING
       </div>
-      {/* Name */}
       <div style={{ position: 'absolute', bottom: '0.6rem', left: '0.5rem', right: '0.5rem' }}>
-        <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.82rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>
+        <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.88rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>
           {char.name}
         </p>
-        <p style={{ color: '#9a8b76', fontSize: '0.68rem', fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0', lineHeight: 1.2 }}>
+        <p style={{ color: '#9a8b76', fontSize: '0.72rem', fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0', lineHeight: 1.2 }}>
           {char.parentName}
         </p>
       </div>

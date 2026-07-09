@@ -417,22 +417,22 @@ function CharCard({ char, index, isNew, isTrending }: { char: any; index: number
           onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
         />
         <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)' }} />
-        <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-          {isNew && (
-            <div style={{
-              background: '#16a34a', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
-              letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
-              fontFamily: 'Inter, system-ui, sans-serif',
-            }}>NEW</div>
-          )}
-          {isTrending && (
-            <div style={{
-              background: '#8b0000', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
-              letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
-              fontFamily: 'Inter, system-ui, sans-serif',
-            }}>TRENDING</div>
-          )}
-        </div>
+        {isNew && (
+          <div style={{
+            position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 3,
+            background: '#16a34a', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
+            letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          }}>NEW</div>
+        )}
+        {isTrending && (
+          <div style={{
+            position: 'absolute', top: isNew ? '1.8rem' : '0.5rem', left: '0.5rem', zIndex: 3,
+            background: '#8b0000', color: '#fff', fontSize: '0.65rem', fontWeight: 700,
+            letterSpacing: '0.08em', padding: '0.2rem 0.45rem', borderRadius: '0.25rem',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          }}>TRENDING</div>
+        )}
         <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', zIndex: 3 }}>
           <p style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2, fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>{char.name}</p>
           <p style={{ color: '#a89880', fontSize: '0.75rem', lineHeight: 1.3, fontFamily: 'Inter, system-ui, sans-serif', margin: '0.2rem 0 0' }}>{char.parentName}</p>
