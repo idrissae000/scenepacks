@@ -94,7 +94,6 @@ export default function CharacterPage({ character, parent, type }: Props) {
   /* ── Two-button row used in single-pack layout ── */
   const TwoButtons = () => (
     <div className="flex flex-col sm:flex-row gap-3">
-      {/* Join Discord */}
       <a
         href="https://discord.com/invite/98C5YUeEz7"
         target="_blank"
@@ -105,7 +104,6 @@ export default function CharacterPage({ character, parent, type }: Props) {
       >
         <DiscordIcon /> Join Discord
       </a>
-      {/* Web Download */}
       <button
         onClick={() => handleWebDownload()}
         disabled={joining}
@@ -218,7 +216,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </ul>
               </motion.div>
 
-              {/* Pack cards — each with its own buttons */}
+              {/* Pack cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {character.packs.map((pack, i) => (
                   <motion.div
