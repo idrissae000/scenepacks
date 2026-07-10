@@ -17,7 +17,6 @@ interface Theme {
 interface Show { characters: Character[]; theme: Theme }
 interface Props { show: Show; baseHref: string }
 
-// Pick readable text color (#111 vs #fff) for a given background hex
 function contrastText(hex: string): string {
   const h = hex.replace('#', '')
   const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16)
@@ -35,7 +34,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
       .catch(() => {})
   }, [])
 
-  // Derive parent slug from baseHref (e.g. /shows/the-sopranos → the-sopranos)
   const parentSlug = baseHref.split('/').filter(Boolean).pop() ?? ''
 
   const t = show.theme
@@ -43,7 +41,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
   const cardText = t.cardText || t.text
   const cardMuted = t.cardMuted || t.muted
   const packLabel = t.getPackLabel || 'Get Pack'
-
   const totalPacks = show.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)
 
   return (
@@ -88,7 +85,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                   >
                     {t.stamp && <span className="stamp-classified">{t.stamp}</span>}
 
-                    {/* Character portrait */}
                     <div className="relative overflow-hidden w-full" style={{ aspectRatio: '1 / 1' }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -102,7 +98,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                           if (fb) fb.style.display = 'flex'
                         }}
                       />
-                      {/* Initials fallback (shown if image missing) */}
                       <div className="absolute inset-0 items-center justify-center hidden" aria-hidden="true" style={{
                         background: 'rgba(0,0,0,0.3)',
                       }}>
@@ -113,7 +108,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                           {initials}
                         </span>
                       </div>
-                      {/* Gradient overlay at bottom for text legibility */}
                       <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
                         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }} />
                       {zone && (
@@ -135,7 +129,6 @@ export default function CharacterGrid({ show, baseHref }: Props) {
                       )}
                     </div>
 
-                    {/* Content */}
                     <div className="p-4">
                       <h3 className="mb-2 leading-tight" style={{
                         fontFamily: t.headingFont, color: cardText, fontSize: '1.2rem', fontWeight: 700,
