@@ -67,7 +67,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
       .catch(() => {})
   }, [analyticsSlug, character.name, session])
 
-  const handleWebDownload = useCallback(async () => {
+  const handleWebDownload = useCallback(async (url?: string) => {
     if (!session) {
       setShowModal(true)
       return
@@ -87,11 +87,11 @@ export default function CharacterPage({ character, parent, type }: Props) {
     } finally {
       setJoining(false)
       trackDownload('web')
-      window.open(downloadUrl, '_blank')
+      window.open(url || downloadUrl, '_blank')
     }
   }, [session, downloadUrl, trackDownload])
 
-  /* ── Two-button row used in both layouts ── */
+  /* ── Two-button row used in single-pack layout ── */
   const TwoButtons = () => (
     <div className="flex flex-col sm:flex-row gap-3">
       {/* Join Discord */}
@@ -107,7 +107,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
       </a>
       {/* Web Download */}
       <button
-        onClick={handleWebDownload}
+        onClick={() => handleWebDownload()}
         disabled={joining}
         className="flex-1 flex items-center justify-center gap-2 py-4 rounded-md tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
         style={{ fontFamily: t.headingFont, fontSize: '0.95rem', fontWeight: 700, background: '#0d0907', color: '#ffffff', border: '2px solid #d4c5a9', cursor: joining ? 'default' : 'pointer', opacity: joining ? 0.8 : 1 }}
@@ -218,7 +218,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </ul>
               </motion.div>
 
-              {/* Pack cards */}
+              {/* Pack cards — each with its own buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {character.packs.map((pack, i) => (
                   <motion.div
@@ -259,17 +259,20 @@ export default function CharacterPage({ character, parent, type }: Props) {
                         >
                           <DiscordIcon /> Join Discord
                         </a>
+                        <button
+                          onClick={() => handleWebDownload(pack.packLink)}
+                          disabled={joining}
+                          className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
+                          style={{ fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700, background: '#0d0907', color: '#ffffff', border: '2px solid #d4c5a9', cursor: joining ? 'default' : 'pointer', opacity: joining ? 0.8 : 1 }}
+                        >
+                          {!session && <LockIcon />}
+                          {joining ? 'Joining...' : 'Web Download'}
+                        </button>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-
-              {/* Web Download button for multi-pack */}
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}
-                className="max-w-sm">
-                <TwoButtons />
-              </motion.div>
 
               <Link href={`/${type}s/${parent.slug}`} className="text-center text-xs tracking-widest uppercase opacity-60 hover:opacity-90 transition-opacity"
                 style={{ color: t.muted, fontFamily: t.bodyFont }}>
