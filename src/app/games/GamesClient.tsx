@@ -23,7 +23,7 @@ export default function GamesClient({ images }: { images: string[] }) {
             </h1>
             <div className="mob-divider max-w-[60px] mx-auto mb-4" />
             <p className="text-sm" style={{ color: '#847464' }}>
-              {games.length} game{games.length !== 1 ? 's' : ''} &middot; {games.reduce((a: number, g: any) => a + g.characters.length, 0)} characters
+              {games.length} game{games.length !== 1 ? 's' : ''} &middot; {games.reduce((a: number, g: any) => a + g.characters.reduce((b: number, c: any) => b + (c.packs ? c.packs.length : 1), 0), 0)} scenepacks
             </p>
           </motion.div>
 
@@ -68,7 +68,7 @@ export default function GamesClient({ images }: { images: string[] }) {
                           padding: '3px 10px',
                           letterSpacing: '0.03em',
                         }}>
-                          {game.characters.length} Character{game.characters.length !== 1 ? 's' : ''}
+                          {game.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)} Scenepack{game.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0) !== 1 ? 's' : ''}
                         </span>
                       </div>
                       <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>

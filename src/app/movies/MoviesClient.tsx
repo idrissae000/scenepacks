@@ -23,7 +23,7 @@ export default function MoviesClient({ images }: { images: string[] }) {
             </h1>
             <div className="mob-divider max-w-[60px] mx-auto mb-4" />
             <p className="text-sm" style={{ color: '#847464' }}>
-              {movies.length} franchises &middot; {movies.reduce((a: number, m: any) => a + m.characters.length, 0)} characters
+              {movies.length} franchises &middot; {movies.reduce((a: number, m: any) => a + m.characters.reduce((b: number, c: any) => b + (c.packs ? c.packs.length : 1), 0), 0)} scenepacks
             </p>
           </motion.div>
 
@@ -63,7 +63,7 @@ export default function MoviesClient({ images }: { images: string[] }) {
                           padding: '3px 10px',
                           letterSpacing: '0.03em',
                         }}>
-                          {movie.characters.length} Character{movie.characters.length !== 1 ? 's' : ''}
+                          {movie.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)} Scenepack{movie.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0) !== 1 ? 's' : ''}
                         </span>
                       </div>
                       <p className="text-sm leading-relaxed" style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#9a8b76' }}>
