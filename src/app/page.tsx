@@ -464,7 +464,7 @@ function CompactCategoryCard({ item, index, hrefBase }: { item: any; index: numb
               color: '#e8dcc4', background: 'rgba(94,27,33,0.45)',
               border: '1px solid #5e1b21', borderRadius: '3px', padding: '1px 7px',
             }}>
-              {item.characters.length} char{item.characters.length !== 1 ? 's' : ''}
+              {item.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)} pack{item.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0) !== 1 ? 's' : ''}
             </span>
           </div>
         </article>

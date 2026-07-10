@@ -44,13 +44,15 @@ export default function CharacterGrid({ show, baseHref }: Props) {
   const cardMuted = t.cardMuted || t.muted
   const packLabel = t.getPackLabel || 'Get Pack'
 
+  const totalPacks = show.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)
+
   return (
     <section className="relative px-4 pb-24">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center gap-3 mb-8">
           <div className="h-px w-6" style={{ background: t.accent }} />
           <div className="mob-label" style={{ color: accent }}>
-            {show.characters.length} Character{show.characters.length !== 1 ? 's' : ''} Available
+            {totalPacks} Scenepack{totalPacks !== 1 ? 's' : ''} Available
           </div>
         </div>
 
