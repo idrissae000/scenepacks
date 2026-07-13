@@ -32,7 +32,10 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png', '2025-06-13'), driveLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A' },
+      { ...char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png', '2025-06-13'), driveLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A', packs: [
+        { label: 'Aesthetic Pack',   image: '/character-pages/tony-soprano.png',   packLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A', resolution: '1080p 24fps 16:9', credit: '@idriss.ae on TikTok' },
+        { label: 'Aesthetic Pack II', image: '/character-pages/tonyinkoscp.webp', packLink: 'https://mega.nz/folder/plZHgbSR#7pfouOq2BnS5uqNN72x6sQ', resolution: '2160p 24fps', credit: '@Inko.visuals on TikTok' },
+      ]},
       { ...char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissypic.png', '2025-05-22'), pageImage: '/character-pages/chrissyscp.PNG', driveLink: 'https://drive.google.com/drive/folders/1plsZC676S2n9jE3ZShzc5tQGtaZJmWPI' },
       { ...char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png', '2025-05-17'), driveLink: 'https://drive.google.com/drive/folders/16w1doz8oohYRK5rne3ZT6J3Ln6N5kIsT' },
       { ...char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png', '2025-05-28'), driveLink: 'https://drive.google.com/drive/folders/1f06j9DPY7J3oktbwSVxK2FcR53g8ZgZm' },

@@ -7,7 +7,7 @@ import { useSession, signIn } from 'next-auth/react'
 import PageAtmosphere from './PageAtmosphere'
 import { formatCount } from '@/lib/analytics'
 
-interface Pack { label: string; image: string; packLink: string }
+interface Pack { label: string; image: string; packLink: string; resolution?: string; credit?: string }
 interface Character { name: string; slug: string; image: string; description: string; packLink: string; pageImage?: string; packs?: Pack[]; driveLink?: string }
 
 interface Theme {
@@ -196,27 +196,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </p>
               </motion.div>
 
-              {/* Pack Includes */}
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
-                className="rounded-md p-5 max-w-2xl" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
-                <div className="mob-label mb-3" style={{ color: accent }}>Pack Includes</div>
-                <ul className="space-y-2 text-sm" style={{ color: t.muted, fontFamily: t.bodyFont }}>
-                  {['High-quality cinematic scene clips', 'Individual clips prioritized for aesthetic edits', '1080p 24fps 16:9'].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span style={{ color: accent, marginTop: '1px' }}>—</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                  <li className="flex items-start gap-2">
-                    <span style={{ color: accent, marginTop: '1px' }}>—</span>
-                    <span>Free to use — credit required<br />
-                      <span style={{ color: accent, fontWeight: 700 }}>Credit: @idriss.ae on TikTok</span>
-                    </span>
-                  </li>
-                </ul>
-              </motion.div>
-
-              {/* Pack cards */}
+              {/* Pack cards — each with its own Pack Includes + buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {character.packs.map((pack, i) => (
                   <motion.div
@@ -249,6 +229,24 @@ export default function CharacterPage({ character, parent, type }: Props) {
                       <div className="p-4 flex flex-col gap-3">
                         <div style={{ fontFamily: t.headingFont, color: t.text, fontSize: '1.15rem', fontWeight: 700 }}>
                           {pack.label}
+                        </div>
+                        {/* Per-pack includes */}
+                        <div className="rounded-sm p-3" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
+                          <div className="mob-label mb-2" style={{ color: accent, fontSize: '0.6rem' }}>Pack Includes</div>
+                          <ul className="space-y-1 text-xs" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+                            {['High-quality cinematic scene clips', 'Individual clips prioritized for aesthetic edits', pack.resolution || '1080p 24fps 16:9'].map((item) => (
+                              <li key={item} className="flex items-start gap-1.5">
+                                <span style={{ color: accent, marginTop: '1px' }}>—</span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                            <li className="flex items-start gap-1.5">
+                              <span style={{ color: accent, marginTop: '1px' }}>—</span>
+                              <span>Free to use — credit required<br />
+                                <span style={{ color: accent, fontWeight: 700 }}>Credit: {pack.credit || '@idriss.ae on TikTok'}</span>
+                              </span>
+                            </li>
+                          </ul>
                         </div>
                         <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
                           onClick={() => trackDownload('discord')}

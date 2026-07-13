@@ -1,12 +1,5 @@
 export const comingSoon = [
   {
-    id: 1,
-    name: 'Tony Soprano — Updated',
-    franchise: 'The Sopranos',
-    category: 'Show',
-    slug: 'tony-soprano-updated',
-  },
-  {
     id: 2,
     name: 'Silvio Dante — Updated',
     franchise: 'The Sopranos',
