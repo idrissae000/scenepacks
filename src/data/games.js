@@ -1,4 +1,5 @@
 const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
+const IDRISS = '349045631656001537'
 
 export const games = [
   {
@@ -31,8 +32,8 @@ export const games = [
         dateAdded: '2026-06-06',
         driveLink: 'https://drive.google.com/drive/folders/1WhcQNcassX5iuMB5bIlX21xGJXWkhOYy',
         packs: [
-          { label: 'Aesthetic Pack', image: '/character-pages/arthuraesthetic.png', packLink: 'https://drive.google.com/drive/folders/1WhcQNcassX5iuMB5bIlX21xGJXWkhOYy' },
-          { label: 'Sad Pack',       image: '/character-pages/arthursad.png',       packLink: 'https://drive.google.com/drive/folders/1dS8D5ESp_3xSDCquFPdVfyc41yaAOnVY' },
+          { label: 'Aesthetic Pack', image: '/character-pages/arthuraesthetic.png', packLink: 'https://drive.google.com/drive/folders/1WhcQNcassX5iuMB5bIlX21xGJXWkhOYy', creatorId: IDRISS },
+          { label: 'Sad Pack',       image: '/character-pages/arthursad.png',       packLink: 'https://drive.google.com/drive/folders/1dS8D5ESp_3xSDCquFPdVfyc41yaAOnVY', creatorId: IDRISS },
         ],
       },
       {
@@ -45,6 +46,7 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-05',
         driveLink: 'https://drive.google.com/drive/folders/1hOvCpvhORtWTk_hGKg48tV37kgUOIaLY',
+        creatorId: IDRISS,
       },
       {
         id: 'dutch-van-der-linde',
@@ -56,6 +58,7 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-12',
         driveLink: 'https://drive.google.com/drive/folders/1_nOfVIc8cOjAt5GBKVxRqbcxVlt89RLG',
+        creatorId: IDRISS,
       },
     ],
   },
@@ -89,6 +92,7 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-09',
         driveLink: 'https://drive.google.com/drive/folders/1oj0SbDNZACvE1MU2ee0sgIx1cXRh4m0b',
+        creatorId: IDRISS,
       },
       {
         id: 'joker-arkham',
@@ -100,6 +104,7 @@ export const games = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-10',
         driveLink: 'https://drive.google.com/drive/folders/1xvZyTSfZeHlOvbGBt1SIYjR7vXbdMajM',
+        creatorId: IDRISS,
       },
       {
         id: 'arkham-knight',
@@ -111,6 +116,7 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-13',
         driveLink: 'https://drive.google.com/drive/folders/1LojkkVXqoY8vRerAu4JlBg1wvCf1NyMC',
+        creatorId: IDRISS,
       },
     ],
   },
@@ -144,6 +150,7 @@ export const games = [
         packLink: DISCORD,
         dateAdded: '2026-06-13',
         driveLink: 'https://drive.google.com/drive/folders/1mdeU1r8mNyWbSGwcfnMob71f2xFPGPwf',
+        creatorId: IDRISS,
       },
     ],
   },
@@ -177,6 +184,7 @@ export const games = [
         packLink: 'https://discord.gg/MVA5ySY2',
         dateAdded: '2026-07-13',
         driveLink: 'https://drive.google.com/drive/folders/1D3TUhFW13YCdrSlVdnNbcPJr0h4SCMcE?usp=sharing',
+        creatorId: IDRISS,
       },
     ],
   },
@@ -210,6 +218,7 @@ export const games = [
         packLink: 'https://discord.gg/MVA5ySY2',
         dateAdded: '2026-06-24',
         driveLink: 'https://drive.google.com/drive/folders/1et-6ivtS79PFlQw-79F_oBQtSMBocAuR?usp=sharing',
+        creatorId: IDRISS,
       },
     ],
   },

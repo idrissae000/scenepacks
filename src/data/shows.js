@@ -1,4 +1,6 @@
 const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
+const IDRISS = '349045631656001537'
+const INKO   = '1097775170443292702'
 
 function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -33,17 +35,17 @@ export const shows = [
     },
     characters: [
       { ...char('Tony Soprano', 'Boss of the DiMeo crime family. Volatile, charismatic, and caught between suburban family life and the weight of the mob. Sees a therapist. Still has people killed.', '/characters/tonys.png', '2025-06-13'), driveLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A', packs: [
-        { label: 'Aesthetic Pack',   image: '/character-pages/tony-soprano.png',   packLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A', resolution: '1080p 24fps 16:9', credit: '@idriss.ae on TikTok' },
-        { label: 'Aesthetic Pack II', image: '/character-pages/tonyinkoscp.webp', packLink: 'https://mega.nz/folder/plZHgbSR#7pfouOq2BnS5uqNN72x6sQ', resolution: '2160p 24fps', credit: '@Inko.visuals on TikTok' },
+        { label: 'Aesthetic Pack',    image: '/character-pages/tony-soprano.png',  packLink: 'https://drive.google.com/drive/folders/1PDQtRc-1LODGVE7KsoQPW4XFfD4ucJ9A', resolution: '1080p 24fps 16:9', credit: '@idriss.ae on TikTok',    creatorId: IDRISS },
+        { label: 'Aesthetic Pack II', image: '/character-pages/tonyinkoscp.webp',  packLink: 'https://mega.nz/folder/plZHgbSR#7pfouOq2BnS5uqNN72x6sQ',                  resolution: '2160p 24fps',       credit: '@Inko.visuals on TikTok', creatorId: INKO   },
       ]},
-      { ...char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissypic.png', '2025-05-22'), pageImage: '/character-pages/chrissyscp.PNG', driveLink: 'https://drive.google.com/drive/folders/1plsZC676S2n9jE3ZShzc5tQGtaZJmWPI' },
-      { ...char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png', '2025-05-17'), driveLink: 'https://drive.google.com/drive/folders/16w1doz8oohYRK5rne3ZT6J3Ln6N5kIsT' },
-      { ...char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png', '2025-05-28'), driveLink: 'https://drive.google.com/drive/folders/1f06j9DPY7J3oktbwSVxK2FcR53g8ZgZm' },
-      { ...char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.', '/characters/ralph.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1ZV5ficOkEeTFW_jj_UL11xczmji10Aan' },
-      { ...char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five.", '/characters/tonyb.png', '2025-05-16'), driveLink: 'https://drive.google.com/drive/folders/1PrnaP1de6U5HWcTIMuCh9DMO1HvzvkHY' },
-      { ...char('Furio Giunta', "Tony's Italian enforcer. Loyal, dangerous, and quietly in love with a woman he could never have.", '/characters/furiopic.png', '2026-06-16'), pageImage: '/character-pages/Furioscp.png', packLink: 'https://discord.com/invite/98C5YUeEz7', driveLink: 'https://drive.google.com/drive/folders/1w0BJu-SMMkihn_3ttptC91RSQJRtzpTQ' },
-      { ...char('Adriana La Cerva', "Christopher's girlfriend caught between love and survival. One of the most tragic figures in the entire series.", '/characters/adrianapic.png', '2026-07-01'), pageImage: '/character-pages/adrianascp.png', packLink: 'https://discord.gg/MVA5ySY2', driveLink: 'https://drive.google.com/drive/folders/1hnlGYDfxrGRMteR530yZ88Xc6uoc-G4n?usp=sharing' },
-      { ...char('Christopher & Adriana', "Love, lies and loyalty in the shadow of the mob. Their story is one of the most heartbreaking in Sopranos history.", '/characters/chrisandadepic.png', '2026-07-01'), pageImage: '/character-pages/chrisandadescp.png', packLink: 'https://discord.gg/MVA5ySY2', driveLink: 'https://drive.google.com/drive/folders/1kv-28727MHHvaLl1B-XQ1TG2f5zg5_fM?usp=sharing' },
+      { ...char('Christopher Moltisanti', "Tony's volatile protégé and nephew. Torn between mob loyalty and Hollywood dreams. The show's most tragic and most human figure.", '/characters/chrissypic.png', '2025-05-22'), pageImage: '/character-pages/chrissyscp.PNG', driveLink: 'https://drive.google.com/drive/folders/1plsZC676S2n9jE3ZShzc5tQGtaZJmWPI', creatorId: IDRISS },
+      { ...char('Paulie Gualtieri', "Superstitious, silver-templed capo with old-school values and a dark streak of humor. One of TV's most unforgettable characters.", '/characters/paulie.png', '2025-05-17'), driveLink: 'https://drive.google.com/drive/folders/16w1doz8oohYRK5rne3ZT6J3Ln6N5kIsT', creatorId: IDRISS },
+      { ...char('Silvio Dante', "Tony's cool consigliere and Bada Bing manager. Calm, loyal, the voice of reason in a world of chaos.", '/characters/silvio.png', '2025-05-28'), driveLink: 'https://drive.google.com/drive/folders/1f06j9DPY7J3oktbwSVxK2FcR53g8ZgZm', creatorId: IDRISS },
+      { ...char('Ralph Cifaretto', 'Brilliant but sadistic capo. Twisted, darkly funny, deeply hated — and utterly compelling.', '/characters/ralph.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1ZV5ficOkEeTFW_jj_UL11xczmji10Aan', creatorId: IDRISS },
+      { ...char('Tony Blundetto', "Tony's childhood friend returned from prison. His attempt to go straight — and catastrophic failure — defines season five.", '/characters/tonyb.png', '2025-05-16'), driveLink: 'https://drive.google.com/drive/folders/1PrnaP1de6U5HWcTIMuCh9DMO1HvzvkHY', creatorId: IDRISS },
+      { ...char('Furio Giunta', "Tony's Italian enforcer. Loyal, dangerous, and quietly in love with a woman he could never have.", '/characters/furiopic.png', '2026-06-16'), pageImage: '/character-pages/Furioscp.png', packLink: 'https://discord.com/invite/98C5YUeEz7', driveLink: 'https://drive.google.com/drive/folders/1w0BJu-SMMkihn_3ttptC91RSQJRtzpTQ', creatorId: IDRISS },
+      { ...char('Adriana La Cerva', "Christopher's girlfriend caught between love and survival. One of the most tragic figures in the entire series.", '/characters/adrianapic.png', '2026-07-01'), pageImage: '/character-pages/adrianascp.png', packLink: 'https://discord.gg/MVA5ySY2', driveLink: 'https://drive.google.com/drive/folders/1hnlGYDfxrGRMteR530yZ88Xc6uoc-G4n?usp=sharing', creatorId: IDRISS },
+      { ...char('Christopher & Adriana', "Love, lies and loyalty in the shadow of the mob. Their story is one of the most heartbreaking in Sopranos history.", '/characters/chrisandadepic.png', '2026-07-01'), pageImage: '/character-pages/chrisandadescp.png', packLink: 'https://discord.gg/MVA5ySY2', driveLink: 'https://drive.google.com/drive/folders/1kv-28727MHHvaLl1B-XQ1TG2f5zg5_fM?usp=sharing', creatorId: IDRISS },
     ],
   },
   {
@@ -66,8 +68,8 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Walter White', "High school chemistry teacher → Heisenberg. Television's most devastating moral collapse, one bad decision at a time.", '/characters/walter.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1eip9louQbm4dM9vVABTD6Z6vJi8_DbFa' },
-      { ...char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass.", '/characters/jesse.png', '2025-06-02'), driveLink: 'https://drive.google.com/drive/folders/1gUp0naO2sSrXMpe8-Y41PcipszQ0fPeE' },
+      { ...char('Walter White', "High school chemistry teacher → Heisenberg. Television's most devastating moral collapse, one bad decision at a time.", '/characters/walter.png', '2025-06-12'), driveLink: 'https://drive.google.com/drive/folders/1eip9louQbm4dM9vVABTD6Z6vJi8_DbFa', creatorId: IDRISS },
+      { ...char('Jesse Pinkman', "Walt's former student and meth partner. Jesse's emotional depth and desperate humanity serve as the show's fractured moral compass.", '/characters/jesse.png', '2025-06-02'), driveLink: 'https://drive.google.com/drive/folders/1gUp0naO2sSrXMpe8-Y41PcipszQ0fPeE', creatorId: IDRISS },
     ],
   },
   {
@@ -91,12 +93,12 @@ export const shows = [
     },
     characters: [
       { ...char('Jimmy McGill / Saul Goodman', 'The charming, street-smart lawyer who the world never accepted — and the flashy, fearless criminal attorney he became. Two names, one devastating arc.', '/characters/jimmy.png', '2025-05-26'), driveLink: 'https://drive.google.com/drive/folders/1Z-TBVkhm8a7U77aNxUdu032h1-0k9lJD', packs: [
-        { label: 'Aesthetic Pack', image: '/character-pages/jimmy-mcgill.png',  packLink: 'https://drive.google.com/drive/folders/1Z-TBVkhm8a7U77aNxUdu032h1-0k9lJD' },
-        { label: 'Sad Pack',       image: '/character-pages/jimmysadscp.png',   packLink: 'https://drive.google.com/drive/folders/1rIEkamyCh2rNseWZSD_fYhozAsqJwxQi?usp=sharing' },
+        { label: 'Aesthetic Pack', image: '/character-pages/jimmy-mcgill.png', packLink: 'https://drive.google.com/drive/folders/1Z-TBVkhm8a7U77aNxUdu032h1-0k9lJD', creatorId: IDRISS },
+        { label: 'Sad Pack',       image: '/character-pages/jimmysadscp.png',  packLink: 'https://drive.google.com/drive/folders/1rIEkamyCh2rNseWZSD_fYhozAsqJwxQi?usp=sharing', creatorId: IDRISS },
       ]},
-      { ...char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png', '2025-05-30'), pageImage: '/character-pages/kim-wexler.png', driveLink: 'https://drive.google.com/drive/folders/19Y6-uM_pRGgpfG6I_Dtakstz7BwmcnSt' },
-      { ...char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png', '2025-05-17'), pageImage: '/character-pages/lalo-salamanca.png', driveLink: 'https://drive.google.com/drive/folders/14n487IlTOUWezWXV0kozECgqxCCHQIT6' },
-      { ...char('Kim & Jimmy', 'The most complicated love story in television. Two brilliant minds who brought out the best and worst in each other.', '/characters/jimmyandkimpic.png', '2026-07-10'), pageImage: '/character-pages/jimmyandkimscp.png', driveLink: 'https://drive.google.com/drive/folders/1t7pWv5Zl0bH_rU2hCvi9Ukr8ZqFmI1uo?usp=sharing' },
+      { ...char('Kim Wexler', "Jimmy's partner and confidante. Her arc from principled attorney to co-conspirator is one of TV's finest and most unsettling character studies.", '/characters/kim.png', '2025-05-30'), pageImage: '/character-pages/kim-wexler.png', driveLink: 'https://drive.google.com/drive/folders/19Y6-uM_pRGgpfG6I_Dtakstz7BwmcnSt', creatorId: IDRISS },
+      { ...char('Lalo Salamanca', 'The charming, terrifying Salamanca heir. He smiles warmly before he kills — and means it every time.', '/characters/lalo.png', '2025-05-17'), pageImage: '/character-pages/lalo-salamanca.png', driveLink: 'https://drive.google.com/drive/folders/14n487IlTOUWezWXV0kozECgqxCCHQIT6', creatorId: IDRISS },
+      { ...char('Kim & Jimmy', 'The most complicated love story in television. Two brilliant minds who brought out the best and worst in each other.', '/characters/jimmyandkimpic.png', '2026-07-10'), pageImage: '/character-pages/jimmyandkimscp.png', driveLink: 'https://drive.google.com/drive/folders/1t7pWv5Zl0bH_rU2hCvi9Ukr8ZqFmI1uo?usp=sharing', creatorId: IDRISS },
     ],
   },
   {
@@ -119,13 +121,13 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe.", '/characters/jon.png', '2025-06-28'), driveLink: 'https://drive.google.com/drive/folders/1uF6SRetdPO2P6jSlU7XmIlX59AbhmzIt' },
-      { ...char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png', '2025-06-29'), driveLink: 'https://drive.google.com/drive/folders/1BZ9nCl6sv6ck-p6Wqt6Z8F1fs5VwUP-c' },
-      { ...char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1zKZDLqqFvuA0tmP4rAt4FKwip4sWgcBt' },
-      { ...char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1UPbmsiZ9vO_Rbv2tE2t1woa4VbIKlNAr' },
-      { ...char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1aVuV9IkP1XTikI44yAvttdIKDox14csO' },
-      { ...char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png', '2025-06-25'), driveLink: 'https://drive.google.com/drive/folders/1NkzQCw7RtsKOYcCHGcvjZx-ElmEyD9hO' },
-      { ...char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png', '2025-06-27'), driveLink: 'https://drive.google.com/drive/folders/1x02Nq1jkfZT6F2D6P0FEeCCTbkKzwbkp' },
+      { ...char('Jon Snow', "The bastard of Winterfell, Lord Commander, King in the North. Jon's honor anchors the series' moral universe.", '/characters/jon.png', '2025-06-28'), driveLink: 'https://drive.google.com/drive/folders/1uF6SRetdPO2P6jSlU7XmIlX59AbhmzIt', creatorId: IDRISS },
+      { ...char('Daenerys Targaryen', 'Born in exile, she raised dragons and made the world bend. Fire and blood. The cost was everything.', '/characters/dany.png', '2025-06-29'), driveLink: 'https://drive.google.com/drive/folders/1BZ9nCl6sv6ck-p6Wqt6Z8F1fs5VwUP-c', creatorId: IDRISS },
+      { ...char('Arya Stark', "From Winterfell to Braavos and back. The youngest Stark became No One — then found herself again, blade in hand.", '/characters/arya.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1zKZDLqqFvuA0tmP4rAt4FKwip4sWgcBt', creatorId: IDRISS },
+      { ...char('Jaime Lannister', "The Kingslayer. One of television's greatest redemption arcs — painful, complex, and ultimately unfinished.", '/characters/jaime.png', '2025-07-06'), driveLink: 'https://drive.google.com/drive/folders/1UPbmsiZ9vO_Rbv2tE2t1woa4VbIKlNAr', creatorId: IDRISS },
+      { ...char('Ned Stark', "Lord of Winterfell. His death broke the rules of television itself. Honor as a death sentence.", '/characters/ned.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1aVuV9IkP1XTikI44yAvttdIKDox14csO', creatorId: IDRISS },
+      { ...char('Robb Stark', 'The Young Wolf who won every battle and lost the war. Honor without politics. Loyalty without wisdom.', '/characters/robb.png', '2025-06-25'), driveLink: 'https://drive.google.com/drive/folders/1NkzQCw7RtsKOYcCHGcvjZx-ElmEyD9hO', creatorId: IDRISS },
+      { ...char('Oberyn Martell', 'The Red Viper of Dorne. Passionate, deadly, electrifying. He came for justice and found something far more final.', '/characters/oberyn.png', '2025-06-27'), driveLink: 'https://drive.google.com/drive/folders/1x02Nq1jkfZT6F2D6P0FEeCCTbkKzwbkp', creatorId: IDRISS },
     ],
   },
   {
@@ -148,8 +150,8 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally.", '/characters/mahone.png', '2025-05-31'), driveLink: 'https://drive.google.com/drive/folders/1ykLy5-BGFUWESzjZpA48tyjd2dpzcPE5' },
-      { ...char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it.", '/characters/kellerman.png', '2025-06-01'), driveLink: 'https://drive.google.com/drive/folders/14E_Mg232_kS_lp3zr3CI3i9_gr9lSSQg' },
+      { ...char('Alexander Mahone', "The FBI's brilliant, morally compromised agent. His own demons make him the show's most fascinating antagonist-turned-ally.", '/characters/mahone.png', '2025-05-31'), driveLink: 'https://drive.google.com/drive/folders/1ykLy5-BGFUWESzjZpA48tyjd2dpzcPE5', creatorId: IDRISS },
+      { ...char('Paul Kellerman', "The President's cold assassin. He does the unthinkable — then spends the rest of the show trying to undo it.", '/characters/kellerman.png', '2025-06-01'), driveLink: 'https://drive.google.com/drive/folders/14E_Mg232_kS_lp3zr3CI3i9_gr9lSSQg', creatorId: IDRISS },
     ],
   },
   {
@@ -172,7 +174,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off.", '/characters/jax.png', '2025-06-20'), driveLink: 'https://drive.google.com/drive/folders/1iQiQf074sx1qiXkPBYeNSaGe-vtW8uC-' },
+      { ...char('Jax Teller', "SAMCRO's prince and king. Hamlet on a Harley — brotherhood, violence, and blood he can never quite wash off.", '/characters/jax.png', '2025-06-20'), driveLink: 'https://drive.google.com/drive/folders/1iQiQf074sx1qiXkPBYeNSaGe-vtW8uC-', creatorId: IDRISS },
     ],
   },
   {
@@ -195,7 +197,7 @@ export const shows = [
       cursor: 'crosshair',
     },
     characters: [
-      { ...char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television.", '/characters/joe.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1KW_VtiBmSbk5U_UQVWZsPDR52RRnKIu9' },
+      { ...char('Joe Goldberg', "The charming, literary, deeply obsessive narrator who explains his own sociopathy with chilling clarity. The most unsettling lead in modern television.", '/characters/joe.png', '2025-05-24'), driveLink: 'https://drive.google.com/drive/folders/1KW_VtiBmSbk5U_UQVWZsPDR52RRnKIu9', creatorId: IDRISS },
     ],
   },
   {
@@ -218,7 +220,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken.", '/characters/barry.png', '2025-06-16'), driveLink: 'https://drive.google.com/drive/folders/1rxOZ7qY8YVweYrWxpP8gpezpyxQ1XCW8' },
+      { ...char('Barry Berkman', "Marine-turned-hitman who discovers acting class. Barry is haunting, darkly funny, more human than anyone around him — and deeply broken.", '/characters/barry.png', '2025-06-16'), driveLink: 'https://drive.google.com/drive/folders/1rxOZ7qY8YVweYrWxpP8gpezpyxQ1XCW8', creatorId: IDRISS },
     ],
   },
   {
@@ -242,7 +244,7 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters.", '/characters/carmy.png', '2025-06-18'), driveLink: 'https://drive.google.com/drive/folders/1rUIQ5cgUf3dCADSvWRbld_ZJioQixZeD' },
+      { ...char('Carmy Berzatto', "James Beard Award–winner who returns to run his family's sandwich shop. Perfectionism, trauma, and relentless drive — one of TV's most compelling characters.", '/characters/carmy.png', '2025-06-18'), driveLink: 'https://drive.google.com/drive/folders/1rUIQ5cgUf3dCADSvWRbld_ZJioQixZeD', creatorId: IDRISS },
     ],
   },
   {
@@ -274,6 +276,7 @@ export const shows = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-09',
         driveLink: 'https://drive.google.com/drive/folders/1ihTsoGpaKjgvE7q1yYkwZSmV14u1sryA',
+        creatorId: IDRISS,
       },
       {
         name: 'The Joker',
@@ -284,6 +287,7 @@ export const shows = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-10',
         driveLink: 'https://drive.google.com/drive/folders/1yJES_eGw4plGF8rdOfOlcvJt5szIpUKK',
+        creatorId: IDRISS,
       },
     ],
   },
@@ -316,6 +320,7 @@ export const shows = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-11',
         driveLink: 'https://drive.google.com/drive/folders/1zVvU_ksc_xF092MXChdQhX3gou9AZLwq',
+        creatorId: IDRISS,
       },
       {
         name: 'Soldier Boy',
@@ -326,6 +331,7 @@ export const shows = [
         packLink: 'https://discord.com/invite/98C5YUeEz7',
         dateAdded: '2026-06-16',
         driveLink: 'https://drive.google.com/drive/folders/1lq5m3JDy7rKWc5N7XFVRGGfTFA08_rGl',
+        creatorId: IDRISS,
       },
     ],
   },
