@@ -35,7 +35,7 @@ function formatCount(n: number) {
   return n.toString()
 }
 
-type Tab = 'overview' | 'events' | 'users' | 'characters' | 'applications'
+type Tab = 'overview' | 'events' | 'users' | 'characters' | 'applications' | 'creators'
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
@@ -68,7 +68,7 @@ export default function AdminPage() {
 
       supabase
         .from('download_events')
-        .select('id, slug, label, method, discord_id, username, created_at')
+        .select('id, slug, label, method, discord_id, username, creator_id, created_at')
         .order('created_at', { ascending: false })
         .limit(200),
 
@@ -194,7 +194,7 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: '4px', marginBottom: '2rem', background: '#120a06', border: '1px solid #2a1410', borderRadius: '6px', padding: '4px', width: 'fit-content' }}>
-          {(['overview', 'events', 'characters', 'users', 'applications'] as Tab[]).map(t => (
+          {(['overview', 'events', 'characters', 'users', 'applications', 'creators'] as Tab[]).map(t => (
             <button key={t} style={tabStyle(t)} onClick={() => setTab(t)}>
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -550,6 +550,70 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+
+        {/* ── CREATORS ── */}
+        {tab === 'creators' && (() => {
+          const CREATOR_NAMES: Record<string, string> = {
+            '349045631656001537': 'Idriss',
+            '1097775170443292702': 'Inko.visuals',
+          }
+          const creatorEvents = events.filter(e => (e as any).creator_id)
+          const byCreator: Record<string, { total: number; recent: any[] }> = {}
+          for (const e of creatorEvents) {
+            const cid = (e as any).creator_id
+            if (!byCreator[cid]) byCreator[cid] = { total: 0, recent: [] }
+            byCreator[cid].total += 1
+            if (byCreator[cid].recent.length < 5) byCreator[cid].recent.push(e)
+          }
+          const creatorIds = Object.keys(byCreator).sort((a, b) => byCreator[b].total - byCreator[a].total)
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <h2 style={S.h2}>Downloads by Creator</h2>
+              {creatorIds.length === 0 && (
+                <div style={{ ...S.card, textAlign: 'center', color: '#847464', padding: '3rem' }}>
+                  No creator-tagged downloads yet. Downloads will appear here once the creator_id column is populated.
+                </div>
+              )}
+              {creatorIds.map(cid => {
+                const data = byCreator[cid]
+                return (
+                  <div key={cid} style={S.card}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                      <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.1rem', color: '#d4c5a9' }}>
+                        {CREATOR_NAMES[cid] ?? cid}
+                      </div>
+                      <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#e55c35' }}>{formatCount(data.total)}</div>
+                    </div>
+                    {data.recent.length > 0 && (
+                      <div style={{ overflowX: 'auto' }}>
+                        <table style={{ ...S.table, minWidth: '400px' }}>
+                          <thead>
+                            <tr>
+                              <th style={S.th}>Pack</th>
+                              <th style={S.th}>Method</th>
+                              <th style={S.th}>User</th>
+                              <th style={{ ...S.th, textAlign: 'right' }}>When</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {data.recent.map((ev, i) => (
+                              <tr key={ev.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                                <td style={{ ...S.td, color: '#e8dcc4' }}>{ev.label ?? ev.slug}</td>
+                                <td style={S.td}>{methodBadge(ev.method)}</td>
+                                <td style={{ ...S.td, color: '#9a8b76' }}>{ev.username ?? '—'}</td>
+                                <td style={{ ...S.td, textAlign: 'right', color: '#847464', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>{fmtShort(ev.created_at)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })()}
 
       </div>
     </div>

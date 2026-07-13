@@ -8,7 +8,7 @@ const supabase = createClient(
 
 export async function POST(req: NextRequest) {
   try {
-    const { slug, type, label, method, discordId, username } = await req.json()
+    const { slug, type, label, method, discordId, username, creatorId } = await req.json()
     if (!slug || !type) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
 
     const { data, error } = await supabase.rpc('increment_downloads', {
@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
       p_method:     method ?? 'unknown',
       p_discord_id: discordId ?? null,
       p_username:   username ?? null,
+      p_creator_id: creatorId ?? null,
     })
     if (error) throw error
 

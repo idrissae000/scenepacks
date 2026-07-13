@@ -17,6 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/apply`, lastModified: new Date() },
     { url: `${BASE}/dmca`, lastModified: new Date() },
     { url: `${BASE}/contact`, lastModified: new Date() },
+    { url: `${BASE}/creators`, lastModified: new Date() },
+    { url: `${BASE}/creators/idriss`, lastModified: new Date() },
+    { url: `${BASE}/creators/inko-visuals`, lastModified: new Date() },
   ]
 
   const showRoutes = shows.flatMap((s: any) => [

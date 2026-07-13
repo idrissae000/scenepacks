@@ -7,6 +7,7 @@ import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
 import TrendingCarousel from '@/components/TrendingCarousel'
+import PopularCreators from '@/components/PopularCreators'
 
 type FilterType = 'all' | 'show' | 'movie' | 'game'
 type SortType = 'popular' | 'newest'
@@ -394,6 +395,7 @@ export default function HomePage() {
           </AnimatePresence>
         </div>
       </section>
+      <PopularCreators />
     </>
   )
 }
