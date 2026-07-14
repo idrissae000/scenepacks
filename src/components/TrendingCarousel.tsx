@@ -1,78 +1,26 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { shows } from '@/data/shows'
-import { movies } from '@/data/movies'
-import { games } from '@/data/games'
+import { TrendingChar } from '@/lib/serverData'
 
-interface TrendingChar {
-  analyticsSlug: string
-  name: string
-  image: string
-  href: string
-  parentName: string
-}
-
-function buildLookup(): Map<string, TrendingChar> {
-  const map = new Map<string, TrendingChar>()
-  for (const s of shows as any[]) {
-    for (const c of s.characters) {
-      const slug = `${s.slug}__${c.slug}`
-      map.set(slug, { analyticsSlug: slug, name: c.name, image: c.image, href: `/shows/${s.slug}/${c.slug}`, parentName: s.name })
-    }
-  }
-  for (const m of movies as any[]) {
-    for (const c of m.characters) {
-      const slug = `${m.slug}__${c.slug}`
-      map.set(slug, { analyticsSlug: slug, name: c.name, image: c.image, href: `/movies/${m.slug}/${c.slug}`, parentName: m.name })
-    }
-  }
-  for (const g of games as any[]) {
-    for (const c of g.characters) {
-      const slug = `${g.slug}__${c.slug}`
-      map.set(slug, { analyticsSlug: slug, name: c.name, image: c.image, href: `/games/${g.slug}/${c.slug}`, parentName: g.name })
-    }
-  }
-  return map
-}
-
-const CHAR_LOOKUP = buildLookup()
 const CARD_W = 224
 const GAP = 14
 const STEP = CARD_W + GAP
-// px per animation frame (~60fps) → ~22px/s auto-scroll
 const SPEED = 0.36
 
-export default function TrendingCarousel() {
-  const [chars, setChars] = useState<TrendingChar[]>([])
-  const [ready, setReady] = useState(false)
+interface TrendingCarouselProps {
+  chars: TrendingChar[]
+}
+
+export default function TrendingCarousel({ chars }: TrendingCarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const offsetRef = useRef(0)
   const pausedRef = useRef(false)
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    fetch('/api/trending')
-      .then(r => r.json())
-      .then(({ trending }: { trending: string[] }) => {
-        const resolved = (trending ?? [])
-          .map((slug: string) => CHAR_LOOKUP.get(slug))
-          .filter(Boolean) as TrendingChar[]
-        if (resolved.length > 0) {
-          resolved.forEach(c => {
-            const img = new Image()
-            img.src = c.image
-          })
-          setChars(resolved)
-          setReady(true)
-        }
-      })
-      .catch(() => {})
-  }, [])
-
-  useEffect(() => {
-    if (!ready || chars.length === 0) return
+    if (chars.length === 0) return
     const totalHalf = chars.length * STEP
 
     const tick = () => {
@@ -89,7 +37,7 @@ export default function TrendingCarousel() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [ready, chars.length])
+  }, [chars.length])
 
   const advance = useCallback((dir: 1 | -1) => {
     const totalHalf = chars.length * STEP
@@ -99,7 +47,7 @@ export default function TrendingCarousel() {
     }
   }, [chars.length])
 
-  if (!ready || chars.length === 0) return null
+  if (chars.length === 0) return null
 
   const doubled = [...chars, ...chars]
 
@@ -180,7 +128,7 @@ export default function TrendingCarousel() {
             }}
           >
             {doubled.map((char, i) => (
-              <CarouselCard key={`${char.analyticsSlug}-${i}`} char={char} />
+              <CarouselCard key={`${char.analyticsSlug}-${i}`} char={char} priority={i < 3} />
             ))}
           </div>
         </div>
@@ -189,7 +137,7 @@ export default function TrendingCarousel() {
   )
 }
 
-function CarouselCard({ char }: { char: TrendingChar }) {
+function CarouselCard({ char, priority }: { char: TrendingChar; priority?: boolean }) {
   return (
     <Link
       href={char.href}
@@ -219,6 +167,7 @@ function CarouselCard({ char }: { char: TrendingChar }) {
       <img
         src={char.image}
         alt={char.name}
+        loading={priority ? 'eager' : 'lazy'}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
         onError={e => { (e.target as HTMLImageElement).style.opacity = '0' }}
       />

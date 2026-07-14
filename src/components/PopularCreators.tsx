@@ -1,24 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getCreatorStats, CreatorWithStats } from '@/lib/creatorStats'
+import { CreatorWithStats } from '@/lib/creatorStats'
 
-const CREATOR_STATS = getCreatorStats().sort((a, b) => b.totalPacks - a.totalPacks)
+export type CreatorWithAvatar = CreatorWithStats & { avatarUrl: string }
 
-function useDiscordAvatar(discordId: string) {
-  const [url, setUrl] = useState<string | null>(null)
-  useEffect(() => {
-    fetch(`/api/discord/avatar?discordId=${discordId}`)
-      .then(r => r.json())
-      .then(d => setUrl(d.url))
-      .catch(() => {})
-  }, [discordId])
-  return url
-}
-
-function CreatorCard({ creator }: { creator: CreatorWithStats }) {
-  const avatar = useDiscordAvatar(creator.discordId)
+function CreatorCard({ creator }: { creator: CreatorWithAvatar }) {
   const logos = creator.franchises.slice(0, 4)
 
   return (
@@ -49,27 +36,25 @@ function CreatorCard({ creator }: { creator: CreatorWithStats }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0 }}>
           {/* Avatar */}
           <div style={{ position: 'relative', flexShrink: 0 }}>
-            {avatar ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={avatar}
-                alt={creator.name}
-                width={52}
-                height={52}
-                style={{ borderRadius: '50%', border: '2px solid #5e1b21', objectFit: 'cover' }}
-              />
-            ) : (
-              <div style={{
-                width: 52, height: 52, borderRadius: '50%',
-                background: 'linear-gradient(135deg, #2a1410, #5e1b21)',
-                border: '2px solid #5e1b21',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#d4c5a9', fontWeight: 700, fontSize: '1.1rem',
-                fontFamily: '"Mobsters","Palatino Linotype",serif',
-              }}>
-                {creator.name[0]}
-              </div>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={creator.avatarUrl}
+              alt={creator.name}
+              width={52}
+              height={52}
+              style={{ borderRadius: '50%', border: '2px solid #5e1b21', objectFit: 'cover' }}
+              onError={e => {
+                const img = e.target as HTMLImageElement
+                img.style.display = 'none'
+                const parent = img.parentElement
+                if (parent) {
+                  const fallback = document.createElement('div')
+                  fallback.style.cssText = 'width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2a1410,#5e1b21);border:2px solid #5e1b21;display:flex;align-items:center;justify-content:center;color:#d4c5a9;font-weight:700;font-size:1.1rem'
+                  fallback.textContent = creator.name[0]
+                  parent.appendChild(fallback)
+                }
+              }}
+            />
           </div>
 
           {/* Info */}
@@ -133,7 +118,11 @@ function CreatorCard({ creator }: { creator: CreatorWithStats }) {
   )
 }
 
-export default function PopularCreators() {
+interface PopularCreatorsProps {
+  creators: CreatorWithAvatar[]
+}
+
+export default function PopularCreators({ creators }: PopularCreatorsProps) {
   return (
     <section className="px-4 pb-20">
       <div className="mx-auto max-w-7xl">
@@ -144,7 +133,7 @@ export default function PopularCreators() {
           <div className="divider-stain max-w-[60px] mx-auto mt-3" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '640px', margin: '0 auto' }}>
-          {CREATOR_STATS.map(creator => (
+          {creators.map(creator => (
             <CreatorCard key={creator.id} creator={creator} />
           ))}
         </div>
