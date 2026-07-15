@@ -73,12 +73,12 @@ export default function CreatorPageClient({ slug, bannerUrl }: { slug: string; b
   return (
     <main className="min-h-screen" style={{ background: '#0d0a07' }}>
       {/* Banner */}
-      <div style={{ position: 'relative', height: '45vh', minHeight: '260px', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bannerUrl}
           alt={creator.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block' }}
           onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
         {/* Gradient overlay */}
