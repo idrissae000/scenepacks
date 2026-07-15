@@ -20,7 +20,7 @@ export default function SportPage({ params }: { params: { slug: string } }) {
         <PageAtmosphere theme={sport.theme} />
         <PageViewTracker slug={sport.slug} type="sport" label={sport.name} />
         <div className="relative" style={{ zIndex: 1 }}>
-          <ShowHero show={sport} type="show" />
+          <ShowHero show={sport} type="sport" />
           <CharacterGrid show={sport} baseHref={`/sports/${sport.slug}`} />
         </div>
       </div>
