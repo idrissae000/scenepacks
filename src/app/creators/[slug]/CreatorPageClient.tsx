@@ -72,64 +72,58 @@ export default function CreatorPageClient({ slug, bannerUrl }: { slug: string; b
 
   return (
     <main className="min-h-screen" style={{ background: '#0d0a07' }}>
-      {/* Banner */}
-      <div style={{ position: 'relative', width: '100%', maxWidth: '900px', margin: '0 auto', aspectRatio: '16 / 9', overflow: 'hidden', background: '#0d0a07' }}>
+      {/* Banner — full width, 16:9, cover */}
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', background: '#111' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bannerUrl}
           alt={creator.name}
-          style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', display: 'block' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block' }}
           onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, transparent 60%, #0d0a07 100%)',
-        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, #0d0a07 100%)' }} />
+      </div>
 
-        {/* Creator info bottom-left */}
-        <div style={{
-          position: 'absolute', bottom: '1.5rem', left: '1.5rem',
-          display: 'flex', alignItems: 'center', gap: '1rem',
-        }}>
+      {/* Creator info row — below banner */}
+      <div className="mx-auto max-w-7xl px-4" style={{ marginTop: '-2rem', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1.25rem', paddingBottom: '1.5rem', borderBottom: '1px solid #2a1410' }}>
+          {/* Avatar */}
           {avatar ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={avatar}
               alt={creator.name}
-              width={64}
-              height={64}
-              style={{ borderRadius: '50%', border: '2px solid #d4c5a9', objectFit: 'cover', flexShrink: 0 }}
+              width={80}
+              height={80}
+              style={{ borderRadius: '50%', border: '3px solid #d4c5a9', objectFit: 'cover', flexShrink: 0 }}
             />
           ) : (
             <div style={{
-              width: 64, height: 64, borderRadius: '50%', flexShrink: 0,
+              width: 80, height: 80, borderRadius: '50%', flexShrink: 0,
               background: 'linear-gradient(135deg, #2a1410, #5e1b21)',
-              border: '2px solid #d4c5a9',
+              border: '3px solid #d4c5a9',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#d4c5a9', fontWeight: 700, fontSize: '1.4rem',
+              color: '#d4c5a9', fontWeight: 700, fontSize: '1.6rem',
               fontFamily: '"Mobsters","Palatino Linotype",serif',
             }}>
               {creator.name[0]}
             </div>
           )}
+          {/* Info */}
           <div>
-            <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.6rem', lineHeight: 1.1, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
+            <div style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '2rem', lineHeight: 1.1 }}>
               {creator.name}
             </div>
-            <div style={{ color: '#d4c5a9', fontSize: '0.8rem', opacity: 0.7, fontFamily: 'Inter, system-ui, sans-serif', marginTop: '0.2rem' }}>
-              {creator.role}
-            </div>
-            <div style={{ color: '#d4c5a9', fontSize: '0.8rem', opacity: 0.7, fontFamily: 'Inter, system-ui, sans-serif' }}>
-              {creator.totalPacks} Scenepack{creator.totalPacks !== 1 ? 's' : ''}
+            <div style={{ color: '#847464', fontSize: '0.8rem', fontFamily: 'Inter, system-ui, sans-serif', marginTop: '0.25rem' }}>
+              {creator.role} · {creator.totalPacks} Scenepack{creator.totalPacks !== 1 ? 's' : ''}
             </div>
             <a
               href={creator.tiktokUrl}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '0.35rem', color: '#d4c5a9', fontSize: '0.75rem', fontFamily: 'Inter, system-ui, sans-serif', opacity: 0.8 }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '0.8')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '0.3rem', color: '#847464', fontSize: '0.75rem', fontFamily: 'Inter, system-ui, sans-serif' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#d4c5a9')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#847464')}
             >
               <TikTokIcon />
               @{creator.tiktok}
@@ -139,7 +133,7 @@ export default function CreatorPageClient({ slug, bannerUrl }: { slug: string; b
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-10">
         <h2 style={{
           fontFamily: '"IM Fell English", Georgia, serif',
           color: '#d4c5a9',
