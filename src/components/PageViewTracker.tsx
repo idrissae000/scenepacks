@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 interface Props {
   slug: string
-  type: 'show' | 'movie' | 'game' | 'character'
+  type: 'show' | 'movie' | 'game' | 'character' | 'sport'
   label: string
 }
 
