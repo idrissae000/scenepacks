@@ -51,7 +51,7 @@ export function getBackgroundsAuto(data: any[]): string[] {
   const matched: string[] = []
   for (const file of files) {
     const name = file.toLowerCase()
-    if ([...keywords].some(k => name.includes(k)) && !seen.has(file)) {
+    if (Array.from(keywords).some(k => name.includes(k)) && !seen.has(file)) {
       seen.add(file)
       matched.push(`/backgrounds/${file}`)
     }
