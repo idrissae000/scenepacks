@@ -19,7 +19,7 @@ function useDiscordAvatar(discordId: string) {
 }
 
 function FranchiseCard({ franchise }: { franchise: CreatorFranchise }) {
-  const typeLabel = franchise.type === 'show' ? 'shows' : franchise.type === 'movie' ? 'movies' : 'games'
+  const typeLabel = franchise.type === 'show' ? 'shows' : franchise.type === 'movie' ? 'movies' : franchise.type === 'sport' ? 'sports' : 'games'
   return (
     <Link href={`/${typeLabel}/${franchise.slug}`} className="block group">
       <div

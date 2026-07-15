@@ -1,12 +1,13 @@
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
+import { sports } from '@/data/sports'
 import { creators } from '@/data/creators'
 
 export interface CreatorFranchise {
   name: string
   slug: string
-  type: 'show' | 'movie' | 'game'
+  type: 'show' | 'movie' | 'game' | 'sport'
   logo: string
   packCount: number
 }
@@ -25,10 +26,11 @@ export interface CreatorWithStats {
 }
 
 export function getCreatorStats(): CreatorWithStats[] {
-  const allContent: { item: any; type: 'show' | 'movie' | 'game' }[] = [
+  const allContent: { item: any; type: 'show' | 'movie' | 'game' | 'sport' }[] = [
     ...(shows as any[]).map(s => ({ item: s, type: 'show' as const })),
     ...(movies as any[]).map(m => ({ item: m, type: 'movie' as const })),
     ...(games as any[]).map(g => ({ item: g, type: 'game' as const })),
+    ...(sports as any[]).map(s => ({ item: s, type: 'sport' as const })),
   ]
 
   return (creators as any[]).map(creator => {

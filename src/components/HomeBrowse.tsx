@@ -6,10 +6,11 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
+import { sports } from '@/data/sports'
 import TrendingCarousel from '@/components/TrendingCarousel'
 import { TrendingChar } from '@/lib/serverData'
 
-type FilterType = 'all' | 'show' | 'movie' | 'game'
+type FilterType = 'all' | 'show' | 'movie' | 'game' | 'sport'
 type SortType = 'popular' | 'newest'
 
 const PAGE_SIZE = 12
@@ -50,6 +51,17 @@ function buildAllChars(): any[] {
       })
     }
   }
+  for (const s of sports as any[]) {
+    for (const c of s.characters) {
+      result.push({
+        name: c.name, slug: c.slug, image: c.image,
+        dateAdded: c.dateAdded || '2020-01-01',
+        parentName: s.name, parentSlug: s.slug,
+        type: 'sport', href: `/sports/${s.slug}/${c.slug}`,
+        analyticsSlug: `${s.slug}__${c.slug}`,
+      })
+    }
+  }
   return result
 }
 
@@ -64,6 +76,7 @@ const FILTER_PILLS: { label: string; value: FilterType }[] = [
   { label: 'Shows', value: 'show' },
   { label: 'Movies', value: 'movie' },
   { label: 'Games', value: 'game' },
+  { label: 'Sports', value: 'sport' },
 ]
 
 const SORT_OPTIONS: { label: string; value: SortType }[] = [
@@ -135,9 +148,15 @@ export default function HomeBrowse({ trendingChars, initialAnalytics }: HomeBrow
         m.characters.some((c: any) => c.name.toLowerCase().includes(q))
       )
     }
-    return (games as any[]).filter(g =>
-      g.name.toLowerCase().includes(q) ||
-      g.characters.some((c: any) => c.name.toLowerCase().includes(q))
+    if (filter === 'game') {
+      return (games as any[]).filter(g =>
+        g.name.toLowerCase().includes(q) ||
+        g.characters.some((c: any) => c.name.toLowerCase().includes(q))
+      )
+    }
+    return (sports as any[]).filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      s.characters.some((c: any) => c.name.toLowerCase().includes(q))
     )
   }, [query, filter, isSearching])
 
@@ -148,10 +167,11 @@ export default function HomeBrowse({ trendingChars, initialAnalytics }: HomeBrow
     if (filter === 'show') return shows as any[]
     if (filter === 'movie') return movies as any[]
     if (filter === 'game') return games as any[]
+    if (filter === 'sport') return sports as any[]
     return []
   }, [filter])
 
-  const categoryHrefBase = filter === 'show' ? '/shows' : filter === 'movie' ? '/movies' : '/games'
+  const categoryHrefBase = filter === 'show' ? '/shows' : filter === 'movie' ? '/movies' : filter === 'sport' ? '/sports' : '/games'
 
   const visibleChars = sortedAllChars.slice(0, visibleCount)
   const hasMore = visibleCount < sortedAllChars.length

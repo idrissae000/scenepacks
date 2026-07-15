@@ -11,6 +11,7 @@ const links = [
   { label: 'Shows',  href: '/shows' },
   { label: 'Movies', href: '/movies' },
   { label: 'Games',  href: '/games' },
+  { label: 'Sports', href: '/sports' },
   { label: 'Apply',  href: '/apply' },
 ]
 

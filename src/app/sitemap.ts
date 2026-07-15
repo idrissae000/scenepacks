@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { shows } from '@/data/shows'
 import { movies } from '@/data/movies'
 import { games } from '@/data/games'
+import { sports } from '@/data/sports'
 
 const BASE = 'https://idrissscenes.com'
 
@@ -11,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/shows`, lastModified: new Date() },
     { url: `${BASE}/movies`, lastModified: new Date() },
     { url: `${BASE}/games`, lastModified: new Date() },
+    { url: `${BASE}/sports`, lastModified: new Date() },
     { url: `${BASE}/request`, lastModified: new Date() },
     { url: `${BASE}/support`, lastModified: new Date() },
     { url: `${BASE}/coming-soon`, lastModified: new Date() },
@@ -37,5 +39,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...g.characters.map((c: any) => ({ url: `${BASE}/games/${g.slug}/${c.slug}`, lastModified: new Date() })),
   ])
 
-  return [...staticRoutes, ...showRoutes, ...movieRoutes, ...gameRoutes]
+  const sportRoutes = (sports as any[]).flatMap(s => [
+    { url: `${BASE}/sports/${s.slug}`, lastModified: new Date() },
+    ...s.characters.map((c: any) => ({ url: `${BASE}/sports/${s.slug}/${c.slug}`, lastModified: new Date() })),
+  ])
+
+  return [...staticRoutes, ...showRoutes, ...movieRoutes, ...gameRoutes, ...sportRoutes]
 }
