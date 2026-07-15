@@ -55,21 +55,21 @@ export default function CharacterPage({ character, parent, type }: Props) {
     }).then(r => r.json()).then(d => { if (d.views != null) setViews(d.views) }).catch(() => {})
   }, [analyticsSlug, character.name])
 
-  const trackDownload = useCallback((method: 'discord' | 'web' | 'unknown' = 'unknown') => {
+  const trackDownload = useCallback((method: 'discord' | 'web' | 'unknown' = 'unknown', packLabel?: string) => {
     setDownloads(prev => (prev ?? 0) + 1)
     const discordId = (session?.user as any)?.discordId ?? null
     const username  = (session?.user as any)?.name ?? session?.user?.name ?? null
     fetch('/api/analytics/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name, method, discordId, username }),
+      body: JSON.stringify({ slug: analyticsSlug, type: 'character', label: character.name, method, discordId, username, packLabel: packLabel ?? null }),
     })
       .then(r => r.json())
       .then(d => { if (d.downloads != null) setDownloads(d.downloads) })
       .catch(() => {})
   }, [analyticsSlug, character.name, session])
 
-  const handleWebDownload = useCallback(async (url?: string) => {
+  const handleWebDownload = useCallback(async (url?: string, packLabel?: string) => {
     if (!session) {
       setShowModal(true)
       return
@@ -88,7 +88,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
       // ignore — still open the link
     } finally {
       setJoining(false)
-      trackDownload('web')
+      trackDownload('web', packLabel)
       window.open(url || downloadUrl, '_blank')
     }
   }, [session, downloadUrl, trackDownload])
@@ -253,14 +253,14 @@ export default function CharacterPage({ character, parent, type }: Props) {
                           </ul>
                         </div>
                         <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
-                          onClick={() => trackDownload('discord')}
+                          onClick={() => trackDownload('discord', pack.label)}
                           className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                           style={{ fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700, background: '#5865F2', color: '#ffffff', border: '2px solid #5865F2' }}
                         >
                           <DiscordIcon /> Join Discord
                         </a>
                         <button
-                          onClick={() => handleWebDownload(pack.packLink)}
+                          onClick={() => handleWebDownload(pack.packLink, pack.label)}
                           disabled={joining}
                           className="flex items-center justify-center gap-2 py-3 rounded-sm tracking-wider uppercase transition-transform duration-200 hover:scale-[1.02]"
                           style={{ fontFamily: t.headingFont, fontSize: '0.85rem', fontWeight: 700, background: '#0d0907', color: '#ffffff', border: '2px solid #d4c5a9', cursor: joining ? 'default' : 'pointer', opacity: joining ? 0.8 : 1 }}

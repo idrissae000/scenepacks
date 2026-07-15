@@ -68,7 +68,7 @@ export default function AdminPage() {
 
       supabase
         .from('download_events')
-        .select('id, slug, label, method, discord_id, username, creator_id, created_at')
+        .select('id, slug, label, pack_label, method, discord_id, username, creator_id, created_at')
         .order('created_at', { ascending: false })
         .limit(200),
 
@@ -253,7 +253,12 @@ export default function AdminPage() {
                   <tbody>
                     {events.slice(0, 15).map((e, i) => (
                       <tr key={e.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                        <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{e.label}</td>
+                        <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>
+                          {e.label}
+                          {(e as any).pack_label && (
+                            <span style={{ color: '#847464', fontWeight: 400, fontSize: '0.75rem' }}> — {(e as any).pack_label}</span>
+                          )}
+                        </td>
                         <td style={S.td}>{methodBadge(e.method)}</td>
                         <td style={{ ...S.td, color: '#9a8b76' }}>
                           {e.username
@@ -342,7 +347,12 @@ export default function AdminPage() {
                 <tbody>
                   {filteredEvents.map((e, i) => (
                     <tr key={e.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                      <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>{e.label}</td>
+                      <td style={{ ...S.td, color: '#e8dcc4', fontWeight: 500 }}>
+                        {e.label}
+                        {(e as any).pack_label && (
+                          <span style={{ color: '#847464', fontWeight: 400, fontSize: '0.75rem' }}> — {(e as any).pack_label}</span>
+                        )}
+                      </td>
                       <td style={S.td}>{methodBadge(e.method)}</td>
                       <td style={{ ...S.td, color: '#5e4030', fontFamily: 'monospace', fontSize: '0.75rem' }}>
                         {e.discord_id ?? <span style={{ color: '#2a1a10' }}>not logged in</span>}
@@ -598,7 +608,12 @@ export default function AdminPage() {
                           <tbody>
                             {data.recent.map((ev, i) => (
                               <tr key={ev.id} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                                <td style={{ ...S.td, color: '#e8dcc4' }}>{ev.label ?? ev.slug}</td>
+                                <td style={{ ...S.td, color: '#e8dcc4' }}>
+                                  {ev.label ?? ev.slug}
+                                  {ev.pack_label && (
+                                    <span style={{ color: '#847464', fontWeight: 400, fontSize: '0.75rem' }}> — {ev.pack_label}</span>
+                                  )}
+                                </td>
                                 <td style={S.td}>{methodBadge(ev.method)}</td>
                                 <td style={{ ...S.td, color: '#9a8b76' }}>{ev.username ?? '—'}</td>
                                 <td style={{ ...S.td, textAlign: 'right', color: '#847464', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>{fmtShort(ev.created_at)}</td>
