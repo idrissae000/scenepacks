@@ -1,9 +1,8 @@
-import { getBackgrounds } from '@/lib/getBackgrounds'
+import { getBackgroundsAuto } from '@/lib/getBackgrounds'
+import { movies } from '@/data/movies'
 import MoviesClient from './MoviesClient'
 
-const MOVIES_KEYWORDS = ['batman', 'mcu', 'marvel']
-
 export default function MoviesPage() {
-  const images = getBackgrounds(MOVIES_KEYWORDS)
+  const images = getBackgroundsAuto(movies)
   return <MoviesClient images={images} />
 }

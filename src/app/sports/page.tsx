@@ -1,9 +1,8 @@
-import { getBackgrounds } from '@/lib/getBackgrounds'
+import { getBackgroundsAuto } from '@/lib/getBackgrounds'
+import { sports } from '@/data/sports'
 import SportsClient from './SportsClient'
 
-const SPORTS_KEYWORDS = ['world cup', 'worldcup', 'world-cup', 'football', 'soccer', 'fifa']
-
 export default function SportsPage() {
-  const images = getBackgrounds(SPORTS_KEYWORDS)
+  const images = getBackgroundsAuto(sports)
   return <SportsClient images={images} />
 }

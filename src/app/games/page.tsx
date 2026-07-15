@@ -1,9 +1,8 @@
-import { getBackgrounds } from '@/lib/getBackgrounds'
+import { getBackgroundsAuto } from '@/lib/getBackgrounds'
+import { games } from '@/data/games'
 import GamesClient from './GamesClient'
 
-const GAMES_KEYWORDS = ['rdr', 'redemption', 'arkham', 'kratos', 'god', 'war', '007', 'bond', 'first']
-
 export default function GamesPage() {
-  const images = getBackgrounds(GAMES_KEYWORDS)
+  const images = getBackgroundsAuto(games)
   return <GamesClient images={images} />
 }
