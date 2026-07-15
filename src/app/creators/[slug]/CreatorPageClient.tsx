@@ -73,7 +73,7 @@ export default function CreatorPageClient({ slug, bannerUrl }: { slug: string; b
   return (
     <main className="min-h-screen" style={{ background: '#0d0a07' }}>
       {/* Banner */}
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: '220px', overflow: 'hidden' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bannerUrl}
