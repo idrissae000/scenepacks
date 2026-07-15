@@ -530,3 +530,12 @@ body::before {
 .trending-track.paused {
   animation-play-state: paused;
 }
+
+/* Sports cards */
+.card-world-cup {
+  background: #0f0b08;
+  border: 1px solid #c9a84c;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: filter 0.2s ease, border-color 0.2s ease;
+}
+.card-world-cup:hover { filter: brightness(1.08); border-color: #e8c96a; }

@@ -26,6 +26,7 @@ export const sports = [
       bodyFont: '"Oswald", system-ui, sans-serif',
       texClass: 'tex-world-cup', cardClass: 'card-world-cup',
       bgImage: '/backgrounds/world cup bg.webp',
+      bgOverlay: 'strong',
       logo: '/logos/world cup logo.avif',
       atmosphere: [], loadFx: null, titleFx: null,
       label: 'USA · Canada · Mexico, 2026', tagline: 'One trophy. One dream.',

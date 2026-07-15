@@ -24,6 +24,8 @@ interface Parent { name: string; slug: string; theme: Theme }
 interface Props { character: Character; parent: Parent; type: 'show' | 'movie' | 'game' | 'sport' }
 
 export default function CharacterPage({ character, parent, type }: Props) {
+  const isSport = type === 'sport'
+  const sportShadow = isSport ? '0 2px 8px rgba(0,0,0,1)' : undefined
   const t = parent.theme
   const zone = t.charZones?.[character.slug]
   const accent = zone ? zone.accent : (t.highlight || t.accent)
@@ -184,14 +186,16 @@ export default function CharacterPage({ character, parent, type }: Props) {
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
                   <h1 className="leading-[0.95]" style={{
-                    fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
+                    fontFamily: t.headingFont, color: isSport ? '#ffffff' : t.text,
+                    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: isSport ? 900 : 700,
+                    textShadow: sportShadow,
                   }}>
                     {character.name}
                   </h1>
-                  <AnalyticsBadge views={views} downloads={downloads} />
+                  <AnalyticsBadge views={views} downloads={downloads} sportShadow={sportShadow} />
                 </div>
                 <div className="h-px mb-5" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
-                <p className="text-base leading-relaxed max-w-2xl" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+                <p className="text-base leading-relaxed max-w-2xl" style={{ color: isSport ? '#ffffff' : t.muted, fontFamily: t.bodyFont, textShadow: sportShadow }}>
                   {character.description}
                 </p>
               </motion.div>
@@ -314,32 +318,34 @@ export default function CharacterPage({ character, parent, type }: Props) {
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <h1 className="leading-[0.95]" style={{
-                    fontFamily: t.headingFont, color: t.text, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700,
+                    fontFamily: t.headingFont, color: isSport ? '#ffffff' : t.text,
+                    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: isSport ? 900 : 700,
                     textTransform: t.nameUpper ? 'uppercase' : undefined, letterSpacing: t.nameUpper ? '0.06em' : undefined,
+                    textShadow: sportShadow,
                   }}>
                     {character.name}
                   </h1>
-                  <AnalyticsBadge views={views} downloads={downloads} />
+                  <AnalyticsBadge views={views} downloads={downloads} sportShadow={sportShadow} />
                 </div>
 
                 <div className="h-px" style={{ background: `linear-gradient(90deg, ${t.accent}, ${accent}, transparent)` }} />
 
-                <p className="text-base leading-relaxed" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+                <p className="text-base leading-relaxed" style={{ color: isSport ? '#ffffff' : t.muted, fontFamily: t.bodyFont, textShadow: sportShadow }}>
                   {character.description}
                 </p>
 
-                <div className="rounded-md p-5" style={{ background: t.lightBg ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
-                  <div className="mob-label mb-3" style={{ color: accent }}>Pack Includes</div>
-                  <ul className="space-y-2 text-sm" style={{ color: t.muted, fontFamily: t.bodyFont }}>
+                <div className="rounded-md p-5" style={{ background: isSport ? 'rgba(0,0,0,0.5)' : t.lightBg ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${accent}33` }}>
+                  <div className="mob-label mb-3" style={{ color: accent, textShadow: sportShadow }}>Pack Includes</div>
+                  <ul className="space-y-2 text-sm" style={{ color: isSport ? '#ffffff' : t.muted, fontFamily: t.bodyFont }}>
                     {['High-quality cinematic scene clips', 'Individual clips prioritized for aesthetic edits', '1080p 24fps 16:9'].map((item) => (
                       <li key={item} className="flex items-start gap-2">
-                        <span style={{ color: accent, marginTop: '1px' }}>—</span>
-                        <span>{item}</span>
+                        <span style={{ color: accent, marginTop: '1px', textShadow: sportShadow }}>—</span>
+                        <span style={{ textShadow: sportShadow }}>{item}</span>
                       </li>
                     ))}
                     <li className="flex items-start gap-2">
-                      <span style={{ color: accent, marginTop: '1px' }}>—</span>
-                      <span>
+                      <span style={{ color: accent, marginTop: '1px', textShadow: sportShadow }}>—</span>
+                      <span style={{ textShadow: sportShadow }}>
                         Free to use — credit required<br />
                         <span style={{ color: accent, fontWeight: 700 }}>Credit: @idriss.ae on TikTok</span>
                       </span>
@@ -362,10 +368,10 @@ export default function CharacterPage({ character, parent, type }: Props) {
   )
 }
 
-function AnalyticsBadge({ views, downloads }: { views: number | null; downloads: number | null }) {
+function AnalyticsBadge({ views, downloads, sportShadow }: { views: number | null; downloads: number | null; sportShadow?: string }) {
   const v = views === null ? '—' : formatCount(views)
   const d = downloads === null ? '—' : formatCount(downloads)
-  const shadow = '0 0 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.8)'
+  const shadow = sportShadow || '0 0 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.8)'
   return (
     <div className="flex items-center gap-4 shrink-0 flex-wrap">
       <div className="flex items-center gap-1.5">
