@@ -72,20 +72,8 @@ export default function CreatorPageClient({ slug, bannerUrl }: { slug: string; b
 
   return (
     <main className="min-h-screen" style={{ background: '#0d0a07' }}>
-      {/* Banner — full width, 16:9, cover */}
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', background: '#111' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={bannerUrl}
-          alt={creator.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block' }}
-          onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, #0d0a07 100%)' }} />
-      </div>
-
-      {/* Creator info row — below banner */}
-      <div className="mx-auto max-w-7xl px-4" style={{ marginTop: '-2rem', position: 'relative', zIndex: 1 }}>
+      {/* Creator info row */}
+      <div className="mx-auto max-w-7xl px-4" style={{ paddingTop: '7rem' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1.25rem', paddingBottom: '1.5rem', borderBottom: '1px solid #2a1410' }}>
           {/* Avatar */}
           {avatar ? (
