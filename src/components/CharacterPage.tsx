@@ -21,7 +21,7 @@ interface Theme {
 }
 
 interface Parent { name: string; slug: string; theme: Theme }
-interface Props { character: Character; parent: Parent; type: 'show' | 'movie' | 'game' }
+interface Props { character: Character; parent: Parent; type: 'show' | 'movie' | 'game' | 'sport' }
 
 export default function CharacterPage({ character, parent, type }: Props) {
   const t = parent.theme
