@@ -1,5 +1,5 @@
 import { sports } from '@/data/sports'
-import { CharacterPage } from '@/components/CharacterPage'
+import CharacterPage from '@/components/CharacterPage'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
