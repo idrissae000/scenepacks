@@ -1,5 +1,6 @@
 const DISCORD = 'https://discord.com/invite/98C5YUeEz7'
 const IDRISS = '349045631656001537'
+const MYERS  = '793756836628660226'
 
 function char(name, description = '', image = '', dateAdded = '2026-01-01') {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -66,6 +67,55 @@ export const movies = [
       { ...char('Spider-Man', "Peter Parker in the Tom Holland era. Young, brilliant, heartbroken, spectacular. The MCU's most human hero.", '/characters/spiderman.png', '2025-06-23'), driveLink: 'https://drive.google.com/drive/folders/1eUrCE-l-EUNHnF7Ih0N064rSM6WmVhvv', creatorId: IDRISS },
       { ...char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png', '2025-07-09'), driveLink: 'https://drive.google.com/drive/folders/1RD01wP8AElSRVpcPhO32qTFq2k1xJyzc', creatorId: IDRISS },
       { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: DISCORD, driveLink: 'https://drive.google.com/drive/folders/1MchpUHcDLJ9qaIBhljR2uYBftQWENtI6', creatorId: IDRISS },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Taxi Driver',
+    slug: 'taxi-driver',
+    blurb: 'A lonely, troubled veteran descends into obsession while driving the streets of a decaying New York City.',
+    theme: {
+      bg: '#0a0508', surface: '#160a0d',
+      accent: '#8b0000', accentLight: '#aa1010', highlight: '#f5c518',
+      text: '#d4c5a9', muted: '#8a7464', border: '#2a1010',
+      cardText: '#d4c5a9', cardMuted: '#9a8272',
+      headingFont: '"Bebas Neue", system-ui, sans-serif',
+      bodyFont: '"Bebas Neue", system-ui, sans-serif',
+      texClass: 'tex-taxi', cardClass: 'card-taxi',
+      bgImage: '/backgrounds/taxi driver bg.jpg',
+      logo: '/logos/Taxi-Driverlogo.jpg',
+      atmosphere: ['rain'], loadFx: null, titleFx: null,
+      label: 'New York City, 1976', tagline: "You talkin' to me?",
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('Travis Bickle', "You talkin' to me? A man pushed to the edge of a city that never noticed him.", '/characters/taxidriverpic.png', '2026-07-20'), pageImage: '/character-pages/TravisTaxiscp.png', driveLink: 'https://mega.nz/file/vl4VmZoI#fhZrdys2EhKAGqerdXy5YQRvJB0FEH3jdro_vfWetkg', creatorId: MYERS },
+    ],
+  },
+  {
+    id: 4,
+    name: 'American Psycho',
+    slug: 'american-psycho',
+    blurb: 'A wealthy Manhattan businessman hides his descent into violence and madness behind a perfect facade.',
+    theme: {
+      bg: '#0a0a0a', surface: '#141414',
+      accent: '#8b0000', accentLight: '#aa0000', highlight: '#c9a84c',
+      text: '#ffffff', muted: '#8a8a8a', border: '#2a2a2a',
+      cardText: '#ffffff', cardMuted: '#c0c0c0',
+      headingFont: '"Bebas Neue", system-ui, sans-serif',
+      bodyFont: '"Bebas Neue", system-ui, sans-serif',
+      texClass: 'tex-psycho', cardClass: 'card-psycho',
+      bgImage: '/backgrounds/americanpsychobg.jpg',
+      logo: '/logos/americanpsychologo.jpg',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'Manhattan, 1987', tagline: 'I have to return some videotapes.',
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('Patrick Bateman', "Patrick Bateman is whatever you want him to be. That's the point.", '/characters/Patrickbatemanpic.png', '2026-07-20'), packs: [
+        { label: 'Aesthetic Pack V1', image: '/character-pages/Patrick_BatemanscpV1.png', packLink: 'https://mega.nz/file/KwZFGJoL#prSR9P64zyjYxBp1JTOU26evSQVXBkRLQef4iJJno00', resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
+        { label: 'Aesthetic Pack V2', image: '/character-pages/Patrick_Bateman_V2.png',   packLink: 'https://mega.nz/file/DkpH3RaL#yusnMmnb0IxpMH9fOMorfEmByyQdlQEbOLzTpigwnFs', resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
+      ]},
     ],
   },
 ]

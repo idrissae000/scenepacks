@@ -11,6 +11,16 @@ export const creators = [
     bannerImage: '/creator-banners/idriss.jpg',
   },
   {
+    id: '793756836628660226',
+    slug: 'myers-pr',
+    name: 'Myers.pr',
+    discordId: '793756836628660226',
+    tiktok: 'myers.pr',
+    tiktokUrl: 'https://www.tiktok.com/@myers.pr',
+    discordServer: 'https://discord.gg/D6AzkXHc8M',
+    role: 'Creator',
+  },
+  {
     id: '1097775170443292702',
     slug: 'inko-visuals',
     name: 'Inko.visuals',

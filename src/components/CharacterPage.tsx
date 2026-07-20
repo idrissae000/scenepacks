@@ -7,8 +7,14 @@ import { useSession, signIn } from 'next-auth/react'
 import PageAtmosphere from './PageAtmosphere'
 import { formatCount } from '@/lib/analytics'
 
-interface Pack { label: string; image: string; packLink: string; resolution?: string; credit?: string }
-interface Character { name: string; slug: string; image: string; description: string; packLink: string; pageImage?: string; packs?: Pack[]; driveLink?: string }
+const CREATOR_TIKTOKS: Record<string, string> = {
+  '349045631656001537': '@idriss.ae on TikTok',
+  '1097775170443292702': '@inko.visuals on TikTok',
+  '793756836628660226': '@myers.pr on TikTok',
+}
+
+interface Pack { label: string; image: string; packLink: string; resolution?: string; credit?: string; creatorId?: string }
+interface Character { name: string; slug: string; image: string; description: string; packLink: string; pageImage?: string; packs?: Pack[]; driveLink?: string; creatorId?: string }
 
 interface Theme {
   accent: string; accentLight: string; highlight?: string
@@ -244,13 +250,21 @@ export default function CharacterPage({ character, parent, type }: Props) {
                                 <span>{item}</span>
                               </li>
                             ))}
-                            <li className="flex items-start gap-1.5">
+                            <li className="flex items-start gap-1.5" style={{ marginTop: '0.5rem' }}>
                               <span style={{ color: accent, marginTop: '1px' }}>—</span>
-                              <span>Free to use — credit required<br />
-                                <span style={{ color: accent, fontWeight: 700 }}>Credit: {pack.credit || '@idriss.ae on TikTok'}</span>
-                              </span>
+                              <span>Free to use</span>
                             </li>
                           </ul>
+                        </div>
+                        {/* Credit callout */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0.5rem 0.75rem', borderRadius: '5px', background: `${accent}18`, border: `1px solid ${accent}44` }}>
+                          <TikTokIcon size={14} color={accent} />
+                          <div>
+                            <div style={{ fontSize: '0.62rem', color: t.muted, fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Credit required</div>
+                            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: accent, fontFamily: t.headingFont }}>
+                              {pack.credit || CREATOR_TIKTOKS[pack.creatorId ?? ''] || '@idriss.ae on TikTok'}
+                            </div>
+                          </div>
                         </div>
                         <a href="https://discord.com/invite/98C5YUeEz7" target="_blank" rel="noopener noreferrer"
                           onClick={() => trackDownload('discord', pack.label)}
@@ -343,14 +357,21 @@ export default function CharacterPage({ character, parent, type }: Props) {
                         <span style={{ textShadow: sportShadow }}>{item}</span>
                       </li>
                     ))}
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2" style={{ marginTop: '0.25rem' }}>
                       <span style={{ color: accent, marginTop: '1px', textShadow: sportShadow }}>—</span>
-                      <span style={{ textShadow: sportShadow }}>
-                        Free to use — credit required<br />
-                        <span style={{ color: accent, fontWeight: 700 }}>Credit: @idriss.ae on TikTok</span>
-                      </span>
+                      <span style={{ textShadow: sportShadow }}>Free to use</span>
                     </li>
                   </ul>
+                  {/* Credit callout */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0.75rem', padding: '0.5rem 0.75rem', borderRadius: '5px', background: `${accent}18`, border: `1px solid ${accent}44` }}>
+                    <TikTokIcon size={14} color={accent} />
+                    <div>
+                      <div style={{ fontSize: '0.62rem', color: isSport ? '#ffffff99' : t.muted, fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.08em', textShadow: sportShadow }}>Credit required</div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 700, color: accent, fontFamily: t.headingFont, textShadow: sportShadow }}>
+                        {CREATOR_TIKTOKS[(character as any).creatorId ?? ''] || '@idriss.ae on TikTok'}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <TwoButtons />
@@ -383,6 +404,14 @@ function AnalyticsBadge({ views, downloads, sportShadow }: { views: number | nul
         <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 400, textShadow: shadow }}>Downloads</span>
       </div>
     </div>
+  )
+}
+
+function TikTokIcon({ size = 12, color = 'currentColor' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ flexShrink: 0 }}>
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.82 1.56V6.81a4.85 4.85 0 01-1.05-.12z"/>
+    </svg>
   )
 }
 
