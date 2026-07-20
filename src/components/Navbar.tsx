@@ -15,7 +15,11 @@ const links = [
   { label: 'Apply',  href: '/apply' },
 ]
 
-const moreLinks: { label: string; href: string }[] = []
+const moreLinks = [
+  { label: 'Coming Soon', href: '/coming-soon' },
+  { label: 'Request',     href: '/request' },
+  { label: 'Support',     href: '/support' },
+]
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -124,7 +128,7 @@ export default function Navbar() {
               })}
 
               {/* More dropdown */}
-              {moreLinks.length > 0 && <div ref={dropdownRef} className="relative">
+              <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setDropdownOpen(v => !v)}
                   className="relative flex items-center gap-1 px-4 py-2 transition-colors duration-200"
@@ -170,7 +174,7 @@ export default function Navbar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>}
+              </div>
             </nav>
 
             {/* Right — auth buttons + hamburger */}
@@ -327,7 +331,7 @@ export default function Navbar() {
                 })}
 
                 {/* More section */}
-                {moreLinks.length > 0 && <button
+                <button
                   onClick={() => setMoreExpanded(v => !v)}
                   style={{
                     display: 'flex',
@@ -358,7 +362,7 @@ export default function Navbar() {
                 </button>
 
                 <AnimatePresence initial={false}>
-                  {moreExpanded && moreLinks.length > 0 && (
+                  {moreExpanded && (
                     <motion.div
                       key="more-links"
                       initial={{ height: 0, opacity: 0 }}
@@ -378,7 +382,6 @@ export default function Navbar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-                }
               </div>
 
               {/* Bottom section */}
