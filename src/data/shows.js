@@ -356,10 +356,10 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('John Locke', 'A man of faith on an island that seemed made for him. Destiny was never just a word to Locke.', '/characters/John_Lockepic.png', '2026-07-20'), pageImage: '/character-pages/johnlockescp.png', driveLink: 'https://mega.nz/file/DthVWahJ#WbJ_MfYgyUc_hohjn-P4I3J0JbAa0Dt4ymn67E8_r70', creatorId: MYERS },
-      { ...char('Jack Shephard', 'The reluctant hero who carried everyone on his back. Live together, die alone.', '/characters/Jack_Shephardpic.png', '2026-07-20'), pageImage: '/character-pages/Jackshepardscp.png', driveLink: 'https://mega.nz/file/nxBwyKbD#sCewQAJXezPl_MTznFHtzJF8B5JAOeDU8F42ig1OIhs', creatorId: MYERS },
-      { ...char('James "Sawyer" Ford', 'The con man with a conscience. Rough around the edges but impossible not to root for.', '/characters/James_Fordpic.png', '2026-07-20'), pageImage: '/character-pages/SawyerFordScp.png', driveLink: 'https://mega.nz/file/TlQBVSoJ#M4WwsQ07HffA0dTDSosvx-dz0eDCJFWaojG9bT4m72s', creatorId: MYERS },
-      { ...char('Sayid Jarrah', 'A former soldier carrying the weight of his past. Loyal, deadly and deeply human.', '/characters/Sayid_Jarrahpic.png', '2026-07-20'), driveLink: 'https://mega.nz/file/i8gF3SyL#UI5-x42E2sSNkBjC_w_v9Cg7optKY-afHqSBtIOWyp8', creatorId: MYERS },
+      { ...char('John Locke', 'A man of faith on an island that seemed made for him. Destiny was never just a word to Locke.', '/characters/John_Lockepic.png', '2026-04-20'), pageImage: '/character-pages/johnlockescp.png', driveLink: 'https://mega.nz/file/DthVWahJ#WbJ_MfYgyUc_hohjn-P4I3J0JbAa0Dt4ymn67E8_r70', creatorId: MYERS },
+      { ...char('Jack Shephard', 'The reluctant hero who carried everyone on his back. Live together, die alone.', '/characters/Jack_Shephardpic.png', '2026-04-20'), pageImage: '/character-pages/Jackshepardscp.png', driveLink: 'https://mega.nz/file/nxBwyKbD#sCewQAJXezPl_MTznFHtzJF8B5JAOeDU8F42ig1OIhs', creatorId: MYERS },
+      { ...char('James "Sawyer" Ford', 'The con man with a conscience. Rough around the edges but impossible not to root for.', '/characters/James_Fordpic.png', '2026-04-20'), pageImage: '/character-pages/SawyerFordScp.png', driveLink: 'https://mega.nz/file/TlQBVSoJ#M4WwsQ07HffA0dTDSosvx-dz0eDCJFWaojG9bT4m72s', creatorId: MYERS },
+      { ...char('Sayid Jarrah', 'A former soldier carrying the weight of his past. Loyal, deadly and deeply human.', '/characters/Sayid_Jarrahpic.png', '2026-04-20'), driveLink: 'https://mega.nz/file/i8gF3SyL#UI5-x42E2sSNkBjC_w_v9Cg7optKY-afHqSBtIOWyp8', creatorId: MYERS },
     ],
   },
   {
@@ -382,8 +382,8 @@ export const shows = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Rick Grimes', "The sheriff who became a survivor. Whatever it takes to protect his people — he'll do it.", '/characters/Rick_Grimespic.png', '2026-07-20'), pageImage: '/character-pages/Rick_Sad_s8scp.png', driveLink: 'https://mega.nz/file/ythyQQLA#y4jjCsgecTsWhzA5cyHrL7p3_5jxHwVkY3V_wXIAOBQ', creatorId: MYERS },
-      { ...char('Shane Walsh', "Rick's best friend and his greatest enemy. Shane never stopped doing what he thought was right.", '/characters/Shane_Walshpic.png', '2026-07-20'), pageImage: '/character-pages/Shanewalshscp.png', packs: [
+      { ...char('Rick Grimes', "The sheriff who became a survivor. Whatever it takes to protect his people — he'll do it.", '/characters/Rick_Grimespic.png', '2026-04-20'), pageImage: '/character-pages/Rick_Sad_s8scp.png', driveLink: 'https://mega.nz/file/ythyQQLA#y4jjCsgecTsWhzA5cyHrL7p3_5jxHwVkY3V_wXIAOBQ', creatorId: MYERS },
+      { ...char('Shane Walsh', "Rick's best friend and his greatest enemy. Shane never stopped doing what he thought was right.", '/characters/Shane_Walshpic.png', '2026-04-20'), pageImage: '/character-pages/Shanewalshscp.png', packs: [
         { label: 'Aesthetic Pack — Season 1-2', image: '/character-pages/Shanewalshscp.png', packLink: 'https://mega.nz/file/mgAwXJ6A#jiIhPWG-ADOk5PkdhwAtzlsUvt-RANYROlmbXb-ruoY', resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
         { label: '30 Intros Pack',              image: '/character-pages/Shanewalshscp.png', packLink: 'https://mega.nz/folder/r0wnWBIK#SDulNqT-cmyEvJR6PTo-jg',                          resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
       ]},

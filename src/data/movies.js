@@ -89,7 +89,7 @@ export const movies = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Travis Bickle', "You talkin' to me? A man pushed to the edge of a city that never noticed him.", '/characters/taxidriverpic.png', '2026-07-20'), pageImage: '/character-pages/TravisTaxiscp.png', driveLink: 'https://mega.nz/file/vl4VmZoI#fhZrdys2EhKAGqerdXy5YQRvJB0FEH3jdro_vfWetkg', creatorId: MYERS },
+      { ...char('Travis Bickle', "You talkin' to me? A man pushed to the edge of a city that never noticed him.", '/characters/taxidriverpic.png', '2026-04-20'), pageImage: '/character-pages/TravisTaxiscp.png', driveLink: 'https://mega.nz/file/vl4VmZoI#fhZrdys2EhKAGqerdXy5YQRvJB0FEH3jdro_vfWetkg', creatorId: MYERS },
     ],
   },
   {
@@ -112,7 +112,7 @@ export const movies = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Patrick Bateman', "Patrick Bateman is whatever you want him to be. That's the point.", '/characters/Patrickbatemanpic.png', '2026-07-20'), packs: [
+      { ...char('Patrick Bateman', "Patrick Bateman is whatever you want him to be. That's the point.", '/characters/Patrickbatemanpic.png', '2026-04-20'), packs: [
         { label: 'Aesthetic Pack V1', image: '/character-pages/Patrick_BatemanscpV1.png', packLink: 'https://mega.nz/file/KwZFGJoL#prSR9P64zyjYxBp1JTOU26evSQVXBkRLQef4iJJno00', resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
         { label: 'Aesthetic Pack V2', image: '/character-pages/Patrick_Bateman_V2.png',   packLink: 'https://mega.nz/file/DkpH3RaL#yusnMmnb0IxpMH9fOMorfEmByyQdlQEbOLzTpigwnFs', resolution: '1080p 24fps 16:9', credit: '@myers.pr on TikTok', creatorId: MYERS },
       ]},
