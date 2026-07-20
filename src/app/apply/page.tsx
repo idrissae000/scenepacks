@@ -308,6 +308,17 @@ export default function ApplyPage() {
                 >
                   {loading ? 'Submitting…' : 'Submit Application'}
                 </button>
+                {creatorType === 'scenepack' && (
+                  <p style={{
+                    fontFamily: '"IM Fell English", Georgia, serif',
+                    fontSize: '12px',
+                    color: '#847464',
+                    textAlign: 'center',
+                    margin: 0,
+                  }}>
+                    By submitting this application, I consent that any scenepacks I create and post in the Idriss.ae Discord server may be featured on idrissscenes.com.
+                  </p>
+                )}
               </form>
             </motion.div>
           )}
