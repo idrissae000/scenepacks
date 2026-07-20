@@ -140,7 +140,7 @@ function CreatorSidebar({ creator, avatar }: { creator: CreatorWithStats; avatar
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
           >
             <DiscordIcon />
-            Discord Server
+            {creator.name.replace(/\.$/, '')}{creator.name.endsWith('s') ? "'" : "'s"} Discord
           </a>
         )}
       </div>
