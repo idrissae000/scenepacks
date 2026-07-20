@@ -19,6 +19,7 @@ export interface CreatorWithStats {
   discordId: string
   tiktok: string
   tiktokUrl: string
+  discordServer?: string
   role: string
   bannerImage: string
   totalPacks: number
