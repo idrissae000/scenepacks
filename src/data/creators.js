@@ -6,7 +6,7 @@ export const creators = [
     discordId: '349045631656001537',
     tiktok: 'idriss.ae',
     tiktokUrl: 'https://www.tiktok.com/@idriss.ae',
-    discordServer: 'https://discord.gg/MVA5ySY2',
+    discordServer: 'https://discord.gg/98C5YUeEz7',
     role: 'Founder & Creator',
     bannerImage: '/creator-banners/idriss.jpg',
   },
