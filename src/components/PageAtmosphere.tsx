@@ -11,8 +11,8 @@ interface Theme {
 export default function PageAtmosphere({ theme }: { theme: Theme }) {
   const mobileBg = `linear-gradient(160deg, ${theme.bg || '#0d0a07'} 0%, ${theme.surface || '#1a0a08'} 60%, ${theme.bg || '#0d0a07'} 100%)`
   const overlay = theme.bgOverlay === 'strong'
-    ? 'linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.90))'
-    : 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6))'
+    ? 'linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.92))'
+    : 'linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.82))'
 
   return (
     <>

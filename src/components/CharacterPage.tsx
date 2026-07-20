@@ -257,11 +257,11 @@ export default function CharacterPage({ character, parent, type }: Props) {
                           </ul>
                         </div>
                         {/* Credit callout */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0.5rem 0.75rem', borderRadius: '5px', background: `${accent}18`, border: `1px solid ${accent}44` }}>
-                          <TikTokIcon size={14} color={accent} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0.6rem 0.85rem', borderRadius: '5px', background: 'rgba(0,0,0,0.55)', border: `1px solid ${accent}` }}>
+                          <TikTokIcon size={15} color={accent} />
                           <div>
-                            <div style={{ fontSize: '0.62rem', color: t.muted, fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Credit required</div>
-                            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: accent, fontFamily: t.headingFont }}>
+                            <div style={{ fontSize: '0.6rem', color: '#a09080', fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Credit required</div>
+                            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: accent, fontFamily: t.headingFont, textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
                               {pack.credit || CREATOR_TIKTOKS[pack.creatorId ?? ''] || '@idriss.ae on TikTok'}
                             </div>
                           </div>
@@ -363,11 +363,11 @@ export default function CharacterPage({ character, parent, type }: Props) {
                     </li>
                   </ul>
                   {/* Credit callout */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0.75rem', padding: '0.5rem 0.75rem', borderRadius: '5px', background: `${accent}18`, border: `1px solid ${accent}44` }}>
-                    <TikTokIcon size={14} color={accent} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '0.75rem', padding: '0.6rem 0.85rem', borderRadius: '5px', background: 'rgba(0,0,0,0.55)', border: `1px solid ${accent}` }}>
+                    <TikTokIcon size={15} color={accent} />
                     <div>
-                      <div style={{ fontSize: '0.62rem', color: isSport ? '#ffffff99' : t.muted, fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.08em', textShadow: sportShadow }}>Credit required</div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 700, color: accent, fontFamily: t.headingFont, textShadow: sportShadow }}>
+                      <div style={{ fontSize: '0.6rem', color: '#a09080', fontFamily: t.bodyFont, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Credit required</div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: accent, fontFamily: t.headingFont, textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
                         {CREATOR_TIKTOKS[(character as any).creatorId ?? ''] || '@idriss.ae on TikTok'}
                       </div>
                     </div>
