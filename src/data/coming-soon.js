@@ -14,13 +14,6 @@ export const comingSoon = [
     slug: 'paulie-gualtieri-updated',
   },
   {
-    id: 4,
-    name: 'GTA V — All Protagonists',
-    franchise: 'Grand Theft Auto V',
-    category: 'Game',
-    slug: 'gtav-all-protagonists',
-  },
-  {
     id: 5,
     name: 'GOW Antagonists',
     franchise: 'God of War',
