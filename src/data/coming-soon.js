@@ -13,11 +13,4 @@ export const comingSoon = [
     category: 'Show',
     slug: 'paulie-gualtieri-updated',
   },
-  {
-    id: 5,
-    name: 'GOW Antagonists',
-    franchise: 'God of War',
-    category: 'Game',
-    slug: 'gow-antagonists',
-  },
 ]

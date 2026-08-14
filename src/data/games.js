@@ -152,6 +152,17 @@ export const games = [
         driveLink: 'https://drive.google.com/drive/folders/1mdeU1r8mNyWbSGwcfnMob71f2xFPGPwf',
         creatorId: IDRISS,
       },
+      {
+        name: 'Thor',
+        slug: 'thor',
+        image: '/characters/thor_gow_pic.png',
+        pageImage: '/character-pages/thor_gow_scp.png',
+        description: "The God of Thunder who is nothing like the legends. Brutal, broken and more dangerous than any myth prepared you for.",
+        packLink: DISCORD,
+        dateAdded: '2026-08-14',
+        driveLink: 'https://drive.google.com/drive/folders/1Uneuqr-aOBy-3Wp8LE2l7Ls7bAgOEpFK?usp=sharing',
+        creatorId: IDRISS,
+      },
     ],
   },
   {
