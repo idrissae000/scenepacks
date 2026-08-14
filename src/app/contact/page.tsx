@@ -39,8 +39,8 @@ const OPPORTUNITIES = [
 
 const STATS = [
   { value: `${totalChars}`, label: 'Characters Available' },
-  { value: '15M+', label: 'TikTok Views' },
-  { value: '900+', label: 'Discord Members' },
+  { value: '20M+', label: 'TikTok Views' },
+  { value: '1300+', label: 'Discord Members' },
 ]
 
 const ACCENT = '#e55c35'
