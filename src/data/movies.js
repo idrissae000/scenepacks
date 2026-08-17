@@ -68,7 +68,7 @@ export const movies = [
       { ...char('Thanos', "The Mad Titan. His conviction that he's right is what makes him terrifying. Cinema's greatest villain argument.", '/characters/thanos.png', '2025-07-09'), driveLink: 'https://drive.google.com/drive/folders/1RD01wP8AElSRVpcPhO32qTFq2k1xJyzc', creatorId: IDRISS },
       { ...char('Captain America', "The first Avenger. A man out of time who never stopped believing in something worth fighting for.", '/characters/captainamericapic.png', '2026-06-12'), pageImage: '/character-pages/captainamericascp.png', packLink: DISCORD, driveLink: 'https://drive.google.com/drive/folders/1MchpUHcDLJ9qaIBhljR2uYBftQWENtI6', creatorId: IDRISS },
       { ...char('Hulk', "The strongest there is. Bruce Banner's rage given form — a weapon with a conscience buried somewhere deep inside.", '/characters/hulk_pic.png', '2026-07-20'), pageImage: '/character-pages/hulk_scp.png', driveLink: 'https://drive.google.com/drive/folders/103aK4HyVeBnHjaphRww9sgq6fBPMh8nB?usp=sharing', creatorId: IDRISS },
-      { ...char('Black Panther', "King of Wakanda. A ruler, a warrior and a symbol that proved representation could shake the world.", '/characters/bp_pic.png', '2026-08-17'), pageImage: '/character-pages/bp_pic.png', driveLink: 'https://drive.google.com/drive/folders/1EbizkahlSEm35_o_6DtglIeO2yAfmkcC?usp=sharing', creatorId: IDRISS },
+      { ...char('Black Panther', "King of Wakanda. A ruler, a warrior and a symbol that proved representation could shake the world.", '/characters/bp_pic.png', '2026-08-17'), pageImage: '/character-pages/bp_scp.png', driveLink: 'https://drive.google.com/drive/folders/1EbizkahlSEm35_o_6DtglIeO2yAfmkcC?usp=sharing', creatorId: IDRISS },
     ],
   },
   {
