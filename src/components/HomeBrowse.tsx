@@ -163,12 +163,17 @@ export default function HomeBrowse({ trendingChars, initialAnalytics }: HomeBrow
   const showCategoryCards = filter !== 'all' && !isSearching
   const showCharGrid = filter === 'all' && !isSearching
 
+  const countPacks = (item: any) =>
+    item.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)
+
   const categoryItems = useMemo(() => {
-    if (filter === 'show') return shows as any[]
-    if (filter === 'movie') return movies as any[]
-    if (filter === 'game') return games as any[]
-    if (filter === 'sport') return sports as any[]
-    return []
+    let base: any[]
+    if (filter === 'show') base = shows as any[]
+    else if (filter === 'movie') base = movies as any[]
+    else if (filter === 'game') base = games as any[]
+    else if (filter === 'sport') base = sports as any[]
+    else return []
+    return [...base].sort((a, b) => countPacks(b) - countPacks(a))
   }, [filter])
 
   const categoryHrefBase = filter === 'show' ? '/shows' : filter === 'movie' ? '/movies' : filter === 'sport' ? '/sports' : '/games'
