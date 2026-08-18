@@ -9,13 +9,16 @@ import BackgroundSlideshow from '@/components/BackgroundSlideshow'
 export default function SportsClient({ images }: { images: string[] }) {
   const [query, setQuery] = useState('')
 
+  const packCount = (item: any) =>
+    item.characters.reduce((a: number, c: any) => a + (c.packs ? c.packs.length : 1), 0)
+
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim()
-    if (!q) return sports
-    return sports.filter((s: any) =>
+    const base = !q ? sports : sports.filter((s: any) =>
       s.name.toLowerCase().includes(q) ||
       s.characters.some((c: any) => c.name.toLowerCase().includes(q))
     )
+    return [...base].sort((a, b) => packCount(b) - packCount(a))
   }, [query])
 
   return (

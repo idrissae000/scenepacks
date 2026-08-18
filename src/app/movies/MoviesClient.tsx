@@ -28,7 +28,10 @@ export default function MoviesClient({ images }: { images: string[] }) {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {movies.map((movie: any, i: number) => (
+            {[...movies].sort((a: any, b: any) =>
+                b.characters.reduce((s: number, c: any) => s + (c.packs ? c.packs.length : 1), 0) -
+                a.characters.reduce((s: number, c: any) => s + (c.packs ? c.packs.length : 1), 0)
+              ).map((movie: any, i: number) => (
               <motion.div
                 key={movie.id}
                 initial={{ opacity: 0, y: 24 }}
