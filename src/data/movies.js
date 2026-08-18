@@ -120,4 +120,27 @@ export const movies = [
       ]},
     ],
   },
+  {
+    id: 5,
+    name: 'Dune',
+    slug: 'dune',
+    blurb: "A young nobleman's destiny unfolds across the most dangerous planet in the universe. Fear is the mind killer.",
+    theme: {
+      bg: '#0a0805', surface: '#14100a',
+      accent: '#8b6914', accentLight: '#c9a84c', highlight: '#c9a84c',
+      text: '#d4c5a9', muted: '#8a7a60', border: '#2a200a',
+      cardText: '#d4c5a9', cardMuted: '#9a8a70',
+      headingFont: '"Cinzel", Georgia, serif',
+      bodyFont: '"Cinzel", Georgia, serif',
+      texClass: '', cardClass: 'card-dune',
+      bgImage: '/backgrounds/dune bg.jpg',
+      logo: '/logos/dune logo.jpg',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'Arrakis — The Desert Planet', tagline: 'Fear is the mind-killer.',
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('Paul Atreides', "The chosen one who never asked to be chosen. A leader forged by loss, prophecy and the desert itself.", '/characters/paul_atreides_pic.png', '2026-08-18'), pageImage: '/character-pages/paul_atreides_scp.png', driveLink: '', creatorId: IDRISS },
+    ],
+  },
 ]
