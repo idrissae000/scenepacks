@@ -140,7 +140,7 @@ export const movies = [
       cursor: 'default',
     },
     characters: [
-      { ...char('Paul Atreides', "The chosen one who never asked to be chosen. A leader forged by loss, prophecy and the desert itself.", '/characters/paul_atreides_pic.png', '2026-08-18'), pageImage: '/character-pages/paul_atreides_scp.png', driveLink: '', creatorId: IDRISS },
+      { ...char('Paul Atreides', "The chosen one who never asked to be chosen. A leader forged by loss, prophecy and the desert itself.", '/characters/paul_atreides_pic.png', '2026-08-18'), pageImage: '/character-pages/paul_atreides_scp.png', driveLink: 'https://drive.google.com/drive/folders/1Ng-lrnqpGlZlSoZzs7eVJ70EXpkyJYWV?usp=sharing', creatorId: IDRISS },
     ],
   },
 ]
