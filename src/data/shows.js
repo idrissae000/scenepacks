@@ -389,4 +389,27 @@ export const shows = [
       ]},
     ],
   },
+  {
+    id: 15,
+    name: 'House of the Dragon',
+    slug: 'house-of-the-dragon',
+    blurb: 'The Targaryen civil war that tore a dynasty apart. Blood, fire and the iron throne.',
+    theme: {
+      bg: '#0d0505', surface: '#1a0a0a',
+      accent: '#8b0000', accentLight: '#c9a84c', highlight: '#c9a84c',
+      text: '#d4c5a9', muted: '#8a7060', border: '#3a1010',
+      cardText: '#d4c5a9', cardMuted: '#9a8070',
+      headingFont: '"Cinzel", Georgia, serif',
+      bodyFont: '"Cinzel", Georgia, serif',
+      texClass: '', cardClass: 'card-hotd',
+      bgImage: '/backgrounds/hotdbg.jpg',
+      logo: '/logos/hotdlogo.jpg',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'Westeros — House Targaryen', tagline: 'Dreams do not make us kings. Dragons do.',
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('Daemon Targaryen', 'The Rogue Prince. The most dangerous man in Westeros and the most compelling one to watch.', '/characters/daemon_pic.png', '2026-08-21'), pageImage: '/character-pages/daemon_scp.png', driveLink: 'https://drive.google.com/drive/folders/1IrbrppzPwOpboojpBW33nFZK3_s2fNL9?usp=sharing', creatorId: IDRISS },
+    ],
+  },
 ]
