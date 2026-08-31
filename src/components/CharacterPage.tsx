@@ -197,7 +197,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
                   {/* Guide image */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ui-guides/gdrive-download-guide.png"
+                    src="/ui-guides/image_2026-08-31_103216304.png"
                     alt="Google Drive download button location"
                     style={{ width: '100%', borderRadius: '0.375rem', border: '1px solid #3a1a1a', marginBottom: '1.5rem', display: 'block' }}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
