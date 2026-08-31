@@ -189,7 +189,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
               {redirectModal.kind === 'drive' ? (
                 <>
                   <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#d4c5a9', lineHeight: 1.7, marginBottom: '0.75rem' }}>
-                    Your scenepack is hosted on Google Drive. Once redirected, click the download button at the top right of the page to download all files.
+                    Your scenepack is hosted on Google Drive. Once redirected, download all files as shown below.
                   </p>
                   <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#e55c35', lineHeight: 1.6, marginBottom: '1.25rem', fontWeight: 600 }}>
                     ⚠️ Only download from Google Drive or Mega from this site.
