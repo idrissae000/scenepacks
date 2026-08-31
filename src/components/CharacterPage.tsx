@@ -45,6 +45,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
   const [downloads, setDownloads] = useState<number | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [joining, setJoining] = useState(false)
+  const [redirectModal, setRedirectModal] = useState<{ url: string; kind: 'drive' | 'mega' } | null>(null)
 
   useEffect(() => {
     fetch(`/api/analytics?slug=${encodeURIComponent(analyticsSlug)}&type=character`)
@@ -80,6 +81,7 @@ export default function CharacterPage({ character, parent, type }: Props) {
       setShowModal(true)
       return
     }
+    const target = url || downloadUrl
     setJoining(true)
     try {
       await fetch('/api/discord/join-server', {
@@ -95,7 +97,13 @@ export default function CharacterPage({ character, parent, type }: Props) {
     } finally {
       setJoining(false)
       trackDownload('web', packLabel)
-      window.open(url || downloadUrl, '_blank')
+      const isDrive = target.includes('drive.google.com')
+      const isMega = target.includes('mega.nz') || target.includes('mega.co.nz')
+      if (isDrive || isMega) {
+        setRedirectModal({ url: target, kind: isDrive ? 'drive' : 'mega' })
+      } else {
+        window.open(target, '_blank')
+      }
     }
   }, [session, downloadUrl, trackDownload])
 
@@ -157,6 +165,69 @@ export default function CharacterPage({ character, parent, type }: Props) {
               <p style={{ marginTop: '0.75rem', color: '#847464', fontSize: '12px', textAlign: 'center' }}>
                 Free forever. No spam. Just scenepacks.
               </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Redirect instruction modal */}
+      <AnimatePresence>
+        {redirectModal && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.18 }}
+              style={{ background: '#0f0b08', border: '1px solid #5e1b21', borderRadius: '0.5rem', padding: '2rem', maxWidth: '480px', width: '100%', maxHeight: '90vh', overflowY: 'auto' }}
+            >
+              <h2 style={{ fontFamily: '"Mobsters","Palatino Linotype",serif', color: '#d4c5a9', fontSize: '1.6rem', marginBottom: '1rem', lineHeight: 1.2 }}>
+                {redirectModal.kind === 'drive' ? "You're being redirected to Google Drive" : "You're being redirected to Mega"}
+              </h2>
+
+              {redirectModal.kind === 'drive' ? (
+                <>
+                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#d4c5a9', lineHeight: 1.7, marginBottom: '0.75rem' }}>
+                    Your scenepack is hosted on Google Drive. Once redirected, click the download button at the top right of the page to download all files.
+                  </p>
+                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#e55c35', lineHeight: 1.6, marginBottom: '1.25rem', fontWeight: 600 }}>
+                    ⚠️ Only download from Google Drive or Mega from this site.
+                  </p>
+                  {/* Guide image */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/ui-guides/gdrive-download-guide.png"
+                    alt="Google Drive download button location"
+                    style={{ width: '100%', borderRadius: '0.375rem', border: '1px solid #3a1a1a', marginBottom: '1.5rem', display: 'block' }}
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                  />
+                </>
+              ) : (
+                <>
+                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#d4c5a9', lineHeight: 1.7, marginBottom: '0.75rem' }}>
+                    Your scenepack is hosted on Mega. Once redirected your download will begin automatically or click the download button to start it.
+                  </p>
+                  <p style={{ fontFamily: '"IM Fell English", Georgia, serif', color: '#e55c35', lineHeight: 1.6, marginBottom: '1.5rem', fontWeight: 600 }}>
+                    ⚠️ Only download from Google Drive or Mega links provided on this site.
+                  </p>
+                </>
+              )}
+
+              <button
+                onClick={() => { window.open(redirectModal.url, '_blank'); setRedirectModal(null) }}
+                style={{ width: '100%', background: '#5e1b21', color: '#d4c5a9', fontFamily: '"Mobsters","Palatino Linotype",serif', fontSize: '1.1rem', padding: '1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}
+              >
+                Take me to my pack →
+              </button>
+              <div style={{ textAlign: 'center', marginTop: '0.875rem' }}>
+                <button
+                  onClick={() => setRedirectModal(null)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#847464', fontSize: '0.85rem', fontFamily: '"IM Fell English", Georgia, serif', textDecoration: 'underline' }}
+                >
+                  Cancel
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
