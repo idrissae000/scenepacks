@@ -535,6 +535,16 @@ body::before {
 }
 .card-hotd:hover { filter: brightness(1.1); box-shadow: 0 12px 40px rgba(0,0,0,0.95), 0 4px 16px rgba(139,0,0,0.45); }
 
+.card-terminator {
+  background: rgba(8,8,8,0.97);
+  border: 1px solid #2a2a2a;
+  border-top: 3px solid #c0c0c0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.92), 0 2px 8px rgba(192,192,192,0.15);
+  backdrop-filter: blur(6px);
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+}
+.card-terminator:hover { filter: brightness(1.1); box-shadow: 0 12px 40px rgba(0,0,0,0.96), 0 4px 16px rgba(229,92,53,0.4); }
+
 /* CLASSIFIED stamp (Barry) */
 .stamp-classified {
   position: absolute; top: 14px; right: 8px; z-index: 3;

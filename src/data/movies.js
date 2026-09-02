@@ -143,4 +143,27 @@ export const movies = [
       { ...char('Paul Atreides', "The chosen one who never asked to be chosen. A leader forged by loss, prophecy and the desert itself.", '/characters/paul_atreides_pic.png', '2026-08-18'), pageImage: '/character-pages/paul_atreides_scp.png', driveLink: 'https://drive.google.com/drive/folders/1Ng-lrnqpGlZlSoZzs7eVJ70EXpkyJYWV?usp=sharing', creatorId: IDRISS },
     ],
   },
+  {
+    id: 6,
+    name: 'The Terminator Collection',
+    slug: 'terminator',
+    blurb: "I'll be back. Two films that defined sci-fi action forever — the original unstoppable machine and the liquid metal nightmare that followed it.",
+    theme: {
+      bg: '#080808', surface: '#141414',
+      accent: '#c0c0c0', accentLight: '#e55c35', highlight: '#e55c35',
+      text: '#ffffff', muted: '#8a8a8a', border: '#2a2a2a',
+      cardText: '#ffffff', cardMuted: '#a0a0a0',
+      headingFont: '"Rajdhani", system-ui, sans-serif',
+      bodyFont: '"Rajdhani", system-ui, sans-serif',
+      texClass: '', cardClass: 'card-terminator',
+      bgImage: '/backgrounds/terminator bg.jpg',
+      logo: '/logos/terminator logo.jpg',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'Skynet — Judgment Day', tagline: "I'll be back.",
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('T-1000', 'The perfect killing machine. No mercy, no hesitation, no stopping it. The most terrifying villain in science fiction history.', '/characters/t1000.png', '2026-09-02'), pageImage: '/character-pages/t-1000_scp (1).png', driveLink: 'https://drive.google.com/drive/folders/1HO0Urci4H5RhuX_JAF63-mb-z5ToImKG?usp=sharing', creatorId: IDRISS },
+    ],
+  },
 ]
