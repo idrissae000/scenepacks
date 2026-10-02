@@ -412,4 +412,27 @@ export const shows = [
       { ...char('Daemon Targaryen', 'The Rogue Prince. The most dangerous man in Westeros and the most compelling one to watch.', '/characters/daemon_pic.png', '2026-08-21'), pageImage: '/character-pages/daemon_scp.png', driveLink: 'https://drive.google.com/drive/folders/1IrbrppzPwOpboojpBW33nFZK3_s2fNL9?usp=sharing', creatorId: IDRISS },
     ],
   },
+  {
+    id: 16,
+    name: 'Lanterns',
+    slug: 'lanterns',
+    blurb: 'Two Green Lanterns investigate a murder in the American heartland and uncover a conspiracy that threatens everything.',
+    theme: {
+      bg: '#010a01', surface: '#031503',
+      accent: '#003300', accentLight: '#00ff41', highlight: '#00ff41',
+      text: '#ffffff', muted: '#4a7a4a', border: '#003300',
+      cardText: '#ffffff', cardMuted: '#88aa88',
+      headingFont: '"Exo 2", system-ui, sans-serif',
+      bodyFont: '"Exo 2", system-ui, sans-serif',
+      texClass: '', cardClass: 'card-lanterns',
+      bgImage: '/backgrounds/Lanterns bg.webp',
+      logo: '/logos/lanterns logo.jpg',
+      atmosphere: [], loadFx: null, titleFx: null,
+      label: 'The Green Lantern Corps', tagline: 'In brightest day, in blackest night.',
+      cursor: 'default',
+    },
+    characters: [
+      { ...char('John Stewart', 'The Marine turned intergalactic cop. Disciplined, principled and one of the greatest Green Lanterns to ever wear the ring.', '/characters/john_pic.png', '2026-10-02'), pageImage: '/character-pages/john_scp.png', driveLink: 'https://drive.google.com/drive/folders/1-U9j-j5ZjZ1lmBWw2xkpdWvZ3LMm_g-v?usp=sharing', creatorId: IDRISS },
+    ],
+  },
 ]
