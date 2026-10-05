@@ -433,6 +433,7 @@ export const shows = [
     },
     characters: [
       { ...char('John Stewart', 'The Marine turned intergalactic cop. Disciplined, principled and one of the greatest Green Lanterns to ever wear the ring.', '/characters/john_pic.png', '2026-10-02'), pageImage: '/character-pages/john_scp.png', driveLink: 'https://drive.google.com/drive/folders/1-U9j-j5ZjZ1lmBWw2xkpdWvZ3LMm_g-v?usp=sharing', creatorId: IDRISS },
+      { ...char('Hal Jordan', 'The first human Green Lantern. Fearless, reckless and exactly what the Corps needed whether they knew it or not.', '/characters/hal_pic.png', '2026-10-05'), pageImage: '/character-pages/hal_scp.png', driveLink: 'https://drive.google.com/drive/folders/147XQwg6WVxGUE6wLtGD3HFaqBsjJ5ehW?usp=sharing', creatorId: IDRISS },
     ],
   },
 ]
